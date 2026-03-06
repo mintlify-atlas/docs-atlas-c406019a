@@ -1,0 +1,104 @@
+{
+  "projectType": "saas",
+  "projectName": "GIMA",
+  "projectDescription": "Intelligent Asset and Maintenance Management System with AI-powered diagnostics",
+  "theme": "linden",
+  "primaryColor": "#848c8e",
+  "lightColor": "#11161e",
+  "darkColor": "#cfd0d2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "installation"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/dashboard",
+              "features/asset-management",
+              "features/maintenance",
+              "features/ai-diagnostics",
+              "features/reports",
+              "features/user-management"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/settings",
+              "configuration/locations",
+              "configuration/categories",
+              "configuration/notifications",
+              "configuration/security"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/authentication",
+              "guides/managing-assets",
+              "guides/scheduling-maintenance",
+              "guides/using-ai-assistant",
+              "guides/generating-reports"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Components",
+            "pages": [
+              "api/components/layout",
+              "api/components/ui",
+              "api/components/dashboard"
+            ]
+          },
+          {
+            "group": "Types",
+            "pages": [
+              "api/types/user",
+              "api/types/asset",
+              "api/types/category"
+            ]
+          },
+          {
+            "group": "Services",
+            "pages": [
+              "api/services/data-service",
+              "api/services/authentication"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Real-time asset tracking and monitoring",
+    "AI-powered diagnostics and maintenance assistance",
+    "Comprehensive reporting and analytics",
+    "User role management and permissions",
+    "Maintenance scheduling and tracking",
+    "Multi-location support"
+  ],
+  "publicApiSurface": [
+    "Sidebar component with collapsible navigation",
+    "StatCard component for dashboard metrics",
+    "UserTable and UserRow components",
+    "TablaDeCategorias for asset categories",
+    "ChartPlaceholder for data visualization",
+    "DeleteAlerta confirmation modal",
+    "User type interface",
+    "Category data structure",
+    "Dashboard layout components"
+  ]
+}
