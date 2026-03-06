@@ -1,0 +1,193 @@
+---
+title: 'Dashboard'
+description: 'Central hub for monitoring your assets and maintenance operations at a glance'
+icon: 'gauge'
+---
+
+## Overview
+
+The GIMA Dashboard provides a comprehensive overview of your organization's asset management health. Get real-time insights into asset counts, maintenance status, and budget execution through an intuitive interface designed for decision-makers.
+
+<CardGroup cols={2}>
+  <Card title="Real-time Metrics" icon="chart-line">
+    Monitor key performance indicators including total assets, maintenance queue, and budget execution
+  </Card>
+  <Card title="Visual Analytics" icon="chart-simple">
+    Interactive charts showing asset availability trends over time
+  </Card>
+  <Card title="Trend Tracking" icon="arrow-trend-up">
+    Percentage change indicators help you track month-over-month growth
+  </Card>
+  <Card title="Responsive Design" icon="mobile">
+    Access your dashboard from any device with adaptive layouts
+  </Card>
+</CardGroup>
+
+## Key Metrics
+
+The dashboard displays three critical statistics through the `StatCard` component:
+
+### Total Assets
+Track the complete inventory of assets under management with month-over-month trend indicators.
+
+```tsx
+<StatCard 
+  title="Total activos" 
+  value="12345" 
+  trend={12} 
+  trendLabel="este mes" 
+/>
+```
+
+### Assets in Maintenance
+Monitor how many assets are currently undergoing maintenance procedures.
+
+```tsx
+<StatCard 
+  title="En mantenimiento" 
+  value="8" 
+/>
+```
+
+### Budget Execution
+Highlighted metric showing current budget utilization with special emphasis.
+
+```tsx
+<StatCard 
+  title="Presupuesto ejecutado" 
+  value="100$" 
+  highlighted={true} 
+/>
+```
+
+## Asset Availability Chart
+
+The dashboard includes a time-series visualization powered by the `ChartPlaceholder` component:
+
+```tsx
+<ChartPlaceholder 
+  title="Disponibilidad de activos" 
+  period="Últimos 6 meses" 
+/>
+```
+
+<Tip>
+  The chart automatically updates with smooth animations when new data is loaded, providing a professional user experience.
+</Tip>
+
+## Using the Dashboard
+
+<Steps>
+  <Step title="Access the Dashboard">
+    Navigate to `/dashboard` - this is your default landing page after login
+  </Step>
+  
+  <Step title="Review Key Metrics">
+    Check the three stat cards at the top to understand current asset status
+    - Green trend indicators show positive growth
+    - The highlighted blue card draws attention to budget metrics
+  </Step>
+  
+  <Step title="Analyze Trends">
+    Use the availability chart to identify patterns:
+    - Select different time periods from the dropdown
+    - Hover over bars to see exact values
+  </Step>
+  
+  <Step title="Take Action">
+    Based on insights, navigate to specific modules:
+    - High maintenance count → Visit maintenance module
+    - Budget concerns → Check reports section
+  </Step>
+</Steps>
+
+## Component Architecture
+
+The dashboard is built using modular React components for maintainability:
+
+<AccordionGroup>
+  <Accordion title="DashboardHeader Component">
+    Located at `src/components/layout/DashboardHeader.tsx`, this component provides consistent page headers with subtitle support.
+    
+    ```tsx
+    <DashboardHeader subtitle="Bienvenido al panel GIMA" />
+    ```
+  </Accordion>
+  
+  <Accordion title="StatCard Component">
+    Reusable metric display component at `src/components/dashboard/StatCard.tsx` with the following props:
+    
+    - `title`: Metric name
+    - `value`: Current value (string or number)
+    - `trend`: Optional percentage change
+    - `trendLabel`: Optional label for trend context
+    - `highlighted`: Boolean for special emphasis styling
+    
+    The component uses Tailwind CSS with conditional styling for highlighted states.
+  </Accordion>
+  
+  <Accordion title="ChartPlaceholder Component">
+    Visualization component at `src/components/ui/ChartPlaceholder.tsx` featuring:
+    
+    - Animated bar charts with smooth transitions
+    - Dropdown for time period selection
+    - Responsive grid layout
+    - Weekly data visualization (Mon-Sun)
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<Note>
+  **Performance Tip**: The dashboard uses client-side rendering with the `"use client"` directive for interactive components. Ensure your data fetching strategy aligns with Next.js best practices.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Regular Monitoring" icon="clock">
+    Check the dashboard daily to stay informed about asset status and identify issues early
+  </Card>
+  <Card title="Trend Analysis" icon="magnifying-glass-chart">
+    Use month-over-month trends to make data-driven decisions about asset acquisitions and maintenance scheduling
+  </Card>
+  <Card title="Budget Awareness" icon="dollar-sign">
+    The highlighted budget card ensures financial metrics are always visible
+  </Card>
+  <Card title="Mobile Access" icon="mobile-screen">
+    The responsive grid layout (`md:grid-cols-2 lg:grid-cols-3`) ensures usability across devices
+  </Card>
+</CardGroup>
+
+## Customization Options
+
+The dashboard supports various customization approaches:
+
+### Adjusting Stat Card Layout
+
+Modify the grid columns for different screen sizes:
+
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {/* Stat cards */}
+</div>
+```
+
+### Changing Chart Periods
+
+Update the default time period in the ChartPlaceholder:
+
+```tsx
+<ChartPlaceholder 
+  title="Custom Title" 
+  period="Últimos 3 meses" 
+/>
+```
+
+<Warning>
+  When customizing components, ensure you maintain the existing prop interfaces to avoid TypeScript errors.
+</Warning>
+
+## Related Features
+
+- [Asset Management](/features/asset-management) - Detailed asset inventory management
+- [Maintenance](/features/maintenance) - Schedule and track maintenance operations
+- [Reports](/features/reports) - Generate comprehensive reports from dashboard data

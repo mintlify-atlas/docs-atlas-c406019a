@@ -1,0 +1,692 @@
+---
+title: Generating Reports
+description: Learn how to create, customize, and export reports in GIMA for analysis and compliance
+---
+
+## Overview
+
+GIMA's reporting system provides comprehensive analytics and documentation for assets, maintenance activities, and system performance. This guide covers accessing reports, generating custom reports, and exporting data.
+
+## Accessing the Reports Section
+
+<Steps>
+  <Step title="Navigate to Reports">
+    From the dashboard, click **"Reportes"** in the sidebar (line 41 of Sidebar.tsx):
+    - Icon: ClipboardList (from lucide-react)
+    - Route: `/reportes`
+    - Active state: white background with navy text
+  </Step>
+  
+  <Step title="View the reports dashboard">
+    The reports page displays (reportes/page.tsx):
+    
+    **Dashboard Statistics Cards** (line 40-44):
+    
+    Three main stat cards showing:
+    1. **Reportes Generados** - Total reports created (345)
+    2. **Reportes Atendidos** - Last processed report date
+    3. **Reportes Pendientes** - Reports requiring action (254)
+    
+    **Navigation Bar** (line 49-61):
+    - Historial de Reportes
+    - Generar Reportes
+    - Programados
+    - AI Assistant access button
+  </Step>
+</Steps>
+
+## Understanding Report Statistics
+
+The dashboard displays three key metric cards:
+
+<Tabs>
+  <Tab title="Reportes Generados">
+    **Total Generated Reports**
+    
+    **Icon:** BookOpen (size 24)
+    
+    **Value:** 345 reports
+    
+    **Subtext:** "Reportes en el Ultimo mes"
+    
+    **Purpose:**
+    - Track reporting volume
+    - Measure team productivity
+    - Identify reporting trends
+    - Monitor system usage
+    
+    **Styling:**
+    - White background with hover shadow
+    - Border: `border-slate-50`
+    - Rounded: `rounded-3xl`
+    - Hover animation: `-translate-y-1`
+  </Tab>
+  
+  <Tab title="Reportes Atendidos">
+    **Last Processed Report**
+    
+    **Icon:** FileCheck (size 24)
+    
+    **Value:** "Ultimo: 09/09/2021"
+    
+    **Unique Feature:** `isDate={true}` styling
+    
+    **Purpose:**
+    - Show recent activity
+    - Track processing timeline
+    - Monitor report completion
+    - Identify delays
+    
+    **Display:**
+    - Date badge with `bg-slate-100`
+    - Rounded pill style
+    - Compact formatting
+  </Tab>
+  
+  <Tab title="Reportes Pendientes">
+    **Pending Reports**
+    
+    **Icon:** AlertCircle (size 24) - indicates attention needed
+    
+    **Value:** 254 reports
+    
+    **Subtext:** "Requieren acción"
+    
+    **Purpose:**
+    - Highlight workload
+    - Prioritize review tasks
+    - Monitor report backlog
+    - Alert to processing needs
+    
+    **Color scheme:** Typically uses alert/warning colors
+  </Tab>
+</Tabs>
+
+## Report Navigation Options
+
+The internal navigation bar provides three main sections:
+
+### Historial de Reportes
+
+**Access:** Click "Historial de Reportes" link (line 43)
+
+**Features:**
+- View all previously generated reports
+- Search and filter by date, type, or creator
+- Download historical reports
+- View report details and metadata
+- Track report status changes
+
+**Typical Report History Information:**
+- Report ID and name
+- Generation date and time
+- Created by (user)
+- Report type and category
+- Status (completed, pending, archived)
+- File size and format
+- Download count
+
+### Generar Reportes
+
+**Access:** Click "Generar Reportes" button (line 44)
+
+**Purpose:** Create new custom reports
+
+<Steps>
+  <Step title="Select report type">
+    Choose from available report templates:
+    
+    **Asset Reports:**
+    - Asset inventory by category
+    - Asset lifecycle status
+    - Asset location distribution
+    - Asset depreciation
+    - Asset utilization rates
+    
+    **Maintenance Reports:**
+    - Completed maintenance tasks
+    - Preventive maintenance compliance
+    - Maintenance costs and time
+    - Technician performance
+    - Equipment downtime analysis
+    
+    **Financial Reports:**
+    - Maintenance cost breakdown
+    - Budget vs. actual spending
+    - Asset acquisition costs
+    - Department expense allocation
+    - Cost per asset category
+    
+    **Operational Reports:**
+    - System usage statistics
+    - User activity logs
+    - Asset availability metrics
+    - Response time analysis
+    - SLA compliance tracking
+  </Step>
+  
+  <Step title="Configure report parameters">
+    Customize the report based on your needs:
+    
+    **Date Range:**
+    - Custom date picker
+    - Predefined ranges (last week, month, quarter, year)
+    - Fiscal year options
+    
+    **Filters:**
+    - Asset categories (COMPUTO, MOBILIARIO, etc.)
+    - Departments (Infraestructura, Laboratorios, etc.)
+    - Locations or buildings
+    - User roles or specific technicians
+    - Status filters (active, maintenance, retired)
+    
+    **Grouping:**
+    - By category
+    - By department
+    - By location
+    - By time period
+    - By responsible user
+    
+    **Metrics to Include:**
+    - Select specific data points
+    - Choose aggregation methods (sum, average, count)
+    - Include or exclude cost data
+    - Add comparison periods
+  </Step>
+  
+  <Step title="Choose output format">
+    Select how you want to receive the report:
+    
+    **PDF:**
+    - Professional formatted document
+    - Includes charts and graphs
+    - Ready for printing or presentation
+    - Embedded organization branding
+    
+    **Excel/CSV:**
+    - Raw data for further analysis
+    - Import into other tools
+    - Pivot table compatible
+    - Comma-separated values for databases
+    
+    **JSON:**
+    - Machine-readable format
+    - API integration
+    - Custom application import
+    - Data exchange format
+    
+    **Web View:**
+    - Interactive online report
+    - Drill-down capabilities
+    - Real-time data updates
+    - Shareable link
+  </Step>
+  
+  <Step title="Generate the report">
+    Click **"Generar"** or similar button:
+    - Report generation begins
+    - Progress indicator displays
+    - Completion notification sent
+    - Report added to "Historial de Reportes"
+    - Automatic download if configured
+  </Step>
+</Steps>
+
+### Programados
+
+**Access:** Click "Programados" link (line 45)
+
+**Purpose:** Manage scheduled recurring reports
+
+<Steps>
+  <Step title="View scheduled reports">
+    See all reports configured to run automatically:
+    - Report name and type
+    - Schedule frequency (daily, weekly, monthly)
+    - Next run date and time
+    - Recipients list
+    - Status (active, paused, failed)
+  </Step>
+  
+  <Step title="Create scheduled report">
+    Set up a new recurring report:
+    
+    **Report Configuration:**
+    - Select report type
+    - Configure parameters (filters, date ranges)
+    - Choose output format
+    
+    **Schedule Settings:**
+    - Frequency: Daily, Weekly, Monthly, Quarterly, Annually
+    - Day of week (for weekly)
+    - Day of month (for monthly)
+    - Time of day to generate
+    - Time zone configuration
+    
+    **Recipients:**
+    - Select users from organization
+    - Add external email addresses
+    - Configure distribution groups
+    - Set per-recipient permissions
+    
+    **Delivery Options:**
+    - Email attachment
+    - Download link
+    - Shared folder location
+    - API webhook
+  </Step>
+  
+  <Step title="Manage scheduled reports">
+    Edit, pause, or delete scheduled reports:
+    - Modify report parameters
+    - Update recipient list
+    - Change schedule frequency
+    - Pause temporarily without deleting
+    - View execution history
+    - Review delivery logs
+  </Step>
+</Steps>
+
+## Accessing AI Assistance for Reports
+
+The Reports page provides direct access to the AI Assistant:
+
+**Location:** Navigation bar, right side (line 56-60 of reportes/page.tsx)
+
+**Button Styling:**
+- Background: `bg-gima-navy` (dark blue)
+- Text: white with bold font
+- Ring effect: `ring-2 ring-offset-2 ring-gima-navy`
+- Shadow: `shadow-lg shadow-gima-navy/20`
+- Hover: `hover:scale-105`
+- Active: `active:scale-95`
+
+**Links to:** `/asistencia` (AI Assistant page)
+
+### Using AI for Report Generation
+
+<Steps>
+  <Step title="Ask the AI about reports">
+    In the Chat tab, you can ask:
+    - "What reports should I generate for monthly review?"
+    - "Show me maintenance cost trends"
+    - "Which assets need attention based on recent data?"
+    - "Create a report comparing this quarter to last quarter"
+  </Step>
+  
+  <Step title="Get recommendations">
+    The AI can suggest:
+    - Relevant report types for your needs
+    - Optimal parameters and filters
+    - Key metrics to include
+    - Comparison periods for context
+    - Visualization approaches
+  </Step>
+  
+  <Step title="Interpret report results">
+    Ask the AI to help understand:
+    - Unusual patterns or anomalies
+    - Trends and their implications
+    - Actionable insights from data
+    - Recommendations based on findings
+  </Step>
+</Steps>
+
+<Tip>
+  The AI Assistant has access to your historical report data and can provide context-aware suggestions for report generation.
+</Tip>
+
+## Common Report Types
+
+<Tabs>
+  <Tab title="Asset Inventory Report">
+    **Purpose:** Complete listing of all organizational assets
+    
+    **Includes:**
+    - Asset ID, name, and category
+    - Current location and assignment
+    - Status (active, maintenance, retired)
+    - Purchase date and value
+    - Depreciation information
+    - Warranty status
+    - Last maintenance date
+    
+    **Filters:**
+    - Category (from categorias-activos)
+    - Location or department
+    - Status
+    - Date acquired
+    - Value range
+    
+    **Use Cases:**
+    - Annual inventory audit
+    - Insurance documentation
+    - Budget planning
+    - Compliance reporting
+  </Tab>
+  
+  <Tab title="Maintenance Performance Report">
+    **Purpose:** Track maintenance activities and efficiency
+    
+    **Includes:**
+    - Total maintenance tasks completed
+    - Average completion time
+    - Preventive vs. corrective ratio
+    - Cost per maintenance type
+    - Technician productivity
+    - Asset downtime
+    - SLA compliance rates
+    
+    **Metrics:**
+    - Mean Time To Repair (MTTR)
+    - Mean Time Between Failures (MTBF)
+    - Planned vs. unplanned maintenance %
+    - Cost per asset category
+    - Parts usage and inventory
+    
+    **Use Cases:**
+    - Team performance evaluation
+    - Process improvement
+    - Resource allocation
+    - Preventive maintenance optimization
+  </Tab>
+  
+  <Tab title="Cost Analysis Report">
+    **Purpose:** Financial analysis of asset and maintenance costs
+    
+    **Includes:**
+    - Total maintenance spend
+    - Cost by category, department, asset
+    - Labor vs. parts costs
+    - Budget variance
+    - Cost trends over time
+    - Depreciation schedules
+    - ROI on maintenance investments
+    
+    **Breakdowns:**
+    - By asset category
+    - By department
+    - By maintenance type
+    - By time period
+    - By vendor or supplier
+    
+    **Use Cases:**
+    - Budget preparation
+    - Cost reduction initiatives
+    - Financial audits
+    - Vendor negotiations
+  </Tab>
+  
+  <Tab title="Compliance Report">
+    **Purpose:** Demonstrate regulatory and policy compliance
+    
+    **Includes:**
+    - Required maintenance completion rates
+    - Safety inspection status
+    - Certification and training records
+    - Regulatory requirement adherence
+    - Audit trail documentation
+    - Exception reports
+    
+    **Standards Tracked:**
+    - Internal policies
+    - Industry regulations
+    - Safety requirements
+    - Quality standards
+    - Environmental compliance
+    
+    **Use Cases:**
+    - Regulatory audits
+    - Internal compliance review
+    - Risk assessment
+    - Management reporting
+  </Tab>
+</Tabs>
+
+## Export and Sharing Options
+
+### Exporting Reports
+
+<CardGroup cols={2}>
+  <Card title="PDF Export" icon="file-pdf">
+    **Best For:**
+    - Executive summaries
+    - Presentations
+    - Archival documentation
+    - Email distribution
+    
+    **Features:**
+    - Professional formatting
+    - Charts and visualizations
+    - Header/footer with branding
+    - Page numbering
+  </Card>
+  
+  <Card title="Excel Export" icon="file-excel">
+    **Best For:**
+    - Data analysis
+    - Custom calculations
+    - Pivot tables
+    - Further manipulation
+    
+    **Features:**
+    - Multiple worksheets
+    - Formatted tables
+    - Formulas preserved
+    - Chart data included
+  </Card>
+  
+  <Card title="CSV Export" icon="file-csv">
+    **Best For:**
+    - Database import
+    - Third-party tools
+    - Data integration
+    - Bulk processing
+    
+    **Features:**
+    - Plain text format
+    - Universal compatibility
+    - Easy parsing
+    - Lightweight files
+  </Card>
+  
+  <Card title="JSON Export" icon="code">
+    **Best For:**
+    - API integration
+    - Custom applications
+    - Data exchange
+    - Automated processing
+    
+    **Features:**
+    - Structured format
+    - Machine-readable
+    - Hierarchical data
+    - Easy parsing
+  </Card>
+</CardGroup>
+
+### Sharing Reports
+
+<Steps>
+  <Step title="Email distribution">
+    Send reports directly from GIMA:
+    - Select recipients
+    - Add custom message
+    - Attach report file
+    - Schedule send time
+  </Step>
+  
+  <Step title="Shared links">
+    Generate web links for reports:
+    - Set expiration date
+    - Configure view/download permissions
+    - Track access analytics
+    - Revoke access if needed
+  </Step>
+  
+  <Step title="Folder export">
+    Save to network location:
+    - Configure default save paths
+    - Organize by date or type
+    - Maintain folder structure
+    - Integrate with document management
+  </Step>
+</Steps>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Report Planning">
+    **Before generating reports:**
+    - Define the purpose clearly
+    - Identify the target audience
+    - Determine required metrics
+    - Choose appropriate time periods
+    - Consider comparison baselines
+    
+    **Schedule recurring reports:**
+    - Set up automated generation for routine reports
+    - Configure delivery to stakeholders
+    - Review and update scheduled reports quarterly
+    - Archive old scheduled reports instead of deleting
+  </Accordion>
+  
+  <Accordion title="Data Quality">
+    **Ensure accurate reports:**
+    - Verify source data is current
+    - Check for data entry errors before reporting
+    - Validate calculations and formulas
+    - Review sample output before distribution
+    - Document any data limitations or notes
+    
+    **Maintain data integrity:**
+    - Regular asset audits
+    - Prompt maintenance logging
+    - Consistent categorization
+    - Timely status updates
+  </Accordion>
+  
+  <Accordion title="Report Interpretation">
+    **Effective analysis:**
+    - Compare to previous periods
+    - Identify trends, not just snapshots
+    - Look for anomalies or outliers
+    - Consider external factors (seasonality, events)
+    - Use AI Assistant for insight recommendations
+    
+    **Actionable insights:**
+    - Focus on metrics that drive decisions
+    - Highlight areas needing attention
+    - Include recommendations when distributing
+    - Follow up on report findings
+  </Accordion>
+  
+  <Accordion title="Security and Compliance">
+    **Protect sensitive data:**
+    - Control report access by role
+    - Redact confidential information when sharing externally
+    - Use secure channels for distribution
+    - Track who accessed which reports
+    - Set appropriate retention periods
+    
+    **Maintain audit trails:**
+    - Log all report generation
+    - Track parameter changes
+    - Record exports and distributions
+    - Document report usage
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Report generation fails">
+    **Possible causes:**
+    - Too much data for selected parameters
+    - Invalid date range or filters
+    - Database connection issues
+    - Insufficient permissions
+    
+    **Solutions:**
+    - Reduce date range
+    - Simplify filters
+    - Check system status
+    - Verify your user role permissions
+    - Contact administrator if persists
+  </Accordion>
+  
+  <Accordion title="Report data looks incorrect">
+    **Check these items:**
+    - Verify filter parameters are correct
+    - Confirm date range includes expected data
+    - Review timezone settings
+    - Check for recent data updates or corrections
+    - Compare with known good previous reports
+    
+    **If still incorrect:**
+    - Document the discrepancy
+    - Check source data directly
+    - Report to system administrator
+    - Generate audit log report
+  </Accordion>
+  
+  <Accordion title="Cannot access report history">
+    **Troubleshooting:**
+    - Verify you're on the correct page (`/reportes`)
+    - Click "Historial de Reportes" in navigation
+    - Check your user permissions
+    - Try refreshing the page
+    - Clear browser cache if needed
+  </Accordion>
+  
+  <Accordion title="Scheduled report not running">
+    **Check configuration:**
+    - Verify schedule is active (not paused)
+    - Confirm next run date is future
+    - Check recipient email addresses
+    - Review execution logs for errors
+    - Verify system is not in maintenance mode
+    
+    **Common issues:**
+    - Schedule timezone mismatch
+    - Recipients have blocked emails
+    - Report parameters no longer valid
+    - System resources insufficient
+  </Accordion>
+</AccordionGroup>
+
+## Integration with Other Features
+
+<CardGroup cols={2}>
+  <Card title="Asset Data" icon="box" href="/guides/managing-assets">
+    Reports pull data from your asset management system
+  </Card>
+  
+  <Card title="Maintenance History" icon="wrench" href="/guides/scheduling-maintenance">
+    Include maintenance tasks and performance metrics
+  </Card>
+  
+  <Card title="AI Insights" icon="sparkles" href="/guides/using-ai-assistant">
+    Get AI-powered analysis and recommendations
+  </Card>
+  
+  <Card title="User Data" icon="users" href="/guides/authentication">
+    Reports filtered by department and user roles
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={3}>
+  <Card title="Generate Your First Report" icon="play">
+    Try creating an asset inventory report for your department
+  </Card>
+  
+  <Card title="Schedule Recurring Reports" icon="calendar-check">
+    Set up monthly maintenance performance reports
+  </Card>
+  
+  <Card title="Use AI for Analysis" icon="robot" href="/guides/using-ai-assistant">
+    Ask the AI Assistant to interpret report findings
+  </Card>
+</CardGroup>

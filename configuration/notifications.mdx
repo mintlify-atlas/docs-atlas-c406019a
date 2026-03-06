@@ -1,0 +1,398 @@
+---
+title: 'Notification Settings'
+description: 'Configure alerts and email notifications in GIMA'
+icon: 'bell'
+---
+
+GIMA's notification system keeps users informed about important events, maintenance schedules, asset changes, and system alerts. Configure notification preferences to ensure the right people receive the right information at the right time.
+
+## Overview
+
+Access notification settings at `/configuracion/notificaciones` to configure alerts and email notifications.
+
+<Info>
+  Proper notification configuration ensures that maintenance staff, managers, and administrators stay informed about critical events without being overwhelmed by unnecessary alerts.
+</Info>
+
+## Notification Types
+
+GIMA supports various types of notifications:
+
+<CardGroup cols={2}>
+  <Card title="Maintenance Alerts" icon="wrench">
+    Notifications for scheduled maintenance, overdue tasks, and maintenance completions
+  </Card>
+  
+  <Card title="Asset Changes" icon="box">
+    Alerts when assets are created, modified, moved, or retired
+  </Card>
+  
+  <Card title="System Events" icon="server">
+    Critical system notifications, errors, and status updates
+  </Card>
+  
+  <Card title="User Activity" icon="user">
+    Notifications about user actions, permission changes, and access events
+  </Card>
+</CardGroup>
+
+## Configuring Notifications
+
+<Steps>
+  <Step title="Access Notification Settings">
+    Navigate to `/configuracion/notificaciones` from the configuration dashboard.
+  </Step>
+  
+  <Step title="Select Notification Type">
+    Choose which type of notification you want to configure (maintenance, asset, system, or user).
+  </Step>
+  
+  <Step title="Set Delivery Preferences">
+    Configure how and when notifications should be delivered:
+    - Email notifications
+    - In-app notifications
+    - Mobile push notifications (if enabled)
+  </Step>
+  
+  <Step title="Define Recipients">
+    Specify who should receive these notifications:
+    - Specific users
+    - User roles or departments
+    - Custom distribution lists
+  </Step>
+  
+  <Step title="Save Configuration">
+    Save your notification settings to activate them.
+  </Step>
+</Steps>
+
+## Email Notifications
+
+### Email Configuration
+
+<Accordion title="Email Server Settings">
+  Configure SMTP settings for outgoing notifications:
+  - SMTP server address
+  - Port and encryption (SSL/TLS)
+  - Authentication credentials
+  - From address and display name
+</Accordion>
+
+<Accordion title="Email Templates">
+  Customize email notification templates:
+  - Subject lines
+  - Body content and formatting
+  - Include relevant asset or maintenance details
+  - Add company branding and logos
+</Accordion>
+
+<Accordion title="Delivery Options">
+  Configure when emails are sent:
+  - Immediate delivery for urgent alerts
+  - Batched/digest emails for non-urgent notifications
+  - Daily or weekly summary emails
+  - Quiet hours to avoid after-hours notifications
+</Accordion>
+
+### Email Notification Examples
+
+<CodeGroup>
+```text Maintenance Due Notification
+Asunto: Mantenimiento Programado - [Asset Name]
+
+Un activo requiere mantenimiento programado:
+
+Activo: [Asset Name]
+ID: [Asset ID]
+Ubicación: [Location]
+Fecha programada: [Due Date]
+Tipo de mantenimiento: [Maintenance Type]
+
+Por favor, complete esta tarea antes de la fecha indicada.
+
+Acceder al sistema: [Link]
+```
+
+```text Asset Status Change
+Asunto: Cambio de Estado - [Asset Name]
+
+El estado de un activo ha cambiado:
+
+Activo: [Asset Name]
+ID: [Asset ID]
+Estado anterior: [Old Status]
+Estado nuevo: [New Status]
+Modificado por: [User Name]
+Fecha: [Change Date]
+
+Ver detalles: [Link]
+```
+
+```text Critical Alert
+Asunto: ALERTA CRÍTICA - [Alert Type]
+
+⚠️ Alerta crítica detectada en el sistema:
+
+Tipo: [Alert Type]
+Severidad: Alta
+Activo afectado: [Asset Name]
+Descripción: [Alert Description]
+Fecha/Hora: [Timestamp]
+
+Acción requerida: [Required Action]
+
+Ver alerta: [Link]
+```
+</CodeGroup>
+
+## In-App Notifications
+
+In-app notifications appear in the GIMA interface:
+
+### Notification Bell
+
+The bell icon in the top navigation bar shows:
+- Red dot indicator for unread notifications
+- Notification count badge
+- Click to open notification panel
+
+### Notification Panel
+
+The notification panel displays:
+- List of recent notifications (most recent first)
+- Notification type icon
+- Brief message summary
+- Timestamp (relative time)
+- Mark as read/unread
+- Clear all option
+
+<Note>
+  Notifications are accessible via the bell icon in the dashboard header, located next to the user profile and search bar.
+</Note>
+
+## Notification Preferences by Event
+
+### Maintenance Events
+
+<Accordion title="Upcoming Maintenance">
+  Alert when maintenance is due soon:
+  - **Trigger**: X days before scheduled date
+  - **Recipients**: Assigned technicians, maintenance manager
+  - **Frequency**: Daily reminder until completed
+</Accordion>
+
+<Accordion title="Overdue Maintenance">
+  Alert when maintenance is past due:
+  - **Trigger**: Day after due date
+  - **Recipients**: Assigned technicians, supervisor, manager
+  - **Frequency**: Daily until completed
+  - **Escalation**: Notify higher management after X days
+</Accordion>
+
+<Accordion title="Maintenance Completed">
+  Notification when maintenance is finished:
+  - **Trigger**: Task marked as complete
+  - **Recipients**: Requester, manager, asset owner
+  - **Frequency**: One-time notification
+</Accordion>
+
+### Asset Events
+
+<Accordion title="New Asset Created">
+  Notification when a new asset is added:
+  - **Trigger**: Asset creation
+  - **Recipients**: Asset managers, department heads
+  - **Details**: Asset ID, category, location, value
+</Accordion>
+
+<Accordion title="Asset Location Changed">
+  Alert when an asset is moved:
+  - **Trigger**: Location field updated
+  - **Recipients**: Asset owner, location managers
+  - **Details**: Old location, new location, moved by whom
+</Accordion>
+
+<Accordion title="Asset Status Changed">
+  Notification on status updates:
+  - **Trigger**: Status field changed
+  - **Recipients**: Relevant stakeholders based on new status
+  - **Details**: Previous status, new status, reason for change
+</Accordion>
+
+### System Events
+
+<Accordion title="System Errors">
+  Critical error notifications:
+  - **Trigger**: System error or failure
+  - **Recipients**: System administrators
+  - **Priority**: High (immediate notification)
+</Accordion>
+
+<Accordion title="Backup Status">
+  Regular backup notifications:
+  - **Trigger**: Scheduled backup completion or failure
+  - **Recipients**: IT administrators
+  - **Frequency**: Daily or per backup schedule
+</Accordion>
+
+<Accordion title="Security Alerts">
+  Security-related notifications:
+  - **Trigger**: Unauthorized access, failed logins, security policy violations
+  - **Recipients**: Security administrators, IT managers
+  - **Priority**: High
+</Accordion>
+
+## User Activity Notifications
+
+### Permission Changes
+
+Notify users when their permissions are modified:
+- Access granted to new modules
+- Permission levels changed
+- Access revoked
+
+### Account Events
+
+Notify users about account-related events:
+- Password reset required
+- Account locked due to failed logins
+- Profile information updated
+
+## Notification Channels
+
+Configure which channels are used for different notification types:
+
+| Event Type | Email | In-App | Mobile | Priority |
+|------------|-------|--------|--------|----------|
+| Critical Alerts | ✓ | ✓ | ✓ | High |
+| Maintenance Due | ✓ | ✓ | - | Medium |
+| Asset Changes | - | ✓ | - | Low |
+| Daily Summaries | ✓ | - | - | Low |
+| System Status | ✓ | ✓ | - | Medium |
+
+## Notification Rules
+
+Create custom notification rules based on conditions:
+
+<Steps>
+  <Step title="Define Trigger">
+    Specify what event triggers the notification (e.g., "Asset value exceeds $10,000")
+  </Step>
+  
+  <Step title="Set Conditions">
+    Add conditions that must be met (e.g., "AND category is COMPUTO")
+  </Step>
+  
+  <Step title="Choose Recipients">
+    Select who receives the notification
+  </Step>
+  
+  <Step title="Select Channels">
+    Decide which notification channels to use
+  </Step>
+  
+  <Step title="Activate Rule">
+    Enable the rule to start receiving notifications
+  </Step>
+</Steps>
+
+<Warning>
+  Test notification rules thoroughly before activating them in production to avoid sending unnecessary alerts or missing critical notifications.
+</Warning>
+
+## Notification Frequency Settings
+
+### Digest Options
+
+<Accordion title="Immediate Notifications">
+  Send notifications as soon as events occur:
+  - Best for: Critical alerts, urgent maintenance
+  - Risk: Can lead to notification fatigue
+</Accordion>
+
+<Accordion title="Batched Notifications">
+  Combine multiple notifications into periodic batches:
+  - **Hourly**: Send every hour if there are new notifications
+  - **Daily**: Daily summary at specified time
+  - **Weekly**: Weekly digest on specified day
+  
+  Best for: Non-urgent updates, status reports
+</Accordion>
+
+<Accordion title="Quiet Hours">
+  Suppress non-critical notifications during specified hours:
+  - Set start and end time (e.g., 10:00 PM - 6:00 AM)
+  - Define which notification types respect quiet hours
+  - Critical alerts can override quiet hours
+</Accordion>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Avoid Alert Fatigue" icon="volume-slash">
+    Configure notifications carefully to avoid overwhelming users with too many alerts
+  </Card>
+  
+  <Card title="Use Appropriate Channels" icon="route">
+    Send critical alerts via multiple channels; use email for non-urgent updates
+  </Card>
+  
+  <Card title="Target the Right People" icon="users">
+    Ensure notifications go to users who can act on them
+  </Card>
+  
+  <Card title="Test Configurations" icon="flask">
+    Test notification settings before deploying to production
+  </Card>
+  
+  <Card title="Regular Reviews" icon="calendar-check">
+    Periodically review and adjust notification settings
+  </Card>
+  
+  <Card title="Clear Message Content" icon="message-square">
+    Use clear, actionable language in notification messages
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<Accordion title="Not Receiving Email Notifications">
+  Check:
+  - Email server configuration is correct
+  - User email address is valid and verified
+  - Emails are not going to spam folder
+  - Notification rule is enabled and conditions are met
+  - User has email notifications enabled in preferences
+</Accordion>
+
+<Accordion title="Too Many Notifications">
+  Solutions:
+  - Enable notification batching/digest mode
+  - Adjust notification rules to be more specific
+  - Set up quiet hours
+  - Review and disable unnecessary notification types
+</Accordion>
+
+<Accordion title="Missing Critical Alerts">
+  Verify:
+  - Alert priority is set correctly
+  - Critical alerts are not suppressed by quiet hours
+  - Notification channels are configured
+  - User has necessary permissions to receive alerts
+</Accordion>
+
+## Related Configuration
+
+<CardGroup cols={2}>
+  <Card title="User Management" icon="users" href="/configuration/settings#user-management">
+    Configure user roles and notification permissions
+  </Card>
+  
+  <Card title="Security Settings" icon="shield" href="/configuration/security">
+    Set up security event notifications
+  </Card>
+  
+  <Card title="Maintenance" icon="wrench" href="/features/maintenance">
+    Configure maintenance-related alerts
+  </Card>
+</CardGroup>

@@ -1,0 +1,263 @@
+---
+title: 'Location Management'
+description: 'Configure and manage physical locations for asset tracking'
+icon: 'map-pin'
+---
+
+GIMA's location management system allows you to organize assets by physical location, building, or facility. This is essential for tracking where assets are deployed and managing them across multiple sites.
+
+## Overview
+
+Access location management at `/configuracion/ubicaciones` to configure your organization's physical spaces.
+
+<Info>
+  Locations help you track assets across different buildings, floors, rooms, or campuses. Proper location setup ensures accurate asset tracking and efficient maintenance operations.
+</Info>
+
+## Location Structure
+
+Each location in GIMA includes:
+
+- **Location ID**: Unique identifier (e.g., LOC-001)
+- **Space Name**: Descriptive name of the location
+- **Building/Site**: Parent building or facility
+- **Status**: Active or Inactive
+
+### Example Locations
+
+<CodeGroup>
+```json Example Location Data
+[
+  {
+    "id": "LOC-001",
+    "nombre": "LABORATORIO",
+    "edificio": "Edificio de ciencias",
+    "estado": "Activo"
+  },
+  {
+    "id": "LOC-002",
+    "nombre": "SALA MULTIPLE",
+    "edificio": "Edificio de ciencias",
+    "estado": "Activo"
+  },
+  {
+    "id": "LOC-003",
+    "nombre": "SALA DE COMPUTACION",
+    "edificio": "Edificio de ciencias",
+    "estado": "Activo"
+  }
+]
+```
+</CodeGroup>
+
+## Creating a New Location
+
+<Steps>
+  <Step title="Navigate to Locations">
+    Go to `/configuracion/ubicaciones` from the configuration dashboard or navigate directly to the locations page.
+  </Step>
+  
+  <Step title="Click Nueva Ubicación">
+    Click the "Nueva ubicación" button in the top right corner of the page.
+  </Step>
+  
+  <Step title="Enter Location Details">
+    Fill in the required information:
+    - **Space Name**: Enter a descriptive name (e.g., "LABORATORIO", "SALA MULTIPLE")
+    - **Building/Site**: Specify the parent building or facility
+    - **Status**: Set to "Activo" for active locations
+  </Step>
+  
+  <Step title="Save Location">
+    Click save to create the new location. It will be assigned a unique location ID automatically.
+  </Step>
+</Steps>
+
+## Location Table
+
+The locations table provides a comprehensive view of all configured locations:
+
+| Column | Description |
+|--------|-------------|
+| **ID Ubicación** | Unique location identifier (LOC-XXX) |
+| **Nombre Espacio** | Location name in bold text |
+| **Edificio/Sede** | Parent building or site name |
+| **Estado** | Active/Inactive status badge |
+| **Acciones** | Edit and delete action buttons |
+
+### Table Features
+
+- **Hover Effects**: Rows highlight on hover for better visibility
+- **Action Buttons**: 
+  - Edit button (green pencil icon)
+  - Delete button (red trash icon)
+- **Status Badges**: Visual indicators for location status
+- **Responsive Layout**: Grid layout adjusts to screen size
+
+## Managing Locations
+
+### Editing a Location
+
+<Steps>
+  <Step title="Locate the Entry">
+    Find the location you want to edit in the locations table.
+  </Step>
+  
+  <Step title="Click Edit">
+    Click the green pencil icon in the "Acciones" column.
+  </Step>
+  
+  <Step title="Update Information">
+    Modify the location details as needed.
+  </Step>
+  
+  <Step title="Save Changes">
+    Confirm your changes to update the location.
+  </Step>
+</Steps>
+
+### Deactivating a Location
+
+<Warning>
+  Before deleting a location, ensure no assets are currently assigned to it. Consider setting the status to "Inactivo" instead of deleting if the location may be needed in the future.
+</Warning>
+
+<Steps>
+  <Step title="Review Assets">
+    Check that no active assets are assigned to this location.
+  </Step>
+  
+  <Step title="Change Status">
+    Edit the location and change its status to "Inactivo" rather than deleting it.
+  </Step>
+  
+  <Step title="Delete (if needed)">
+    If you must delete the location, click the red trash icon and confirm the deletion.
+  </Step>
+</Steps>
+
+## Location Hierarchy
+
+GIMA supports hierarchical location structures:
+
+<Accordion title="Building Level">
+  Top-level locations representing buildings, campuses, or major facilities.
+  
+  Example: "Edificio de ciencias", "Edificio administrativo"
+</Accordion>
+
+<Accordion title="Space Level">
+  Individual rooms, areas, or zones within a building.
+  
+  Example: "LABORATORIO", "SALA MULTIPLE", "SALA DE COMPUTACION"
+</Accordion>
+
+<Accordion title="Sub-Location Level">
+  More granular locations within spaces (e.g., specific equipment racks or workstations).
+  
+  Example: "Rack A", "Workstation 12"
+</Accordion>
+
+## Navigation
+
+### Return to Configuration
+
+Use the "Volver a configuración" button at the top of the page to return to the main configuration dashboard at `/configuracion`.
+
+### Page Header
+
+The page header displays:
+```
+CONFIGURACIÓN /
+UBICACIONES
+```
+
+This breadcrumb-style navigation helps you understand your current location in the system.
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Consistent Naming" icon="tag">
+    Use consistent naming conventions for locations (e.g., all caps for space names)
+  </Card>
+  
+  <Card title="Logical Hierarchy" icon="sitemap">
+    Organize locations in a logical hierarchy matching your physical facilities
+  </Card>
+  
+  <Card title="Status Management" icon="toggle-on">
+    Use status flags to temporarily disable locations without deleting them
+  </Card>
+  
+  <Card title="Regular Audits" icon="clipboard-check">
+    Periodically review locations to ensure they match current facilities
+  </Card>
+</CardGroup>
+
+## Common Use Cases
+
+### Multi-Campus Organizations
+
+<Steps>
+  <Step title="Create Campus Locations">
+    Set up top-level locations for each campus or major facility.
+  </Step>
+  
+  <Step title="Add Buildings">
+    Create building entries within each campus.
+  </Step>
+  
+  <Step title="Define Spaces">
+    Add specific rooms and areas within each building.
+  </Step>
+</Steps>
+
+### Department-Based Tracking
+
+Organize locations by department:
+- IT Department Lab
+- Engineering Workshop
+- Administrative Offices
+- Storage Facilities
+
+### Asset-Specific Locations
+
+Create locations for:
+- Server rooms and data centers
+- Equipment storage areas
+- Vehicle parking and garages
+- Tool cribs and supply rooms
+
+<Note>
+  Location names are displayed in uppercase in the interface (e.g., "LABORATORIO", "SALA MULTIPLE"). This is part of the GIMA design system for visual consistency.
+</Note>
+
+## Technical Details
+
+### Location ID Format
+
+Location IDs follow the pattern: `LOC-XXX` where XXX is a sequential number.
+
+### Status Values
+
+- **Activo**: Location is active and can be assigned to assets
+- **Inactivo**: Location is disabled but retained in the system
+
+### UI Components
+
+- **Table Layout**: 5-column grid with rounded corners
+- **Header Background**: Light cyan (`#DAFAFE`)
+- **Action Icons**: 18px Lucide React icons (Pencil, Trash2)
+- **Status Badges**: Blue background (`#E3F2FD`) with uppercase text
+
+## Related Configuration
+
+<CardGroup cols={2}>
+  <Card title="Asset Management" icon="box" href="/features/asset-management">
+    Learn how to assign assets to locations
+  </Card>
+  
+  <Card title="Maintenance Tasks" icon="wrench" href="/features/maintenance">
+    Schedule maintenance by location
+  </Card>
+</CardGroup>

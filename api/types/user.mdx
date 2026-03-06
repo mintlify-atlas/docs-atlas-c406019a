@@ -1,0 +1,154 @@
+---
+title: 'User Types'
+description: 'TypeScript types and interfaces for user management in GIMA'
+icon: 'user'
+---
+
+## Overview
+
+GIMA uses TypeScript types to ensure type safety for user-related data throughout the application. The user types define the structure of user objects and their possible states.
+
+## User Interface
+
+The main `User` interface represents a user entity in the GIMA system.
+
+```typescript
+export interface User {
+    id: string;
+    iniciales: string;
+    name: string;
+    email: string;
+    rol: string;
+    department: string;
+    status: UserEstado;
+}
+```
+
+### Properties
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the user.
+  
+  Example: `"1"`, `"2"`
+</ResponseField>
+
+<ResponseField name="iniciales" type="string" required>
+  User's initials, typically used for avatar displays.
+  
+  Example: `"FC"` for Frank Chacon, `"NE"` for Nour Ehab
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Full name of the user.
+  
+  Example: `"Frank Chacon"`, `"Nour Ehab"`
+</ResponseField>
+
+<ResponseField name="email" type="string" required>
+  User's email address.
+  
+  Example: `"frankManuel1991@gmail.com"`
+</ResponseField>
+
+<ResponseField name="rol" type="string" required>
+  User's role or job title within the organization.
+  
+  Example: `"Engineer"`, `"Doctor"`, `"Graduated"`
+</ResponseField>
+
+<ResponseField name="department" type="string" required>
+  Department or area where the user works.
+  
+  Example: `"frontend"`, `"cardiology"`, `"pediatrics"`
+</ResponseField>
+
+<ResponseField name="status" type="UserEstado" required>
+  Current availability status of the user. See [UserEstado](#userestado-type) for possible values.
+</ResponseField>
+
+## UserEstado Type
+
+The `UserEstado` type defines the possible availability states for a user.
+
+```typescript
+export type UserEstado = 'available' | 'unavailable';
+```
+
+### Values
+
+<ResponseField name="available" type="literal">
+  User is currently available for tasks or assignments.
+</ResponseField>
+
+<ResponseField name="unavailable" type="literal">
+  User is currently unavailable (e.g., on leave, busy, or offline).
+</ResponseField>
+
+## Usage Examples
+
+### Creating a User Object
+
+```typescript
+import { User, UserEstado } from '@/types/user';
+
+const newUser: User = {
+  id: '5',
+  iniciales: 'JD',
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+  rol: 'Engineer',
+  department: 'backend',
+  status: 'available'
+};
+```
+
+### Working with User Arrays
+
+The mock data in `src/utils/mockUsers.ts` demonstrates how to work with arrays of users:
+
+```typescript
+import { User, UserEstado } from '../types/user';
+
+export const mockUsers: User[] = [
+  {
+    id: '1',
+    iniciales: 'FC',
+    name: 'Frank Chacon',
+    email: 'frankManuel1991@gmail.com',
+    rol: 'Engineer',
+    department: 'frontend',
+    status: 'unavailable',
+  },
+  {
+    id: '2',
+    iniciales: 'NE',
+    name: 'Nour Ehab',
+    email: 'NourEhab19@gmail.com',
+    rol: 'Doctor',
+    department: 'cardiology',
+    status: 'available',
+  },
+];
+```
+
+### Type Guards
+
+You can create type guards to check user status:
+
+```typescript
+function isUserAvailable(user: User): boolean {
+  return user.status === 'available';
+}
+
+const availableUsers = mockUsers.filter(isUserAvailable);
+```
+
+## Related Types
+
+- See [Asset Types](/api/types/asset) for asset management types
+- See [Category Types](/api/types/category) for category-related types
+
+## Source Files
+
+- Type definitions: `src/types/user.ts`
+- Mock data: `src/utils/mockUsers.ts`

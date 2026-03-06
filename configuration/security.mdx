@@ -1,0 +1,506 @@
+---
+title: 'Security Settings'
+description: 'Configure security policies, passwords, and audit features'
+icon: 'shield'
+---
+
+GIMA's security settings allow you to configure access controls, password policies, audit logging, and other security features to protect your asset management data and ensure compliance with organizational policies.
+
+## Overview
+
+Access security configuration at `/configuracion/seguridad` to manage security and audit settings.
+
+<Warning>
+  Security settings directly impact system access and data protection. Changes should be reviewed carefully and tested in a non-production environment before deployment.
+</Warning>
+
+## Security Features
+
+GIMA provides comprehensive security controls:
+
+<CardGroup cols={2}>
+  <Card title="Password Policies" icon="key">
+    Configure password complexity, expiration, and reset requirements
+  </Card>
+  
+  <Card title="Access Control" icon="lock">
+    Manage user permissions and role-based access control (RBAC)
+  </Card>
+  
+  <Card title="Audit Logging" icon="file-text">
+    Track user actions and system events for compliance and troubleshooting
+  </Card>
+  
+  <Card title="Session Management" icon="clock">
+    Control session timeouts and concurrent login policies
+  </Card>
+  
+  <Card title="Two-Factor Authentication" icon="smartphone">
+    Enable additional authentication layers for enhanced security
+  </Card>
+  
+  <Card title="IP Restrictions" icon="network-wired">
+    Limit access to specific IP addresses or ranges
+  </Card>
+</CardGroup>
+
+## Password Policies
+
+Configure password requirements to ensure strong authentication:
+
+<Steps>
+  <Step title="Access Password Settings">
+    Navigate to the password policy section in security configuration.
+  </Step>
+  
+  <Step title="Set Complexity Requirements">
+    Define password complexity rules:
+    - Minimum length (recommended: 8-12 characters)
+    - Require uppercase letters
+    - Require lowercase letters
+    - Require numbers
+    - Require special characters
+  </Step>
+  
+  <Step title="Configure Expiration">
+    Set password expiration policies:
+    - Password age (e.g., 90 days)
+    - Advance warning before expiration
+    - Password history (prevent reuse of recent passwords)
+  </Step>
+  
+  <Step title="Set Lockout Rules">
+    Configure account lockout after failed attempts:
+    - Failed attempt threshold (e.g., 5 attempts)
+    - Lockout duration (e.g., 30 minutes)
+    - Reset failed attempt counter after successful login
+  </Step>
+  
+  <Step title="Apply Settings">
+    Save and apply the password policy. New requirements take effect immediately for new passwords.
+  </Step>
+</Steps>
+
+### Recommended Password Policy
+
+<Accordion title="Standard Security">
+  For general organizational use:
+  - Minimum 8 characters
+  - At least one uppercase letter
+  - At least one lowercase letter
+  - At least one number
+  - Password expiration: 90 days
+  - Password history: 5 previous passwords
+  - Account lockout: 5 failed attempts, 30-minute lockout
+</Accordion>
+
+<Accordion title="High Security">
+  For sensitive environments:
+  - Minimum 12 characters
+  - At least one uppercase letter
+  - At least one lowercase letter
+  - At least one number
+  - At least one special character
+  - Password expiration: 60 days
+  - Password history: 10 previous passwords
+  - Account lockout: 3 failed attempts, 60-minute lockout
+  - Two-factor authentication required
+</Accordion>
+
+<Note>
+  Overly restrictive password policies can lead to users writing down passwords or using predictable patterns. Balance security with usability.
+</Note>
+
+## Role-Based Access Control (RBAC)
+
+GIMA uses role-based permissions to control what users can access and modify:
+
+### Default Roles
+
+<Accordion title="Administrator">
+  **Full system access**
+  
+  Permissions:
+  - Create, read, update, delete all assets
+  - Manage users and roles
+  - Configure system settings
+  - Access all reports and audits
+  - Manage categories and locations
+  
+  Use for: IT administrators, system managers
+</Accordion>
+
+<Accordion title="Manager">
+  **Management-level access**
+  
+  Permissions:
+  - View all assets
+  - Create and update assets in assigned areas
+  - Approve maintenance requests
+  - Access reports for assigned departments
+  - Manage team members
+  
+  Use for: Department managers, supervisors
+</Accordion>
+
+<Accordion title="Technician">
+  **Maintenance and technical access**
+  
+  Permissions:
+  - View assigned assets
+  - Update asset status and condition
+  - Create and complete maintenance tasks
+  - Access technical documentation
+  - Update asset location
+  
+  Use for: Maintenance staff, technicians
+</Accordion>
+
+<Accordion title="Viewer">
+  **Read-only access**
+  
+  Permissions:
+  - View assets in assigned areas
+  - View reports (limited)
+  - View maintenance history
+  - No create, update, or delete permissions
+  
+  Use for: Auditors, read-only users, external consultants
+</Accordion>
+
+### Creating Custom Roles
+
+<Steps>
+  <Step title="Access Role Management">
+    Navigate to user management (`/configuracion/User`) and access role configuration.
+  </Step>
+  
+  <Step title="Create New Role">
+    Click "Create Role" and enter:
+    - Role name
+    - Role description
+    - Department or area (if applicable)
+  </Step>
+  
+  <Step title="Assign Permissions">
+    Select which permissions this role should have:
+    - Asset management (view, create, edit, delete)
+    - Maintenance (view, create, assign, complete)
+    - Reports (access specific report types)
+    - Configuration (access specific settings)
+    - User management (if applicable)
+  </Step>
+  
+  <Step title="Test Role">
+    Create a test user with the new role and verify permissions work as expected.
+  </Step>
+  
+  <Step title="Assign to Users">
+    Assign the role to appropriate users.
+  </Step>
+</Steps>
+
+## Audit Logging
+
+GIMA tracks user actions and system events for security and compliance:
+
+### Logged Events
+
+<Accordion title="User Actions">
+  - User login/logout
+  - Failed login attempts
+  - Password changes/resets
+  - User creation/modification/deletion
+  - Role and permission changes
+</Accordion>
+
+<Accordion title="Asset Events">
+  - Asset creation
+  - Asset updates (with field-level changes)
+  - Asset deletion
+  - Asset status changes
+  - Asset location changes
+  - Asset ownership transfers
+</Accordion>
+
+<Accordion title="Maintenance Events">
+  - Maintenance task creation
+  - Task assignment changes
+  - Task completion
+  - Maintenance schedule changes
+  - Work order approvals
+</Accordion>
+
+<Accordion title="Configuration Changes">
+  - Security setting changes
+  - Category creation/modification
+  - Location creation/modification
+  - System configuration updates
+</Accordion>
+
+<Accordion title="System Events">
+  - System startup/shutdown
+  - Database backups
+  - System errors
+  - Security alerts
+</Accordion>
+
+### Audit Log Information
+
+Each audit entry includes:
+- **Timestamp**: Exact date and time of the event
+- **User**: Who performed the action (username and user ID)
+- **Action**: What action was taken
+- **Resource**: What was affected (asset, user, configuration, etc.)
+- **Details**: Specific changes made (before/after values)
+- **IP Address**: Source IP address of the request
+- **Session ID**: Session identifier
+- **Result**: Success or failure of the action
+
+### Accessing Audit Logs
+
+<Steps>
+  <Step title="Navigate to Audit Logs">
+    Access audit logs from the security configuration section.
+  </Step>
+  
+  <Step title="Apply Filters">
+    Filter logs by:
+    - Date range
+    - User or role
+    - Action type
+    - Resource type
+    - Success/failure
+  </Step>
+  
+  <Step title="Review Entries">
+    Examine log entries for security events or policy violations.
+  </Step>
+  
+  <Step title="Export Logs">
+    Export filtered logs for external analysis or compliance reporting:
+    - CSV format
+    - PDF format
+    - JSON format
+  </Step>
+</Steps>
+
+<Note>
+  Audit logs are stored securely and cannot be modified or deleted by users. Log retention policies should be configured based on organizational requirements.
+</Note>
+
+## Session Management
+
+Control user sessions to enhance security:
+
+### Session Settings
+
+<Accordion title="Session Timeout">
+  Configure automatic logout after inactivity:
+  - **Standard**: 30 minutes of inactivity
+  - **High Security**: 15 minutes of inactivity
+  - **Extended**: 2 hours (for maintenance operations)
+  
+  Users will be warned before auto-logout and can extend their session.
+</Accordion>
+
+<Accordion title="Concurrent Sessions">
+  Control how many simultaneous logins are allowed:
+  - **Single Session**: Only one active session per user
+  - **Multiple Sessions**: Allow multiple devices (limit to 3-5)
+  - **Unlimited**: No restriction (not recommended)
+  
+  New login can optionally terminate older sessions.
+</Accordion>
+
+<Accordion title="Session Security">
+  Additional session protection:
+  - Secure session cookies (HTTP-only, Secure flag)
+  - Session ID regeneration after login
+  - Bind sessions to IP address (optional)
+  - Session activity logging
+</Accordion>
+
+## Two-Factor Authentication (2FA)
+
+Add an extra layer of security with two-factor authentication:
+
+<Steps>
+  <Step title="Enable 2FA System-Wide">
+    Enable 2FA in security settings. Choose:
+    - **Optional**: Users can enable 2FA if desired
+    - **Required for Admins**: Mandatory for administrator accounts
+    - **Required for All**: Mandatory for all users
+  </Step>
+  
+  <Step title="Configure 2FA Methods">
+    Select which 2FA methods are available:
+    - Authenticator app (Google Authenticator, Authy)
+    - SMS verification codes
+    - Email verification codes
+    - Hardware security keys (FIDO2/U2F)
+  </Step>
+  
+  <Step title="Set Backup Codes">
+    Generate backup codes for account recovery if 2FA device is lost.
+  </Step>
+  
+  <Step title="User Enrollment">
+    Users enroll in 2FA from their profile settings:
+    - Scan QR code with authenticator app
+    - Verify with initial code
+    - Save backup codes securely
+  </Step>
+</Steps>
+
+<Warning>
+  Ensure users save backup codes in a secure location. Lost 2FA access requires administrator intervention to reset.
+</Warning>
+
+## IP Restrictions
+
+Limit access to GIMA from specific IP addresses or networks:
+
+### IP Whitelist
+
+Allow access only from approved IP addresses:
+- Office network IP ranges
+- VPN exit points
+- Specific trusted IPs
+
+### Configuration
+
+<Steps>
+  <Step title="Enable IP Restrictions">
+    Activate IP-based access control in security settings.
+  </Step>
+  
+  <Step title="Add Allowed IPs">
+    Enter IP addresses or CIDR ranges:
+    - Single IP: `192.168.1.100`
+    - IP range: `192.168.1.0/24`
+    - Multiple entries separated by commas
+  </Step>
+  
+  <Step title="Configure Exceptions">
+    Optionally allow specific users or roles to bypass IP restrictions (e.g., for remote work).
+  </Step>
+  
+  <Step title="Test Access">
+    Verify that authorized users can access from allowed IPs and others are blocked.
+  </Step>
+</Steps>
+
+<Warning>
+  IP restrictions can lock out legitimate users if not configured correctly. Always maintain a way to access the system (e.g., VPN) before enabling IP restrictions.
+</Warning>
+
+## Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Regular Password Updates" icon="rotate">
+    Enforce periodic password changes for all users
+  </Card>
+  
+  <Card title="Principle of Least Privilege" icon="user-shield">
+    Grant users only the permissions they need
+  </Card>
+  
+  <Card title="Monitor Audit Logs" icon="eye">
+    Regularly review logs for suspicious activity
+  </Card>
+  
+  <Card title="Enable 2FA" icon="shield-check">
+    Require two-factor authentication for sensitive accounts
+  </Card>
+  
+  <Card title="Session Timeouts" icon="timer">
+    Use appropriate session timeout values
+  </Card>
+  
+  <Card title="Regular Security Reviews" icon="search">
+    Periodically audit user permissions and roles
+  </Card>
+  
+  <Card title="Backup Audit Logs" icon="database">
+    Regularly export and backup audit logs
+  </Card>
+  
+  <Card title="Security Training" icon="graduation-cap">
+    Train users on security best practices
+  </Card>
+</CardGroup>
+
+## Compliance and Regulations
+
+### Data Protection
+
+GIMA security features help comply with:
+- **GDPR**: User data protection and access controls
+- **SOC 2**: Audit logging and access monitoring
+- **ISO 27001**: Information security management
+- **HIPAA**: If managing healthcare assets
+
+### Audit Trail Requirements
+
+Maintain comprehensive audit trails for:
+- Financial asset tracking (Sarbanes-Oxley)
+- Government contracts (FedRAMP, FISMA)
+- Industry-specific regulations
+
+## Security Incident Response
+
+If you detect a security incident:
+
+<Steps>
+  <Step title="Identify the Incident">
+    Review audit logs to understand what happened:
+    - Unauthorized access attempts
+    - Unusual data modifications
+    - Suspicious user behavior
+  </Step>
+  
+  <Step title="Contain the Threat">
+    Take immediate action:
+    - Disable compromised accounts
+    - Change affected passwords
+    - Block suspicious IP addresses
+  </Step>
+  
+  <Step title="Investigate">
+    Analyze the incident:
+    - Export relevant audit logs
+    - Identify affected data and users
+    - Determine root cause
+  </Step>
+  
+  <Step title="Remediate">
+    Fix security gaps:
+    - Update security policies
+    - Apply system updates
+    - Strengthen access controls
+  </Step>
+  
+  <Step title="Document and Report">
+    Create incident report:
+    - Document timeline of events
+    - List affected systems and data
+    - Report to relevant authorities if required
+  </Step>
+</Steps>
+
+## Related Configuration
+
+<CardGroup cols={2}>
+  <Card title="User Management" icon="users" href="/configuration/settings#user-management">
+    Manage users, roles, and permissions
+  </Card>
+  
+  <Card title="Notifications" icon="bell" href="/configuration/notifications">
+    Configure security alert notifications
+  </Card>
+  
+  <Card title="Audit Reports" icon="file-text" href="/features/reports">
+    Generate security and compliance reports
+  </Card>
+</CardGroup>

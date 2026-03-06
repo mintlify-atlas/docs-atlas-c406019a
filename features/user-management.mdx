@@ -1,0 +1,560 @@
+---
+title: 'User Management'
+description: 'Manage user accounts, roles, permissions, and team structure within GIMA'
+icon: 'users'
+---
+
+## Overview
+
+The User Management module provides comprehensive control over user accounts, roles, departments, and access permissions. Located at `/configuracion/User`, this feature enables administrators to maintain secure and organized access to the GIMA platform.
+
+<CardGroup cols={2}>
+  <Card title="User CRUD Operations" icon="user-plus">
+    Create, view, edit, and delete user accounts with intuitive modal-based workflows
+  </Card>
+  <Card title="Role-Based Access" icon="shield">
+    Assign roles and permissions to control what users can access and modify
+  </Card>
+  <Card title="Department Organization" icon="building">
+    Organize users by department for streamlined management and reporting
+  </Card>
+  <Card title="Status Tracking" icon="circle-dot">
+    Monitor user availability and active status in real-time
+  </Card>
+</CardGroup>
+
+## User Interface
+
+The user management interface is implemented in `src/app/configuracion/User/page.tsx` and renders the `UserTable` component:
+
+```tsx
+import UserTable from '@/components/user/UserTable';
+
+export default function GestionUsuariosPage(){
+  return <UserTable/>;
+}
+```
+
+### UserTable Component
+
+The main component at `src/components/user/UserTable.tsx` provides a full-featured user management interface:
+
+```tsx
+<div className="bg-gray-50">
+  <div className="p-6">
+    <div className="mb-8">
+      <h1 className="text-2xl font-bold text-gray-900">Gestión de usuarios</h1>
+      <p className="text-gray-600">Administración de permisos y personal</p>
+    </div>
+    {/* Search and action buttons */}
+    {/* User table */}
+  </div>
+</div>
+```
+
+## User Data Structure
+
+Users are defined by the `User` type in `src/types/user.ts`:
+
+```typescript
+export type UserEstado = 'available' | 'unavailable';
+
+export interface User {
+  id: string;
+  iniciales: string;
+  name: string;
+  email: string;
+  rol: string;
+  department: string;
+  status: UserEstado;
+}
+```
+
+### Example User Data
+
+The system includes mock users from `src/utils/mockUsers.ts`:
+
+```typescript
+export const mockUsers: User[] = [
+  {
+    id: '1',
+    iniciales: 'FC',
+    name: 'Frank Chacon',
+    email:'frankManuel1991@gmail.com',
+    rol: 'Engineer',
+    department: 'frontend',
+    status: 'unavailable',
+  },
+  {
+    id: '2',
+    iniciales: 'NE',
+    name: 'Nour Ehab',
+    email: 'NourEhab19@gmail.com',
+    rol: 'Doctor',
+    department: 'cardiology',
+    status: 'available',
+  },
+  // Additional users...
+];
+```
+
+<Note>
+  The example data shows diverse roles (Engineer, Doctor, Graduated) and departments (frontend, cardiology, Vet, pediatrics), demonstrating GIMA's flexibility for different organizational structures.
+</Note>
+
+## Managing Users
+
+<Steps>
+  <Step title="Access User Management">
+    Navigate to `/configuracion/User` from the configuration menu
+    
+    The page displays "Gestión de usuarios" with subtitle "Administración de permisos y personal"
+  </Step>
+  
+  <Step title="Search for Users">
+    Use the search bar to filter users:
+    
+    ```tsx
+    const usuariosFiltrados = users.filter(user =>
+      user.name.toLowerCase().includes(busqueda.toLowerCase()) ||
+      user.email.toLowerCase().includes(busqueda.toLowerCase()) ||
+      user.department.toLowerCase().includes(busqueda.toLowerCase())
+    );
+    ```
+    
+    Search matches against name, email, and department fields.
+  </Step>
+  
+  <Step title="Create New User">
+    Click the "+ Nuevo usuario" button to open the creation modal:
+    
+    ```tsx
+    <button
+      onClick={abrirModalNuevo}
+      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+    >
+      + Nuevo usuario
+    </button>
+    ```
+  </Step>
+  
+  <Step title="Edit User Details">
+    Click the edit icon on any user row to modify their information:
+    
+    ```tsx
+    const abrirModalEditar = (user: User) => {
+      setUsuarioEditando(user);
+      setModalAbierto(true);
+    };
+    ```
+  </Step>
+  
+  <Step title="Delete Users">
+    Remove users by clicking the delete icon:
+    
+    ```tsx
+    const eliminarUsuario = (id: string) => {
+      const nuevosUsuarios = users.filter(user => user.id !== id);
+      setUsers(nuevosUsuarios);
+    };
+    ```
+  </Step>
+</Steps>
+
+## Table Structure
+
+The user table displays key information with styled headers:
+
+```tsx
+<table className="min-w-full divide-y divide-gray-200">
+  <thead style={{ backgroundColor: "#F0FDFA" }}>
+    <tr>
+      <th className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider" 
+          style={{ color: "#0B2545" }}>
+        USUARIO
+      </th>
+      <th className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider" 
+          style={{ color: "#0B2545" }}>
+        ROL/CARGO
+      </th>
+      <th className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider" 
+          style={{ color: "#0B2545" }}>
+        DEPARTAMENTO
+      </th>
+      <th className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider" 
+          style={{ color: "#0B2545" }}>
+        ESTADO
+      </th>
+      <th className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider" 
+          style={{ color: "#0B2545" }}>
+        ACCIÓN
+      </th>
+    </tr>
+  </thead>
+  <tbody className="divide-y divide-gray-200">
+    {usuariosFiltrados.map(user => (
+      <UserRow
+        key={user.id}
+        user={user}
+        onEliminar={eliminarUsuario}
+        onEditar={abrirModalEditar}
+      />
+    ))}
+  </tbody>
+</table>
+```
+
+### Table Columns
+
+<Tabs>
+  <Tab title="Usuario">
+    **User Information**
+    
+    Displays:
+    - User initials in a circular avatar
+    - Full name
+    - Email address
+    
+    The initials are extracted from the `iniciales` field and displayed prominently for quick visual identification.
+  </Tab>
+  
+  <Tab title="Rol/Cargo">
+    **Role Assignment**
+    
+    Shows the user's role or position:
+    - Engineer
+    - Doctor
+    - Graduated
+    - Manager
+    - Administrator
+    - Technician
+    
+    Roles determine access permissions and responsibilities within GIMA.
+  </Tab>
+  
+  <Tab title="Departamento">
+    **Department Assignment**
+    
+    Indicates which department the user belongs to:
+    - frontend
+    - cardiology
+    - Vet
+    - pediatrics
+    - IT
+    - Operations
+    
+    Used for organizing users and filtering in reports.
+  </Tab>
+  
+  <Tab title="Estado">
+    **Availability Status**
+    
+    Two possible states:
+    - `available`: User is active and available
+    - `unavailable`: User is inactive or away
+    
+    Displayed with color-coded indicators:
+    - Green for available
+    - Red/gray for unavailable
+  </Tab>
+  
+  <Tab title="Acción">
+    **Action Buttons**
+    
+    Provides quick access to:
+    - **Edit**: Modify user details
+    - **Delete**: Remove user account
+    
+    Both actions use icon buttons from lucide-react for a clean interface.
+  </Tab>
+</Tabs>
+
+## User Modal Component
+
+The `UserModal` component (referenced at `src/components/user/UserModal.tsx`) handles user creation and editing:
+
+```tsx
+<UserModal
+  isOpen={modalAbierto}
+  onClose={cerrarModal}
+  onSave={guardarUsuario}
+  user={usuarioEditando}
+/>
+```
+
+### Modal Functionality
+
+<AccordionGroup>
+  <Accordion title="Create Mode">
+    When `user` prop is `null`, the modal operates in creation mode:
+    
+    ```tsx
+    const abrirModalNuevo = () => {
+      setUsuarioEditando(null);
+      setModalAbierto(true);
+    };
+    ```
+    
+    The modal presents empty fields for entering new user data.
+  </Accordion>
+  
+  <Accordion title="Edit Mode">
+    When `user` prop contains a User object, the modal pre-fills fields:
+    
+    ```tsx
+    const abrirModalEditar = (user: User) => {
+      setUsuarioEditando(user);
+      setModalAbierto(true);
+    };
+    ```
+    
+    Users can modify existing values and save changes.
+  </Accordion>
+  
+  <Accordion title="Save Handler">
+    The save function handles both creation and updates:
+    
+    ```tsx
+    const guardarUsuario = (userData: any) => {
+      if (usuarioEditando) {
+        // Update existing user
+        setUsers(users.map(u =>
+          u.id === usuarioEditando.id
+            ? { ...userData, id: usuarioEditando.id }
+            : u
+        ));
+      } else {
+        // Create new user
+        const nuevoUsuario: User = {
+          ...userData,
+          id: Date.now().toString(),
+        };
+        setUsers([...users, nuevoUsuario]);
+      }
+      cerrarModal();
+    };
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## State Management
+
+The UserTable component uses React hooks for comprehensive state management:
+
+```tsx
+// User list state
+const [users, setUsers] = useState<User[]>(mockUsers);
+
+// Search functionality
+const [busqueda, setBusqueda] = useState('');
+
+// Modal control
+const [modalAbierto, setModalAbierto] = useState(false);
+const [usuarioEditando, setUsuarioEditando] = useState<User | null>(null);
+```
+
+### Key State Variables
+
+<CardGroup cols={2}>
+  <Card title="users" icon="database">
+    Array of User objects representing all users in the system
+  </Card>
+  <Card title="busqueda" icon="magnifying-glass">
+    Current search term for filtering users
+  </Card>
+  <Card title="modalAbierto" icon="window">
+    Boolean controlling modal visibility
+  </Card>
+  <Card title="usuarioEditando" icon="pen">
+    User object being edited, or null for new user creation
+  </Card>
+</CardGroup>
+
+## Search Functionality
+
+The search bar provides real-time filtering with a clean interface:
+
+```tsx
+<div className="flex justify-between items-center mb-6">
+  <div className="relative">
+    <input
+      type="text"
+      placeholder="Buscar usuario..."
+      className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      value={busqueda}
+      onChange={(e) => setBusqueda(e.target.value)}
+    />
+    <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+      🔍
+    </div>
+  </div>
+  {/* New user button */}
+</div>
+```
+
+<Tip>
+  The search is case-insensitive and searches across multiple fields (name, email, department), making it easy to find users regardless of which detail you remember.
+</Tip>
+
+## User Roles & Permissions
+
+While the current implementation shows flexible role assignment, typical GIMA roles include:
+
+<Tabs>
+  <Tab title="Administrator">
+    **Full System Access**
+    
+    Permissions:
+    - Manage all users
+    - Configure system settings
+    - Access all reports
+    - Manage all assets and categories
+    - Override all restrictions
+    
+    Use case: IT managers and system administrators
+  </Tab>
+  
+  <Tab title="Manager">
+    **Department-Level Control**
+    
+    Permissions:
+    - Manage department users
+    - View department assets
+    - Generate department reports
+    - Approve maintenance requests
+    - Limited configuration access
+    
+    Use case: Department heads and supervisors
+  </Tab>
+  
+  <Tab title="Engineer/Technician">
+    **Operational Access**
+    
+    Permissions:
+    - View assigned assets
+    - Update maintenance records
+    - Create work orders
+    - Access AI diagnostics
+    - Limited reporting
+    
+    Use case: Maintenance staff and technicians
+  </Tab>
+  
+  <Tab title="Viewer">
+    **Read-Only Access**
+    
+    Permissions:
+    - View assets (read-only)
+    - View reports (read-only)
+    - Access dashboard
+    - No modification rights
+    - Limited AI assistance
+    
+    Use case: Stakeholders and auditors
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Unique Emails" icon="envelope">
+    Ensure each user has a unique email address for authentication and notifications
+  </Card>
+  
+  <Card title="Meaningful Roles" icon="tag">
+    Assign roles that accurately reflect user responsibilities and required permissions
+  </Card>
+  
+  <Card title="Department Consistency" icon="sitemap">
+    Use consistent department naming conventions across your organization
+  </Card>
+  
+  <Card title="Regular Audits" icon="clipboard-check">
+    Periodically review user accounts to remove inactive users and update roles
+  </Card>
+  
+  <Card title="Status Updates" icon="refresh">
+    Keep user availability status current for accurate team visibility
+  </Card>
+  
+  <Card title="Secure Deletions" icon="shield-halved">
+    Consider deactivating instead of deleting users to preserve historical data integrity
+  </Card>
+</CardGroup>
+
+<Warning>
+  When deleting users, ensure you have a backup of their associated data (created assets, maintenance records, reports) to maintain audit trails and data integrity.
+</Warning>
+
+## UserRow Component
+
+Individual user rows are rendered by the `UserRow` component at `src/components/user/UserRow.tsx`:
+
+```tsx
+<UserRow
+  key={user.id}
+  user={user}
+  onEliminar={eliminarUsuario}
+  onEditar={abrirModalEditar}
+/>
+```
+
+This component:
+- Displays user information in table cells
+- Handles row hover effects
+- Manages action button states
+- Triggers edit and delete callbacks
+
+## Styling & Design
+
+The user management interface uses a clean, professional design:
+
+### Color Scheme
+
+- **Header Background**: `#F0FDFA` (light cyan)
+- **Header Text**: `#0B2545` (navy blue)
+- **Primary Blue**: `#3B82F6` (blue-600)
+- **Background**: `#F9FAFB` (gray-50)
+
+### Interactive Elements
+
+```tsx
+// Button hover effects
+className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+
+// Input focus states
+className="focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+
+// Table row dividers
+className="divide-y divide-gray-200"
+```
+
+<Note>
+  The design uses rounded corners (`rounded-lg`) and subtle borders for a modern, approachable interface that matches GIMA's overall aesthetic.
+</Note>
+
+## Integration Points
+
+- **Dashboard**: User status affects team availability metrics
+- **Maintenance**: User roles determine maintenance task assignments
+- **Reports**: User departments filter report access and visibility
+- **AI Diagnostics**: User roles control AI feature access
+- **Asset Management**: User permissions control asset modification rights
+
+## Future Enhancements
+
+Potential improvements to user management:
+
+- **Multi-factor Authentication**: Enhanced security for sensitive accounts
+- **Password Management**: Self-service password reset and policies
+- **User Groups**: Organize users into custom groups beyond departments
+- **Activity Logs**: Track user actions for audit and compliance
+- **Bulk Operations**: Import/export users and perform batch updates
+- **Advanced Permissions**: Granular permission control per feature
+
+## Related Features
+
+- [Dashboard](/features/dashboard) - Role-based dashboard views
+- [Reports](/features/reports) - User activity and access reports
+- [Asset Management](/features/asset-management) - Permission-controlled asset operations
+- [Maintenance](/features/maintenance) - Role-based maintenance assignments

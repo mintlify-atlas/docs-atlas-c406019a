@@ -1,0 +1,237 @@
+---
+title: Layout Components
+description: Navigation and layout structure components for GIMA application
+---
+
+# Layout Components
+
+Layout components provide the structural foundation for the GIMA application, including navigation, headers, and page layouts.
+
+---
+
+## Sidebar
+
+Collapsible navigation sidebar with menu items and logo.
+
+```typescript
+import { Sidebar } from "@/components/layout/Sidebar"
+```
+
+### Description
+
+The `Sidebar` component provides a responsive, collapsible navigation menu with:
+- Animated expand/collapse functionality
+- Active route highlighting
+- Icon-based navigation items
+- Logout functionality
+- Logo display
+
+### Props
+
+This component does not accept any props. It uses internal state management.
+
+### Internal State
+
+<ParamField path="isOpen" type="boolean" default="true">
+  Controls whether the sidebar is expanded or collapsed
+</ParamField>
+
+### Menu Items Structure
+
+The sidebar renders these navigation items:
+
+| Icon | Label | Route |
+|------|-------|-------|
+| LayoutDashboard | Dashboard | `/dashboard` |
+| Box | Activos | `/categorias-activos` |
+| Wrench | Mantenimiento | `/mantenimiento` |
+| ClipboardList | Reportes | `/reportes` |
+| Settings | Configuración | `/configuracion` |
+
+### Usage Example
+
+```tsx
+import { Sidebar } from "@/components/layout/Sidebar"
+
+export default function Layout() {
+  return (
+    <div className="flex h-screen">
+      <Sidebar />
+      <main className="flex-1">
+        {/* Page content */}
+      </main>
+    </div>
+  )
+}
+```
+
+### Styling
+
+- Base color: `#001F3F` (dark blue)
+- Width: `w-64` when open, `w-20` when collapsed
+- Active state: White background with shadow
+- Rounded corners on right side
+
+---
+
+## DashboardHeader
+
+Page header with title, search, notifications, and user actions.
+
+```typescript
+import { DashboardHeader } from "@/components/layout/DashboardHeader"
+```
+
+### Description
+
+Displays a contextual page header that automatically generates the title from the current route pathname.
+
+### Props
+
+<ParamField path="subtitle" type="string" default="Bienvenido al panel GIMA">
+  Optional subtitle text displayed below the page title
+</ParamField>
+
+### TypeScript Interface
+
+```typescript
+interface DashboardHeaderProps {
+  subtitle?: string
+}
+```
+
+### Features
+
+- **Auto-generated Title**: Extracts and capitalizes route name from pathname
+- **Search Bar**: Input field for searching assets
+- **Notifications**: Bell icon with red dot indicator
+- **User Profile**: User icon button
+
+### Usage Example
+
+```tsx
+import { DashboardHeader } from "@/components/layout/DashboardHeader"
+
+export default function DashboardPage() {
+  return (
+    <div>
+      <DashboardHeader subtitle="Gestión de activos y mantenimiento" />
+      {/* Page content */}
+    </div>
+  )
+}
+```
+
+### Default Behavior
+
+If you're on `/dashboard/assets`, the header will display "Assets" as the title.
+
+---
+
+## Header
+
+Alternative header component with sidebar toggle for mobile.
+
+```typescript
+import Header from "@/components/layout/Header"
+```
+
+### Description
+
+A simpler header variant that includes mobile sidebar toggle functionality and breadcrumb-style navigation display.
+
+### Props
+
+This component does not accept any props. It uses the `useSidebar` hook for state management.
+
+### Features
+
+- **Mobile Toggle**: Hamburger menu for small screens
+- **Breadcrumb Display**: Shows navigation path
+- **Search Bar**: Desktop-only search input
+- **Notifications**: Bell icon with animated pulse
+- **User Profile**: Circle user icon
+
+### Usage Example
+
+```tsx
+"use client"
+
+import Header from "@/components/layout/Header"
+import { SidebarProvider } from "@/components/ui/sidebarContext"
+
+export default function Layout({ children }) {
+  return (
+    <SidebarProvider>
+      <Header />
+      <main>{children}</main>
+    </SidebarProvider>
+  )
+}
+```
+
+### Dependencies
+
+Requires `SidebarProvider` context wrapper to function properly.
+
+---
+
+## MainLayout
+
+Root layout wrapper that conditionally renders sidebar based on route.
+
+```typescript
+import { MainLayout } from "@/components/layout/MainLayout"
+```
+
+### Description
+
+The main application layout wrapper that:
+- Conditionally shows/hides sidebar based on route
+- Provides SidebarProvider context
+- Sets up flex layout with overflow handling
+
+### Props
+
+<ParamField path="children" type="React.ReactNode" required>
+  Child components to render within the layout
+</ParamField>
+
+### TypeScript Interface
+
+```typescript
+export function MainLayout({ children }: { children: React.ReactNode })
+```
+
+### Behavior
+
+- Hides sidebar on routes starting with `/auth`
+- Full-height layout with scroll handling
+- Gray background (`bg-gray-50`)
+- Padding on main content area
+
+### Usage Example
+
+```tsx
+import { MainLayout } from "@/components/layout/MainLayout"
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <MainLayout>
+          {children}
+        </MainLayout>
+      </body>
+    </html>
+  )
+}
+```
+
+### Route Detection
+
+The component uses Next.js `usePathname()` to detect auth routes:
+
+```typescript
+const showSidebar = !pathname.startsWith('/auth')
+```

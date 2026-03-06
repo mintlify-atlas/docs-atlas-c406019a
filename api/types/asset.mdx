@@ -1,0 +1,219 @@
+---
+title: 'Asset Types'
+description: 'TypeScript types and interfaces for asset management in GIMA'
+icon: 'box'
+---
+
+## Overview
+
+Assets ("activos" in Spanish) are the core entities managed by GIMA. While explicit asset type definitions are not yet formalized in the codebase, assets are referenced throughout the application and are associated with categories.
+
+## Inferred Asset Structure
+
+Based on the usage patterns in the GIMA codebase, assets likely follow this structure:
+
+```typescript
+interface Asset {
+  id: string;
+  name: string;
+  categoryId: string;
+  description?: string;
+  status: AssetStatus;
+  location?: string;
+  acquisitionDate?: Date;
+  value?: number;
+}
+```
+
+### Properties
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the asset.
+  
+  Example: `"ACT-001"`, `"ACT-002"`
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Name or title of the asset.
+  
+  Example: `"Dell Laptop XPS 15"`, `"HP Printer LaserJet Pro"`
+</ResponseField>
+
+<ResponseField name="categoryId" type="string" required>
+  Reference to the asset's category. Links to a [Category](/api/types/category) object.
+  
+  Example: `"CAT-001"` for COMPUTO category
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Optional detailed description of the asset.
+  
+  Example: `"Laptop for development team"`
+</ResponseField>
+
+<ResponseField name="status" type="AssetStatus" required>
+  Current operational status of the asset. See [AssetStatus](#assetstatus-type) below.
+</ResponseField>
+
+<ResponseField name="location" type="string">
+  Physical location where the asset is stored or deployed.
+  
+  Example: `"Oficina Principal - Piso 2"`, `"Almacén"`
+</ResponseField>
+
+<ResponseField name="acquisitionDate" type="Date">
+  Date when the asset was acquired.
+</ResponseField>
+
+<ResponseField name="value" type="number">
+  Monetary value of the asset.
+  
+  Example: `1200.50`
+</ResponseField>
+
+## AssetStatus Type
+
+The status of an asset in the system:
+
+```typescript
+type AssetStatus = 'active' | 'maintenance' | 'inactive' | 'disposed';
+```
+
+### Values
+
+<ResponseField name="active" type="literal">
+  Asset is currently in use and operational.
+</ResponseField>
+
+<ResponseField name="maintenance" type="literal">
+  Asset is undergoing maintenance or repairs.
+</ResponseField>
+
+<ResponseField name="inactive" type="literal">
+  Asset is not currently in use but is still available.
+</ResponseField>
+
+<ResponseField name="disposed" type="literal">
+  Asset has been disposed of or removed from inventory.
+</ResponseField>
+
+## Asset Metrics
+
+The dashboard displays various asset-related metrics:
+
+```typescript
+interface AssetMetrics {
+  totalActivos: number;      // Total number of assets
+  enMantenimiento: number;   // Assets in maintenance
+  presupuestoEjecutado: number; // Budget spent
+}
+```
+
+### Usage in Dashboard
+
+From `src/app/dashboard/page.tsx`:
+
+```tsx
+<StatCard 
+  title="Total activos" 
+  value="12345" 
+  trend={12} 
+  trendLabel="este mes" 
+/>
+<StatCard 
+  title="En mantenimiento" 
+  value="8" 
+/>
+<StatCard 
+  title="Presupuesto ejecutado" 
+  value="100$" 
+  highlighted={true} 
+/>
+```
+
+## Asset-Category Relationship
+
+Assets are organized by categories. Each category tracks the total number of assets:
+
+```typescript
+interface CategoryWithAssets {
+  id: string;
+  name: string;
+  description: string;
+  total: number; // Total assets in this category
+}
+```
+
+See the [Category Types](/api/types/category) documentation for more details on how categories relate to assets.
+
+## Usage Examples
+
+### Creating an Asset
+
+```typescript
+const newAsset: Asset = {
+  id: 'ACT-123',
+  name: 'MacBook Pro 16"',
+  categoryId: 'CAT-001',
+  description: 'Laptop for senior developer',
+  status: 'active',
+  location: 'Oficina Principal',
+  acquisitionDate: new Date('2024-01-15'),
+  value: 2499.99
+};
+```
+
+### Filtering Assets by Status
+
+```typescript
+function getAssetsInMaintenance(assets: Asset[]): Asset[] {
+  return assets.filter(asset => asset.status === 'maintenance');
+}
+
+function getActiveAssetsByCategory(
+  assets: Asset[], 
+  categoryId: string
+): Asset[] {
+  return assets.filter(
+    asset => asset.categoryId === categoryId && asset.status === 'active'
+  );
+}
+```
+
+### Calculating Asset Totals
+
+```typescript
+function getTotalAssetValue(assets: Asset[]): number {
+  return assets.reduce((total, asset) => {
+    return total + (asset.value || 0);
+  }, 0);
+}
+
+function getAssetCountByCategory(
+  assets: Asset[]
+): Record<string, number> {
+  return assets.reduce((acc, asset) => {
+    acc[asset.categoryId] = (acc[asset.categoryId] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+}
+```
+
+## Related Types
+
+- [Category Types](/api/types/category) - Asset categorization
+- [User Types](/api/types/user) - User assignments and ownership
+
+## Future Development
+
+<Note>
+  The asset type definitions shown here are inferred from usage patterns. 
+  Formal type definitions should be added to `src/types/asset.ts` as the 
+  codebase evolves.
+</Note>
+
+## Source Files
+
+- Dashboard usage: `src/app/dashboard/page.tsx`
+- Category relationships: `src/data/categories.ts`
+- Type definitions: `src/types/` (to be created)

@@ -1,0 +1,369 @@
+---
+title: "Data Service"
+description: "Client-side data fetching and state management services for GIMA"
+icon: "database"
+---
+
+The GIMA data service layer provides utilities for managing application data, including user management, asset categories, and maintenance records. Currently implemented as client-side state management with mock data.
+
+## Overview
+
+GIMA uses a client-side data management approach with React hooks and local state. Data services are primarily implemented within component files using React's `useState` and `useEffect` hooks.
+
+### Architecture Pattern
+
+- **Client-side state**: Local component state managed with React hooks
+- **Mock data**: Development data from `/src/utils/mockUsers.ts`
+- **Type safety**: TypeScript interfaces from `/src/types/`
+- **No external API**: Currently no backend integration
+
+## User Management Service
+
+User data operations as implemented in `UserTable.tsx`.
+
+### State Management
+
+```typescript
+const [users, setUsers] = useState<User[]>(mockUsers);
+const [busqueda, setBusqueda] = useState('');
+```
+
+### Available Functions
+
+#### Filter Users
+
+Filters users based on search criteria.
+
+<ParamField path="users" type="User[]" required>
+  Array of user objects to filter
+</ParamField>
+
+<ParamField path="busqueda" type="string" required>
+  Search term to filter by (searches name, email, department)
+</ParamField>
+
+<ResponseField name="usuariosFiltrados" type="User[]">
+  Filtered array of users matching search criteria
+</ResponseField>
+
+**Implementation**:
+
+```typescript
+const usuariosFiltrados = users.filter(user =>
+  user.name.toLowerCase().includes(busqueda.toLowerCase()) ||
+  user.email.toLowerCase().includes(busqueda.toLowerCase()) ||
+  user.department.toLowerCase().includes(busqueda.toLowerCase())
+);
+```
+
+**Usage Example** (from `UserTable.tsx:67-71`):
+
+```typescript
+import { useState } from 'react';
+import { User } from '@/types/user';
+import { mockUsers } from '@/utils/mockUsers';
+
+function UserTable() {
+  const [users, setUsers] = useState<User[]>(mockUsers);
+  const [busqueda, setBusqueda] = useState('');
+
+  const usuariosFiltrados = users.filter(user =>
+    user.name.toLowerCase().includes(busqueda.toLowerCase()) ||
+    user.email.toLowerCase().includes(busqueda.toLowerCase()) ||
+    user.department.toLowerCase().includes(busqueda.toLowerCase())
+  );
+
+  return (
+    <input
+      value={busqueda}
+      onChange={(e) => setBusqueda(e.target.value)}
+    />
+  );
+}
+```
+
+#### Delete User
+
+Removes a user from the state by ID.
+
+<ParamField path="id" type="string" required>
+  Unique identifier of the user to delete
+</ParamField>
+
+<ResponseField name="void" type="void">
+  Updates state by removing the user
+</ResponseField>
+
+**Implementation** (from `UserTable.tsx:22-25`):
+
+```typescript
+const eliminarUsuario = (id: string) => {
+  const nuevosUsuarios = users.filter(user => user.id !== id);
+  setUsers(nuevosUsuarios);
+};
+```
+
+**Error Handling**: No validation - assumes ID exists in array.
+
+#### Create/Update User
+
+Saves a new user or updates an existing one.
+
+<ParamField path="userData" type="any" required>
+  User data object with properties matching User interface
+</ParamField>
+
+<ParamField path="usuarioEditando" type="User | null">
+  If provided, updates existing user; otherwise creates new user
+</ParamField>
+
+<ResponseField name="void" type="void">
+  Updates state with new or modified user
+</ResponseField>
+
+**Implementation** (from `UserTable.tsx:47-64`):
+
+```typescript
+const guardarUsuario = (userData: any) => {
+  if (usuarioEditando) {
+    // Edit mode: update existing user
+    setUsers(users.map(u =>
+      u.id === usuarioEditando.id
+        ? { ...userData, id: usuarioEditando.id }
+        : u
+    ));
+  } else {
+    // Create mode: add new user
+    const nuevoUsuario: User = {
+      ...userData,
+      id: Date.now().toString(), // Temporary ID
+    };
+    setUsers([...users, nuevoUsuario]);
+  }
+  cerrarModal();
+};
+```
+
+**Important Notes**:
+- Uses `Date.now()` for temporary IDs (should be replaced with backend-generated IDs)
+- No data persistence - state resets on page reload
+- No validation on `userData` parameter
+
+## Category Management Service
+
+Asset category operations as implemented in `categorias-activos/page.tsx`.
+
+### State Management
+
+```typescript
+const [categories, setCategories] = useState(initialCategories);
+const [searchTerm, setSearchTerm] = useState("");
+```
+
+### Available Functions
+
+#### Filter Categories
+
+Filters categories based on search term.
+
+<ParamField path="categories" type="Category[]" required>
+  Array of category objects
+</ParamField>
+
+<ParamField path="searchTerm" type="string" required>
+  Search term (searches by name and ID)
+</ParamField>
+
+<ResponseField name="filteredCategories" type="Category[]">
+  Filtered array of categories
+</ResponseField>
+
+**Implementation** (from `categorias-activos/page.tsx:51-55`):
+
+```typescript
+const filteredCategories = categories.filter(
+  (cat) =>
+    cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    cat.id.toLowerCase().includes(searchTerm.toLowerCase()),
+);
+```
+
+#### Delete Category
+
+Removes a category with confirmation dialog.
+
+<ParamField path="id" type="string" required>
+  Category ID to delete
+</ParamField>
+
+**Implementation** (from `categorias-activos/page.tsx:57-66`):
+
+```typescript
+const handleDeleteClick = (id: string) => {
+  setIdToDelete(id);
+  setIsAlertOpen(true);
+};
+
+const confirmDelete = () => {
+  setCategories(categories.filter((cat) => cat.id !== idToDelete));
+  setIsAlertOpen(false);
+  setIdToDelete(null);
+};
+```
+
+**Pattern**: Uses two-step deletion with confirmation modal for safety.
+
+## Data Types
+
+### User Interface
+
+Defined in `src/types/user.ts:3-11`:
+
+```typescript
+export type UserEstado = 'available' | 'unavailable';
+
+export interface User {
+  id: string;
+  iniciales: string;
+  name: string;
+  email: string;
+  rol: string;
+  department: string;
+  status: UserEstado;
+}
+```
+
+### Category Interface
+
+Inline definition in `categorias-activos/page.tsx:17-42`:
+
+```typescript
+interface Category {
+  id: string;          // Format: "CAT-001"
+  name: string;        // e.g., "COMPUTO", "MOBILIARIO"
+  description: string; // Detailed description
+  total: number;       // Count of assets in category
+}
+```
+
+## Mock Data
+
+### Mock Users
+
+Sample user data from `src/utils/mockUsers.ts:3-41`:
+
+```typescript
+export const mockUsers: User[] = [
+  {
+    id: '1',
+    iniciales: 'FC',
+    name: 'Frank Chacon',
+    email: 'frankManuel1991@gmail.com',
+    rol: 'Engineer',
+    department: 'frontend',
+    status: 'unavailable',
+  },
+  // ... more users
+];
+```
+
+**Usage**:
+```typescript
+import { mockUsers } from '@/utils/mockUsers';
+const [users, setUsers] = useState<User[]>(mockUsers);
+```
+
+## Utility Functions
+
+### cn (Class Name Utility)
+
+Defined in `src/lib/utils.ts:4-6`:
+
+<ParamField path="inputs" type="ClassValue[]" required>
+  Array of class names to merge (supports conditional classes)
+</ParamField>
+
+<ResponseField name="string" type="string">
+  Merged and deduplicated class string
+</ResponseField>
+
+**Implementation**:
+
+```typescript
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+**Usage Example** (from `Sidebar.tsx:59-63`):
+
+```typescript
+import { cn } from "@/lib/utils";
+
+<aside
+  className={cn(
+    "bg-[#001F3F] text-white flex flex-col h-screen",
+    "transition-all duration-300",
+    isOpen ? "w-64" : "w-20"
+  )}
+>
+```
+
+## Error Handling Patterns
+
+### Current State
+
+The application currently has minimal error handling:
+
+- **No try-catch blocks**: Operations assume success
+- **No validation**: User input is not validated before processing
+- **No error states**: No UI feedback for failed operations
+- **No loading states**: Except in login (simulated delay)
+
+### Recommended Improvements
+
+```typescript
+// Add error boundaries
+try {
+  const result = await saveUser(userData);
+  setUsers(result);
+} catch (error) {
+  console.error('Failed to save user:', error);
+  showErrorToast('No se pudo guardar el usuario');
+}
+
+// Add validation
+if (!userData.email || !isValidEmail(userData.email)) {
+  throw new Error('Email inválido');
+}
+```
+
+## Future Backend Integration
+
+When integrating with a backend API, replace local state operations with API calls:
+
+```typescript
+// Current (client-side)
+const eliminarUsuario = (id: string) => {
+  setUsers(users.filter(user => user.id !== id));
+};
+
+// Future (with API)
+const eliminarUsuario = async (id: string) => {
+  try {
+    await fetch(`/api/users/${id}`, { method: 'DELETE' });
+    setUsers(users.filter(user => user.id !== id));
+  } catch (error) {
+    console.error('Delete failed:', error);
+  }
+};
+```
+
+## Related Documentation
+
+- [Authentication Service](/api/services/authentication) - Login and session management
+- [Database Utilities](/api/services/data-service#utility-functions) - Helper functions
+- [User Types](/api/services/data-service#data-types) - Type definitions

@@ -1,0 +1,263 @@
+---
+title: Authentication
+description: Learn how to log in, manage your account, and understand user roles in GIMA
+---
+
+## Overview
+
+GIMA uses a secure authentication system to control access to asset management and maintenance features. This guide walks you through the login process, password management, and user role permissions.
+
+## Logging In
+
+<Steps>
+  <Step title="Navigate to the login page">
+    Open your browser and go to `/auth/login`. You'll see the GIMA login screen with:
+    - Left panel: GIMA branding with security, efficiency, and control features
+    - Right panel: Login form
+  </Step>
+
+  <Step title="Enter your credentials">
+    Fill in the login form:
+    
+    **Usuario field:**
+    - Located at the top with a User icon
+    - Enter your email address (e.g., `Pedro_perez`)
+    - Input type: email with gray background (`bg-gray-100`)
+    
+    **Contraseña field:**
+    - Located below with a Lock icon
+    - Enter your password (e.g., `Pedro123`)
+    - Click the Eye icon to toggle password visibility
+    - Uses `showPassword` state to switch between text and password input types
+  </Step>
+
+  <Step title="Optional: Remember me">
+    Check the "Recuérdame" checkbox to stay logged in on this device.
+    
+    <Tip>
+      The remember me feature keeps you logged in for future sessions, but always log out on shared computers.
+    </Tip>
+  </Step>
+
+  <Step title="Submit and access dashboard">
+    Click the **"Accede al sistema"** button with the ArrowRight icon.
+    
+    After successful authentication:
+    - The system simulates a 500ms authentication delay
+    - You're automatically redirected to `/dashboard`
+    - The dashboard displays your assets, maintenance tasks, and system stats
+  </Step>
+</Steps>
+
+## Password Management
+
+### Forgot Password
+
+If you've forgotten your password:
+
+1. Click the **"¿Olvidaste tu contraseña?"** link on the login page (line 192)
+2. The link is styled in blue (`text-blue-600`) and appears to the right of the remember me checkbox
+3. Follow the password reset instructions sent to your registered email
+
+<Warning>
+  Password reset functionality is currently in development. Contact your system administrator if you need to reset your password.
+</Warning>
+
+### Password Visibility Toggle
+
+While entering your password:
+
+- Click the **Eye icon** to reveal your password as plain text
+- Click the **EyeOff icon** to hide it again
+- This uses the `showPassword` state managed by the login component
+
+## User Roles and Permissions
+
+GIMA supports multiple user roles with different permission levels:
+
+<Tabs>
+  <Tab title="Administrador">
+    **Full system access** including:
+    - User management (`/configuracion/User`)
+    - Asset creation, editing, and deletion
+    - Maintenance scheduling and approval
+    - System configuration
+    - Report generation and exports
+    - AI assistant access
+    
+    Administrators see all menu items in the sidebar and can modify any data.
+  </Tab>
+  
+  <Tab title="Técnico">
+    **Technical operations** including:
+    - View and edit assigned assets
+    - Schedule maintenance tasks
+    - Update maintenance status
+    - Use AI diagnostic tools
+    - Generate technical reports
+    
+    Técnicos have limited access to system configuration and cannot manage users.
+  </Tab>
+  
+  <Tab title="Supervisor">
+    **Oversight and approval** including:
+    - View all assets and maintenance tasks
+    - Approve maintenance schedules
+    - Generate management reports
+    - Monitor team performance
+    - Access analytics dashboard
+    
+    Supervisors can oversee operations but cannot modify system settings.
+  </Tab>
+  
+  <Tab title="Desarrollador">
+    **System development** including:
+    - API access for integrations
+    - Custom report creation
+    - System diagnostics
+    - Database queries
+    - Development environment access
+    
+    Developers have technical access but limited business operations permissions.
+  </Tab>
+</Tabs>
+
+## Session Management
+
+### Active Session
+
+Once logged in:
+- Your session remains active as long as you're using the system
+- The **User icon** in the top right (DashboardHeader) shows your logged-in status
+- You can navigate freely between dashboard sections
+
+### Logging Out
+
+To end your session:
+
+<Steps>
+  <Step title="Open the sidebar">
+    The sidebar is located on the left side of the screen with the GIMA logo.
+  </Step>
+  
+  <Step title="Click logout button">
+    Scroll to the bottom of the sidebar and click the **"Cerrar sesión"** button:
+    - Located in the footer section (line 130 of Sidebar.tsx)
+    - Features a LogOut icon
+    - Styled with red hover effect (`hover:bg-red-500/20`)
+  </Step>
+  
+  <Step title="Confirm logout">
+    You'll be redirected to `/auth/login` and your session will be cleared.
+  </Step>
+</Steps>
+
+<Tip>
+  Always log out when:
+  - Using a shared or public computer
+  - Finishing your work session
+  - Switching to a different user account
+</Tip>
+
+## User Account Information
+
+Your user profile includes:
+
+```typescript
+interface User {
+  id: string;              // Unique identifier
+  iniciales: string;       // User initials (auto-generated)
+  name: string;            // Full name
+  email: string;           // Login email
+  rol: string;             // Role (Administrador, Técnico, etc.)
+  department: string;      // Department assignment
+  status: UserEstado;      // 'available' | 'unavailable'
+}
+```
+
+### Available Departments
+
+- **Infraestructura** - Infrastructure and facilities
+- **Laboratorios** - Laboratory equipment
+- **Desarrollo** - Software development
+- **Soporte** - Technical support
+- **Marketing** - Marketing and communications
+- **Finanzas** - Finance and accounting
+
+## Troubleshooting
+
+### Cannot Log In
+
+<AccordionGroup>
+  <Accordion title="Invalid credentials error">
+    - Verify your email is spelled correctly
+    - Check if Caps Lock is enabled
+    - Use the eye icon to verify your password
+    - Try the "¿Olvidaste tu contraseña?" link
+  </Accordion>
+  
+  <Accordion title="Account locked or disabled">
+    Your account may be set to `status: 'unavailable'` in the user management system. Contact your administrator to:
+    - Verify your account status
+    - Request account reactivation
+    - Check for any access restrictions
+  </Accordion>
+  
+  <Accordion title="Page not loading">
+    - Clear your browser cache
+    - Try a different browser
+    - Check your internet connection
+    - Verify you're using the correct URL
+  </Accordion>
+</AccordionGroup>
+
+## Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Strong Passwords" icon="lock">
+    Use passwords with:
+    - At least 8 characters
+    - Mix of letters, numbers, and symbols
+    - No common words or personal info
+  </Card>
+  
+  <Card title="Session Security" icon="shield">
+    - Don't share your credentials
+    - Log out after each session
+    - Report suspicious activity
+  </Card>
+  
+  <Card title="Device Safety" icon="desktop">
+    - Keep your devices updated
+    - Use antivirus software
+    - Avoid public Wi-Fi for sensitive operations
+  </Card>
+  
+  <Card title="Account Monitoring" icon="eye">
+    - Review your activity regularly
+    - Report unauthorized access
+    - Update your password periodically
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+After logging in, you can:
+
+<CardGroup cols={2}>
+  <Card title="Manage Assets" icon="box" href="/guides/managing-assets">
+    Create, categorize, and track your organization's assets
+  </Card>
+  
+  <Card title="Schedule Maintenance" icon="wrench" href="/guides/scheduling-maintenance">
+    Set up maintenance tasks and track their completion
+  </Card>
+  
+  <Card title="Use AI Assistant" icon="robot" href="/guides/using-ai-assistant">
+    Get intelligent help with diagnostics and queries
+  </Card>
+  
+  <Card title="Generate Reports" icon="chart-bar" href="/guides/generating-reports">
+    Create detailed reports for analysis and compliance
+  </Card>
+</CardGroup>

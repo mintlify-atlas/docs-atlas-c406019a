@@ -1,0 +1,582 @@
+---
+title: Installation Guide
+description: Complete installation instructions for setting up GIMA in development and production environments
+---
+
+## System Requirements
+
+Before installing GIMA, ensure your system meets these requirements:
+
+### Required
+
+- **Node.js**: Version 20.x or higher
+- **Package Manager**: npm (included with Node.js), pnpm, or yarn
+- **Git**: For cloning the repository
+- **Operating System**: Windows 10+, macOS 10.15+, or Linux
+
+### Recommended
+
+- **RAM**: 8GB minimum, 16GB recommended
+- **Storage**: 2GB free space for dependencies and build files
+- **Browser**: Modern browser (Chrome, Firefox, Safari, Edge) for development
+- **Code Editor**: VS Code with TypeScript/React extensions recommended
+
+<Note>
+  GIMA is built with Next.js 16.1.1 which requires Node.js 20 or higher. Check your version with `node --version`.
+</Note>
+
+## Installation Steps
+
+Follow these detailed steps to install GIMA:
+
+<Steps>
+  <Step title="Install Node.js">
+    If you don't have Node.js 20+ installed:
+
+    **Using nvm (Recommended):**
+    ```bash
+    # Install nvm
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+    # Install Node.js 20
+    nvm install 20
+    nvm use 20
+    ```
+
+    **Direct Download:**
+    Download from [nodejs.org](https://nodejs.org/) and install the LTS version (20.x or higher).
+
+    **Verify Installation:**
+    ```bash
+    node --version  # Should show v20.x.x or higher
+    npm --version   # Should show 10.x.x or higher
+    ```
+  </Step>
+
+  <Step title="Clone the Repository">
+    Clone the GIMA project from GitHub:
+
+    ```bash
+    git clone https://github.com/GonzalezCesar/gima-project.git
+    cd gima-project
+    ```
+
+    **Alternative: Download ZIP**
+    
+    If you don't have Git:
+    1. Visit [github.com/GonzalezCesar/gima-project](https://github.com/GonzalezCesar/gima-project)
+    2. Click "Code" → "Download ZIP"
+    3. Extract the archive and navigate to the folder
+  </Step>
+
+  <Step title="Install Dependencies">
+    Install all required packages using your preferred package manager:
+
+    <CodeGroup>
+      ```bash npm
+      npm install
+      ```
+
+      ```bash pnpm
+      # Install pnpm if needed
+      npm install -g pnpm
+      
+      # Install dependencies
+      pnpm install
+      ```
+
+      ```bash yarn
+      # Install yarn if needed
+      npm install -g yarn
+      
+      # Install dependencies
+      yarn install
+      ```
+    </CodeGroup>
+
+    This installs the following key dependencies:
+
+    **Core Framework:**
+    - `next@16.1.1` - React framework
+    - `react@19.2.3` - React library
+    - `react-dom@19.2.3` - React DOM renderer
+    - `typescript@^5` - TypeScript support
+
+    **UI & Styling:**
+    - `tailwindcss@^4` - Utility-first CSS framework
+    - `lucide-react@^0.562.0` - Icon library
+    - `clsx@^2.1.1` - Conditional class names
+    - `tailwind-merge@^3.4.0` - Merge Tailwind classes
+    - `class-variance-authority@^0.7.1` - Component variants
+
+    **Development Tools:**
+    - `@tailwindcss/postcss@^4.1.18` - PostCSS plugin
+    - `eslint@^9` - Code linting
+    - `babel-plugin-react-compiler@1.0.0` - React optimization
+
+    <Note>
+      Installation may take 2-5 minutes depending on your internet connection.
+    </Note>
+  </Step>
+
+  <Step title="Verify Installation">
+    Ensure everything is installed correctly:
+
+    ```bash
+    # Check if node_modules exists
+    ls node_modules
+
+    # Verify Next.js is installed
+    npx next --version
+
+    # Check TypeScript
+    npx tsc --version
+    ```
+
+    You should see version numbers for each command without errors.
+  </Step>
+</Steps>
+
+## Environment Configuration
+
+GIMA uses environment variables for configuration:
+
+<Steps>
+  <Step title="Create Environment File">
+    Currently, GIMA doesn't require a `.env` file for basic development, but you may want to create one for custom configuration:
+
+    ```bash
+    touch .env.local
+    ```
+
+    <Note>
+      `.env.local` is automatically ignored by Git and is the recommended file for local development settings.
+    </Note>
+  </Step>
+
+  <Step title="Configure Environment Variables (Optional)">
+    Add any custom environment variables to `.env.local`:
+
+    ```bash .env.local
+    # Development settings
+    NODE_ENV=development
+    
+    # Custom port (optional)
+    PORT=3000
+    
+    # API endpoints (when implementing backend)
+    # NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    
+    # Authentication (when implementing auth)
+    # NEXTAUTH_SECRET=your-secret-key-here
+    # NEXTAUTH_URL=http://localhost:3000
+    ```
+
+    <Warning>
+      Never commit `.env.local` or any file containing secrets to version control. These files are in `.gitignore` by default.
+    </Warning>
+  </Step>
+</Steps>
+
+## Development Server Setup
+
+Now you're ready to run GIMA:
+
+<Steps>
+  <Step title="Start Development Server">
+    Launch the Next.js development server:
+
+    <CodeGroup>
+      ```bash npm
+      npm run dev
+      ```
+
+      ```bash pnpm
+      pnpm dev
+      ```
+
+      ```bash yarn
+      yarn dev
+      ```
+    </CodeGroup>
+
+    You should see output similar to:
+
+    ```bash
+    ▲ Next.js 16.1.1
+    - Local:        http://localhost:3000
+    - Environments: .env.local
+
+    ✓ Starting...
+    ✓ Ready in 2.3s
+    ```
+  </Step>
+
+  <Step title="Access the Application">
+    Open your browser and navigate to:
+
+    ```
+    http://localhost:3000
+    ```
+
+    You'll be automatically redirected to the login page (`/auth/login`).
+  </Step>
+
+  <Step title="Verify All Pages Load">
+    Test that key pages are accessible:
+
+    - Login: `http://localhost:3000/auth/login`
+    - Dashboard: `http://localhost:3000/dashboard` (after login)
+    - Configuration: `http://localhost:3000/configuracion`
+    - Reports: `http://localhost:3000/reportes`
+
+    <Note>
+      Hot Module Replacement (HMR) is enabled - changes to your code will automatically refresh the browser.
+    </Note>
+  </Step>
+</Steps>
+
+## Production Build
+
+To create a production-optimized build:
+
+<Steps>
+  <Step title="Build the Application">
+    Create an optimized production build:
+
+    <CodeGroup>
+      ```bash npm
+      npm run build
+      ```
+
+      ```bash pnpm
+      pnpm build
+      ```
+
+      ```bash yarn
+      yarn build
+      ```
+    </CodeGroup>
+
+    This will:
+    - Compile TypeScript to JavaScript
+    - Optimize React components with React Compiler
+    - Bundle and minify all code
+    - Generate static pages where possible
+    - Create optimized production assets
+
+    Output will be in the `.next` directory.
+  </Step>
+
+  <Step title="Start Production Server">
+    Run the production build:
+
+    <CodeGroup>
+      ```bash npm
+      npm run start
+      ```
+
+      ```bash pnpm
+      pnpm start
+      ```
+
+      ```bash yarn
+      yarn start
+      ```
+    </CodeGroup>
+
+    The production server will start on `http://localhost:3000` by default.
+  </Step>
+
+  <Step title="Test Production Build">
+    Verify that:
+    - Pages load faster than in development
+    - No console errors appear
+    - All features work as expected
+    - Static assets load correctly
+  </Step>
+</Steps>
+
+## Project Structure
+
+After installation, your project structure will look like:
+
+```
+gima-project/
+├── .git/                     # Git repository
+├── .next/                    # Next.js build output (generated)
+├── node_modules/             # Dependencies (generated)
+├── public/                   # Static assets
+│   ├── logo-gima.png        # Application logo
+│   └── fonts/               # Custom fonts
+│       ├── font-microgramma.otf
+│       └── font-archivo.ttf
+├── src/                      # Source code
+│   ├── app/                 # Next.js App Router
+│   │   ├── auth/login/      # Login page
+│   │   ├── dashboard/       # Dashboard pages
+│   │   ├── configuracion/   # Configuration pages
+│   │   ├── reportes/        # Reports
+│   │   ├── asistencia/      # Support
+│   │   ├── layout.tsx       # Root layout
+│   │   ├── page.tsx         # Home (redirects to login)
+│   │   └── globals.css      # Global styles
+│   ├── components/          # React components
+│   │   ├── layout/          # MainLayout, DashboardHeader
+│   │   ├── dashboard/       # StatCard, ChartPlaceholder
+│   │   ├── configuracion/   # TablaDeCategorias
+│   │   ├── ui/              # Reusable UI components
+│   │   └── user/            # User-related components
+│   ├── types/               # TypeScript definitions
+│   │   ├── index.ts
+│   │   └── user.ts
+│   ├── data/                # Static data
+│   │   └── categories.ts
+│   ├── services/            # API services
+│   │   └── dataService.ts
+│   ├── lib/                 # Utilities
+│   └── utils/               # Helper functions
+├── .gitignore               # Git ignore rules
+├── components.json          # Shadcn UI config
+├── eslint.config.mjs        # ESLint configuration
+├── next.config.ts           # Next.js configuration
+├── package.json             # Dependencies and scripts
+├── postcss.config.mjs       # PostCSS configuration
+├── tsconfig.json            # TypeScript configuration
+└── README.md                # Project readme
+```
+
+## Configuration Files
+
+Key configuration files and their purposes:
+
+### next.config.ts
+
+Next.js configuration with React Compiler enabled:
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  reactCompiler: true,  // Enables React 19 compiler
+};
+
+export default nextConfig;
+```
+
+### tsconfig.json
+
+TypeScript configuration with path aliases:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src/*"]  // Import alias for src/
+    }
+  }
+}
+```
+
+This allows imports like `import { MainLayout } from "@/components/layout/MainLayout"`
+
+### components.json
+
+Shadcn UI configuration:
+
+```json
+{
+  "style": "new-york",
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
+}
+```
+
+## Troubleshooting
+
+Common installation issues and solutions:
+
+<Accordion title="Node Version Errors">
+  **Error:** `error [email protected]: The engine "node" is incompatible with this module`
+
+  **Solution:**
+  1. Check your Node.js version:
+     ```bash
+     node --version
+     ```
+
+  2. If below v20, upgrade Node.js:
+     ```bash
+     # Using nvm
+     nvm install 20
+     nvm use 20
+     nvm alias default 20
+     ```
+
+  3. Retry installation:
+     ```bash
+     rm -rf node_modules package-lock.json
+     npm install
+     ```
+</Accordion>
+
+<Accordion title="Port Already in Use">
+  **Error:** `Port 3000 is already in use`
+
+  **Solution 1 - Use Different Port:**
+  ```bash
+  PORT=3001 npm run dev
+  ```
+
+  **Solution 2 - Kill Process on Port 3000:**
+  ```bash
+  # On macOS/Linux
+  lsof -ti:3000 | xargs kill -9
+
+  # On Windows (PowerShell)
+  Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess | Stop-Process
+  ```
+</Accordion>
+
+<Accordion title="EACCES Permission Errors">
+  **Error:** `EACCES: permission denied`
+
+  **Solution:**
+  Don't use `sudo` with npm. Instead, fix npm permissions:
+
+  ```bash
+  # Create a directory for global packages
+  mkdir ~/.npm-global
+  
+  # Configure npm to use this directory
+  npm config set prefix '~/.npm-global'
+  
+  # Add to PATH (add to ~/.bashrc or ~/.zshrc)
+  export PATH=~/.npm-global/bin:$PATH
+  
+  # Reload shell config
+  source ~/.bashrc  # or source ~/.zshrc
+  ```
+
+  Then retry installation.
+</Accordion>
+
+<Accordion title="Module Not Found After Installation">
+  **Error:** `Module not found: Can't resolve '@/components/...'`
+
+  **Solution:**
+  1. Ensure you're in the project root directory
+  2. Delete `.next` and `node_modules`:
+     ```bash
+     rm -rf .next node_modules
+     ```
+
+  3. Clear npm cache:
+     ```bash
+     npm cache clean --force
+     ```
+
+  4. Reinstall:
+     ```bash
+     npm install
+     npm run dev
+     ```
+</Accordion>
+
+<Accordion title="TypeScript Compilation Errors">
+  **Error:** Various TypeScript errors during build
+
+  **Solution:**
+  1. Verify TypeScript version:
+     ```bash
+     npx tsc --version  # Should be 5.x
+     ```
+
+  2. Delete TypeScript cache:
+     ```bash
+     rm -rf .next tsconfig.tsbuildinfo
+     ```
+
+  3. Restart the dev server:
+     ```bash
+     npm run dev
+     ```
+
+  4. If errors persist, check for type errors:
+     ```bash
+     npx tsc --noEmit
+     ```
+</Accordion>
+
+<Accordion title="Build Fails with Out of Memory">
+  **Error:** `JavaScript heap out of memory`
+
+  **Solution:**
+  Increase Node.js memory limit:
+
+  ```bash
+  # Temporary (single command)
+  NODE_OPTIONS="--max-old-space-size=4096" npm run build
+
+  # Permanent (add to package.json scripts)
+  {
+    "scripts": {
+      "build": "NODE_OPTIONS='--max-old-space-size=4096' next build"
+    }
+  }
+  ```
+</Accordion>
+
+<Accordion title="Slow Installation on Windows">
+  **Issue:** npm install takes very long on Windows
+
+  **Solution:**
+  1. Disable Windows Defender real-time scanning for the project folder temporarily
+  2. Use pnpm instead (faster on Windows):
+     ```bash
+     npm install -g pnpm
+     pnpm install
+     ```
+
+  3. Or enable package-lock optimizations:
+     ```bash
+     npm config set package-lock true
+     npm ci  # Instead of npm install
+     ```
+</Accordion>
+
+## Next Steps
+
+Now that GIMA is installed:
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="rocket" href="/quickstart">
+    Take a quick tour of GIMA's main features
+  </Card>
+  
+  <Card title="Configuration" icon="gear" href="/configuration/settings">
+    Configure GIMA for your organization
+  </Card>
+  
+  <Card title="API Reference" icon="code" href="/api/components/layout">
+    Learn how to use GIMA components
+  </Card>
+  
+  <Card title="Configuration" icon="settings" href="/configuration/settings">
+    Configure GIMA for your needs
+  </Card>
+</CardGroup>
+
+## Getting Help
+
+If you encounter issues not covered here:
+
+- Check the [Quickstart Guide](/quickstart) for basic usage
+- Review [Next.js documentation](https://nextjs.org/docs)
+- Report bugs on [GitHub Issues](https://github.com/GonzalezCesar/gima-project/issues)
+- Access in-app support through the Asistencia module

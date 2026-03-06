@@ -1,0 +1,212 @@
+---
+title: Dashboard Components
+description: Specialized components for building dashboard views and statistics displays
+---
+
+# Dashboard Components
+
+Components specifically designed for dashboard pages, including statistics cards and data visualization elements.
+
+---
+
+## StatCard
+
+Statistic card component with trend indicators and optional highlighting.
+
+```typescript
+import { StatCard } from "@/components/dashboard/StatCard"
+```
+
+### Description
+
+Displays a single statistic or metric with:
+- Large value display
+- Title label
+- Optional trend percentage with icon
+- Optional highlighted state
+- Custom icon support
+
+### Props
+
+<ParamField path="title" type="string" required>
+  Label text describing the statistic (e.g., "Total Assets", "Active Maintenance")
+</ParamField>
+
+<ParamField path="value" type="string | number" required>
+  The main statistic value to display
+</ParamField>
+
+<ParamField path="trend" type="number">
+  Percentage change value (e.g., 12.5 for +12.5%). Can be positive or negative.
+</ParamField>
+
+<ParamField path="trendLabel" type="string">
+  Additional label text to display after the trend percentage (e.g., "vs last month")
+</ParamField>
+
+<ParamField path="icon" type="ReactNode">
+  Custom icon component to display (currently not rendered in the component)
+</ParamField>
+
+<ParamField path="highlighted" type="boolean" default="false">
+  When true, applies blue background styling to make the card stand out
+</ParamField>
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply to the card
+</ParamField>
+
+### TypeScript Interface
+
+```typescript
+interface StatCardProps {
+  title: string
+  value: string | number
+  trend?: number
+  trendLabel?: string
+  icon?: ReactNode
+  highlighted?: boolean
+  className?: string
+}
+```
+
+### Styling States
+
+#### Default State
+- White background
+- Gray border
+- Gray text for title
+- Black text for value
+- Blue badge for trend
+
+#### Highlighted State
+- Blue gradient background (`bg-blue-600`)
+- White text throughout
+- Enhanced shadow
+- Darker blue badge
+
+### Usage Example
+
+```tsx
+import { StatCard } from "@/components/dashboard/StatCard"
+import { Package } from "lucide-react"
+
+export default function Dashboard() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Basic stat card */}
+      <StatCard
+        title="Total Activos"
+        value={1248}
+      />
+
+      {/* With trend indicator */}
+      <StatCard
+        title="Mantenimientos Activos"
+        value={34}
+        trend={12}
+        trendLabel="vs mes anterior"
+      />
+
+      {/* Highlighted card with negative trend */}
+      <StatCard
+        title="Valor Total"
+        value="$2.4M"
+        trend={-5}
+        highlighted={true}
+      />
+
+      {/* With icon (note: icon prop exists but not currently rendered) */}
+      <StatCard
+        title="Alertas Pendientes"
+        value={7}
+        icon={<Package className="w-6 h-6" />}
+      />
+    </div>
+  )
+}
+```
+
+### Trend Display
+
+When a `trend` prop is provided, the component displays:
+- A rounded badge with the trend percentage
+- A `TrendingUp` icon from Lucide
+- Automatic "+" prefix for positive values
+- Optional `trendLabel` text
+
+```tsx
+<StatCard
+  title="Revenue"
+  value="$125K"
+  trend={8.2}
+  trendLabel="this quarter"
+/>
+// Displays: "🔼 +8.2% this quarter"
+```
+
+### Real-world Implementation
+
+From the GIMA dashboard, this component is typically used in a grid layout:
+
+```tsx
+// Dashboard overview section
+const stats = [
+  { title: "Total de Activos", value: 1248, trend: 5 },
+  { title: "En Mantenimiento", value: 34, trend: -2 },
+  { title: "Valor Total", value: "$2.4M", trend: 12, highlighted: true },
+  { title: "Ubicaciones", value: 8 },
+]
+
+<div className="grid grid-cols-4 gap-6">
+  {stats.map((stat) => (
+    <StatCard key={stat.title} {...stat} />
+  ))}
+</div>
+```
+
+### Responsive Design
+
+The card automatically adjusts to container width. Recommended grid breakpoints:
+
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+  <StatCard title="Metric" value={100} />
+  {/* ... more cards */}
+</div>
+```
+
+### Accessibility
+
+- Use descriptive titles that explain the metric
+- Ensure sufficient color contrast (particularly with highlighted state)
+- Consider adding `aria-label` for screen readers if needed:
+
+```tsx
+<div aria-label="Dashboard statistics">
+  <StatCard title="Total Assets" value={1248} />
+</div>
+```
+
+### Customization
+
+You can extend the styling using the `className` prop:
+
+```tsx
+<StatCard
+  title="Custom Card"
+  value={42}
+  className="border-2 border-purple-500"
+/>
+```
+
+### Animation
+
+The card includes built-in transitions:
+- Hover effect on non-highlighted cards
+- Smooth shadow transitions
+- Duration: 200ms
+
+```css
+transition-all duration-200
+```

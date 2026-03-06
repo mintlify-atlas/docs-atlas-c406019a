@@ -1,0 +1,179 @@
+---
+title: 'Configuration Settings'
+description: 'Overview of all configuration areas in GIMA'
+icon: 'gear'
+---
+
+GIMA provides comprehensive configuration options to customize the system according to your organization's needs. All configuration settings are accessible from the main configuration dashboard at `/configuracion`.
+
+## Configuration Areas
+
+The configuration dashboard provides access to the following key areas:
+
+<CardGroup cols={2}>
+  <Card title="Language and Region" icon="globe" href="/configuration/settings#language-region">
+    Configure timezone, date format, and system language
+  </Card>
+  
+  <Card title="User Management" icon="users" href="/configuration/settings#user-management">
+    Manage user roles and permissions
+  </Card>
+  
+  <Card title="Locations" icon="map-pin" href="/configuration/locations">
+    Configure physical locations and buildings
+  </Card>
+  
+  <Card title="Notifications" icon="bell" href="/configuration/notifications">
+    Set up alerts and email notifications
+  </Card>
+  
+  <Card title="Security" icon="shield" href="/configuration/security">
+    Configure passwords, audits, and security policies
+  </Card>
+  
+  <Card title="Spare Parts Management" icon="wrench" href="/configuration/settings#spare-parts">
+    Manage materials and tools inventory
+  </Card>
+  
+  <Card title="Asset Categories" icon="folder-tree" href="/configuration/categories">
+    Define and organize asset categorization
+  </Card>
+  
+  <Card title="AI Module" icon="brain" href="/configuration/settings#ai-module">
+    Configure AI features and settings
+  </Card>
+</CardGroup>
+
+## Language and Region
+
+Customize the local experience of the system to match your organization's preferences.
+
+### Available Languages
+
+GIMA supports multiple languages:
+- **Español (Latinoamérica)** - Default
+- English
+- Japanese
+
+<Steps>
+  <Step title="Access Language Settings">
+    Navigate to `/configuracion/idiomas` or select "Idioma y región" from the configuration dashboard.
+  </Step>
+  
+  <Step title="Select Language">
+    Choose your preferred language from the available options. The selected language will be indicated with a blue checkmark.
+  </Step>
+  
+  <Step title="Configure Regional Formats">
+    Set your preferred formats for:
+    - **Date format**: DD/MM/AAAA, MM/DD/AAAA, or YYYY-MM-DD
+    - **Timezone**: Select from available timezones (e.g., America/Caracas GMT-04:00)
+    - **Time format**: 12-hour or 24-hour format
+  </Step>
+  
+  <Step title="Save Changes">
+    Click "Guardar cambios" to apply your settings.
+  </Step>
+</Steps>
+
+### Regional Format Options
+
+<Accordion title="Date Formats">
+  - **DD/MM/AAAA**: 31/12/2026 (European format)
+  - **MM/DD/AAAA**: 12/31/2026 (US format)
+  - **YYYY-MM-DD**: 2026-12-31 (ISO format)
+</Accordion>
+
+<Accordion title="Time Formats">
+  - **12 Horas**: 2:30 PM
+  - **24 Horas**: 14:30
+</Accordion>
+
+<Accordion title="Timezone Options">
+  - América/Caracas (GMT-04:00)
+  - America/New_York (GMT-05:00)
+  - Europe/Madrid (GMT+01:00)
+  
+  Additional timezones can be configured based on your requirements.
+</Accordion>
+
+## User Management
+
+Manage user accounts, roles, and permissions from `/configuracion/User`.
+
+### User Table Features
+
+The user management interface provides:
+- Search functionality by name, email, or department
+- User creation and editing via modal dialogs
+- Role and department assignment
+- User status management (Active/Inactive)
+
+### User Information
+
+Each user record includes:
+- **Name and Email**: Primary identification
+- **Role/Position**: User's job title or role
+- **Department**: Organizational unit
+- **Status**: Active or Inactive state
+- **Actions**: Edit and delete options
+
+<Note>
+  User permissions and access control are managed through the role assignment system. Ensure users are assigned appropriate roles for their responsibilities.
+</Note>
+
+## Spare Parts Management
+
+Access spare parts configuration at `/configuracion/repuestos` to manage materials and tools inventory.
+
+<Info>
+  This section allows you to configure the inventory of spare parts, materials, and tools used in maintenance operations.
+</Info>
+
+## AI Module Configuration
+
+Configure AI-powered features and settings at `/configuracion/ia`.
+
+<Note>
+  The AI module provides intelligent features for asset management, predictive maintenance, and automation. Configuration options will be expanded as new AI capabilities are added.
+</Note>
+
+## Accessing Configuration
+
+All configuration areas are accessible through:
+
+1. **Direct URL**: Navigate to `/configuracion` to view the main configuration dashboard
+2. **Search**: Use the search bar to quickly find specific configuration options
+3. **Navigation Cards**: Click on any configuration card to access that specific area
+
+<Warning>
+  Changes to configuration settings may affect system behavior and user experience. Test configuration changes in a development environment before applying to production.
+</Warning>
+
+## Best Practices
+
+- **Regular Reviews**: Review configuration settings periodically to ensure they match current organizational needs
+- **Documentation**: Document any custom configuration changes for future reference
+- **User Training**: Ensure users are trained on any configuration changes that affect their workflows
+- **Backup Settings**: Keep a record of configuration settings before making significant changes
+- **Test Changes**: Test configuration changes with a small user group before organization-wide rollout
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configure Locations" icon="map-pin" href="/configuration/locations">
+    Set up your organization's physical locations
+  </Card>
+  
+  <Card title="Set Up Categories" icon="folder-tree" href="/configuration/categories">
+    Define asset categorization structure
+  </Card>
+  
+  <Card title="Configure Notifications" icon="bell" href="/configuration/notifications">
+    Set up alerts and notifications
+  </Card>
+  
+  <Card title="Security Settings" icon="shield" href="/configuration/security">
+    Configure security policies and auditing
+  </Card>
+</CardGroup>

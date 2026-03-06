@@ -1,0 +1,429 @@
+---
+title: UI Components
+description: Reusable UI components and utilities for the GIMA application
+---
+
+# UI Components
+
+Core UI components for building consistent interfaces throughout the GIMA application.
+
+---
+
+## Card Components
+
+A set of composable card components for displaying content in structured containers.
+
+```typescript
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+  CardFooter
+} from "@/components/ui/Card"
+```
+
+### Description
+
+The Card component system provides a flexible way to create content containers with consistent styling and structure. All components accept standard React props for `div` elements.
+
+### Components
+
+#### Card
+
+Base card container with rounded corners, border, and shadow.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+<ParamField path="...props" type="React.ComponentProps<'div'>">
+  All standard div element props
+</ParamField>
+
+**Default Styles:**
+- Rounded corners (`rounded-xl`)
+- White background with border
+- Shadow and padding
+- Flexbox column layout
+
+#### CardHeader
+
+Header section with grid layout for title and optional action button.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+**Features:**
+- Grid layout with auto-placement
+- Container queries support
+- Automatic action button positioning
+
+#### CardTitle
+
+Title text with semibold font weight.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+#### CardDescription
+
+Muted description text below title.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+#### CardAction
+
+Action button container positioned in header.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+#### CardContent
+
+Main content area with horizontal padding.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+#### CardFooter
+
+Footer section with optional top border.
+
+<ParamField path="className" type="string">
+  Additional CSS classes to apply
+</ParamField>
+
+### TypeScript Signature
+
+```typescript
+function Card({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+function CardHeader({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+function CardTitle({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+function CardDescription({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+function CardAction({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+function CardContent({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+function CardFooter({ className, ...props }: React.ComponentProps<"div">): JSX.Element
+```
+
+### Usage Example
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter
+} from "@/components/ui/Card"
+
+export default function AssetCard() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Asset Details</CardTitle>
+        <CardDescription>Information about this asset</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>Asset content goes here</p>
+      </CardContent>
+      <CardFooter>
+        <button>View Details</button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+### Data Slots
+
+Each component includes a `data-slot` attribute for targeted styling:
+- `card`
+- `card-header`
+- `card-title`
+- `card-description`
+- `card-action`
+- `card-content`
+- `card-footer`
+
+---
+
+## ChartPlaceholder
+
+Animated chart visualization component with period selector.
+
+```typescript
+import { ChartPlaceholder } from "@/components/ui/ChartPlaceholder"
+```
+
+### Description
+
+A simple bar chart visualization component with animated bars that grow on mount. Includes a dropdown to select different time periods.
+
+### Props
+
+<ParamField path="title" type="string" required>
+  Chart title displayed in header
+</ParamField>
+
+<ParamField path="period" type="string" default="Últimos 6 meses">
+  Default selected period in the dropdown
+</ParamField>
+
+### TypeScript Interface
+
+```typescript
+interface ChartPlaceholderProps {
+  title: string
+  period?: string
+}
+```
+
+### Features
+
+- **Animated Bars**: Bars animate from 0 to full height on mount
+- **Period Selector**: Dropdown with predefined time periods
+- **Responsive**: Adapts to container width
+- **Weekly Data**: Shows 7 bars for days of the week
+
+### Usage Example
+
+```tsx
+import { ChartPlaceholder } from "@/components/ui/ChartPlaceholder"
+
+export default function Dashboard() {
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      <ChartPlaceholder 
+        title="Mantenimientos Completados"
+        period="Últimos 3 meses"
+      />
+      <ChartPlaceholder 
+        title="Activos Registrados"
+      />
+    </div>
+  )
+}
+```
+
+### Period Options
+
+Default dropdown includes:
+- Últimos 6 meses (default)
+- Últimos 3 meses
+- Último mes
+- Última semana
+
+### Animation
+
+Bars use CSS transitions:
+```typescript
+style={{
+  height: isLoaded ? `${heights[idx]}%` : "0%",
+  opacity: isLoaded ? 1 : 0.5,
+}}
+```
+
+---
+
+## DeleteAlerta
+
+Confirmation modal for destructive actions.
+
+```typescript
+import DeleteAlert from "@/components/ui/DeleteAlerta"
+```
+
+### Description
+
+A modal dialog that prompts the user to confirm deletion actions. Features a warning icon, customizable text, and cancel/confirm buttons.
+
+### Props
+
+<ParamField path="isOpen" type="boolean" required>
+  Controls whether the modal is visible
+</ParamField>
+
+<ParamField path="onClose" type="() => void" required>
+  Callback function when user cancels or clicks outside
+</ParamField>
+
+<ParamField path="onConfirm" type="() => void" required>
+  Callback function when user confirms deletion
+</ParamField>
+
+<ParamField path="title" type="string" required>
+  Modal title text
+</ParamField>
+
+<ParamField path="description" type="string" required>
+  Description text explaining the action
+</ParamField>
+
+### TypeScript Interface
+
+```typescript
+interface DeleteAlertProps {
+  isOpen: boolean
+  onClose: () => void
+  onConfirm: () => void
+  title: string
+  description: string
+}
+```
+
+### Features
+
+- **Backdrop**: Semi-transparent backdrop with blur effect
+- **Click Outside**: Clicking backdrop closes modal
+- **Warning Icon**: Red alert triangle icon
+- **Close Button**: X button in top-right corner
+- **Action Buttons**: Cancel and confirm buttons
+
+### Usage Example
+
+```tsx
+"use client"
+
+import { useState } from "react"
+import DeleteAlert from "@/components/ui/DeleteAlerta"
+
+export default function AssetList() {
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  const [selectedAsset, setSelectedAsset] = useState<string | null>(null)
+
+  const handleDelete = async () => {
+    // Perform deletion
+    await deleteAsset(selectedAsset)
+    setShowDeleteAlert(false)
+  }
+
+  return (
+    <div>
+      <button onClick={() => {
+        setSelectedAsset("asset-123")
+        setShowDeleteAlert(true)
+      }}>
+        Delete Asset
+      </button>
+
+      <DeleteAlert
+        isOpen={showDeleteAlert}
+        onClose={() => setShowDeleteAlert(false)}
+        onConfirm={handleDelete}
+        title="¿Eliminar este activo?"
+        description="Esta acción no se puede deshacer. El activo será eliminado permanentemente."
+      />
+    </div>
+  )
+}
+```
+
+### Styling
+
+- **Modal**: White rounded card with shadow
+- **Backdrop**: Black with 40% opacity and blur
+- **Confirm Button**: Red with hover effect and shadow
+- **Cancel Button**: White with gray border
+- **Z-index**: `z-60` to appear above other content
+
+---
+
+## SidebarContext
+
+Context provider and hook for sidebar state management.
+
+```typescript
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebarContext"
+```
+
+### Description
+
+Provides global sidebar state management using React Context. Must be used as a wrapper for components that need to control or read sidebar state.
+
+### SidebarProvider
+
+<ParamField path="children" type="ReactNode" required>
+  Child components that will have access to sidebar context
+</ParamField>
+
+### useSidebar Hook
+
+Returns sidebar state and control functions.
+
+#### Return Type
+
+```typescript
+type SidebarContextType = {
+  isOpen: boolean      // Current sidebar state
+  toggle: () => void   // Toggle sidebar open/closed
+  open: () => void     // Open sidebar
+  close: () => void    // Close sidebar
+}
+```
+
+### TypeScript Interfaces
+
+```typescript
+type SidebarContextType = {
+  isOpen: boolean
+  toggle: () => void
+  open: () => void
+  close: () => void
+}
+
+function SidebarProvider({ children }: { children: ReactNode }): JSX.Element
+function useSidebar(): SidebarContextType
+```
+
+### Usage Example
+
+```tsx
+"use client"
+
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebarContext"
+
+// Provider at root level
+export default function Layout({ children }) {
+  return (
+    <SidebarProvider>
+      <div className="flex">
+        <Sidebar />
+        <main>{children}</main>
+      </div>
+    </SidebarProvider>
+  )
+}
+
+// Consumer component
+function ToggleButton() {
+  const { isOpen, toggle } = useSidebar()
+  
+  return (
+    <button onClick={toggle}>
+      {isOpen ? "Close" : "Open"} Sidebar
+    </button>
+  )
+}
+```
+
+### Error Handling
+
+The `useSidebar` hook throws an error if used outside of `SidebarProvider`:
+
+```typescript
+if (!ctx) throw new Error("useSidebar debe usarse dentro de SidebarProvider")
+```
+
+### Default State
+
+Sidebar is closed by default (`isOpen: false`).

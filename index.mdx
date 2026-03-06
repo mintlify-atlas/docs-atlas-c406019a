@@ -1,97 +1,118 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Welcome to GIMA"
+description: "Intelligent Asset and Maintenance Management System with AI-powered diagnostics"
 ---
 
-## Setting up
+<div className="bg-gradient-to-br from-[#020627] to-[#001F3F] rounded-3xl p-12 text-white mb-8">
+  <h1 className="text-5xl font-bold mb-4">Gestión Inteligente de Activos y Mantenimiento</h1>
+  <p className="text-xl mb-8 text-gray-300">
+    Streamline your asset management and maintenance operations with AI-powered diagnostics, 
+    real-time tracking, and comprehensive reporting.
+  </p>
+  <div className="flex gap-4">
+    <a href="/quickstart" className="bg-[#238636] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#2ea043] transition">
+      Get Started
+    </a>
+    <a href="https://github.com/GonzalezCesar/gima-project" className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold border-2 border-white/30 hover:border-white/60 transition">
+      View on GitHub
+    </a>
+  </div>
+</div>
 
-Get your documentation site up and running in minutes.
+## Key Features
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+GIMA provides everything you need to manage your assets and maintenance operations efficiently.
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Real-time Asset Tracking" icon="box" href="/features/asset-management">
+    Monitor and track all your assets in real-time with categorization and location management.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="AI-Powered Diagnostics" icon="robot" href="/features/ai-diagnostics">
+    Get intelligent maintenance assistance and diagnostic support powered by AI.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Maintenance Scheduling" icon="wrench" href="/features/maintenance">
+    Schedule and track maintenance activities to keep your assets in optimal condition.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Comprehensive Reports" icon="chart-line" href="/features/reports">
+    Generate detailed analytics and reports to make data-driven decisions.
   </Card>
-</Columns>
+  <Card title="User Management" icon="users" href="/features/user-management">
+    Manage user roles, permissions, and access control across your organization.
+  </Card>
+  <Card title="Multi-location Support" icon="location-dot" href="/configuration/locations">
+    Organize assets across multiple locations with centralized management.
+  </Card>
+</CardGroup>
 
-## Create beautiful pages
+## Quick Links
 
-Everything you need to create world-class documentation.
+<CardGroup cols={3}>
+  <Card title="Installation" icon="download" href="/installation">
+    Get GIMA up and running in your environment
+  </Card>
+  <Card title="Authentication" icon="lock" href="/guides/authentication">
+    Learn how to configure user authentication
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/components/layout">
+    Explore the component and type reference
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## What Makes GIMA Different
 
-## Need inspiration?
+<Accordion title="Enterprise-Ready Asset Management">
+  GIMA is built for enterprise-scale operations with support for unlimited assets, 
+  multiple locations, and comprehensive user management with role-based access control.
+</Accordion>
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Accordion title="AI-Powered Intelligence">
+  Our AI assistant helps diagnose equipment issues, suggests maintenance schedules, 
+  and provides intelligent insights based on your asset data and maintenance history.
+</Accordion>
+
+<Accordion title="Modern Technology Stack">
+  Built with Next.js 16, React 19, and TypeScript, GIMA delivers a fast, 
+  responsive experience with server-side rendering and optimized performance.
+</Accordion>
+
+<Accordion title="Customizable and Extensible">
+  Configure GIMA to match your organization's needs with flexible category management, 
+  custom notifications, and configurable security settings.
+</Accordion>
+
+## Getting Started
+
+<Steps>
+  <Step title="Install Dependencies">
+    Set up your development environment and install all required dependencies.
+    
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
+  </Step>
+  
+  <Step title="Configure Your Environment">
+    Set up your configuration files and environment variables for your deployment.
+  </Step>
+  
+  <Step title="Start Using GIMA">
+    Launch the application and begin managing your assets with the intuitive dashboard.
+    
+    ```bash
+    npm run dev
+    ```
+  </Step>
+</Steps>
+
+## Need Help?
+
+<CardGroup cols={2}>
+  <Card title="View Documentation" icon="book" href="/quickstart">
+    Read our comprehensive documentation to learn all features
+  </Card>
+  <Card title="GitHub Repository" icon="github" href="https://github.com/GonzalezCesar/gima-project">
+    Check out the source code and contribute to the project
+  </Card>
+</CardGroup>

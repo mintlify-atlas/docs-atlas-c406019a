@@ -1,0 +1,407 @@
+---
+title: 'AI Diagnostics & Chat'
+description: 'Intelligent assistance for troubleshooting equipment issues and getting instant answers'
+icon: 'robot'
+---
+
+## Overview
+
+GIMA's AI Diagnostics feature provides intelligent support for equipment troubleshooting and asset management queries. Accessible at `/asistencia`, this dual-mode interface combines conversational AI chat with specialized diagnostic capabilities powered by GIMA-AI.
+
+<CardGroup cols={2}>
+  <Card title="Conversational Chat" icon="message">
+    Ask questions about equipment status, procedures, and maintenance requirements
+  </Card>
+  <Card title="Intelligent Diagnostics" icon="stethoscope">
+    Describe problems in natural language and receive AI-powered failure analysis
+  </Card>
+  <Card title="24/7 Availability" icon="clock">
+    Get instant answers without waiting for human support staff
+  </Card>
+  <Card title="Learning System" icon="brain">
+    AI improves over time by learning from equipment history and maintenance patterns
+  </Card>
+</CardGroup>
+
+## Accessing AI Assistance
+
+<Steps>
+  <Step title="Navigate to AI Assistance">
+    Access the feature from the Reports page:
+    
+    ```tsx
+    <Link href="/asistencia">
+      <button className="bg-gima-navy text-white px-8 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition shadow-lg shadow-gima-navy/20 flex items-center gap-2 transform hover:scale-105 active:scale-95">
+        Asistencia IA
+      </button>
+    </Link>
+    ```
+  </Step>
+  
+  <Step title="Choose Your Mode">
+    Select between two interaction modes:
+    - **Chat**: For general questions and guidance
+    - **Diagnóstico**: For specific equipment failure analysis
+  </Step>
+  
+  <Step title="Interact with GIMA-AI">
+    Type your query or describe the problem in natural language
+  </Step>
+  
+  <Step title="Review Recommendations">
+    Review AI-generated insights and recommended actions
+  </Step>
+</Steps>
+
+## Chat Mode
+
+The Chat interface provides a conversational experience with GIMA-AI:
+
+```tsx
+{activeTab === 'chat' ? (
+  <div className="h-full flex flex-col animate-in fade-in slide-in-from-left-4 duration-300">
+    <div className="flex-1 bg-slate-50/50 rounded-2xl p-8 mb-4 border border-slate-100 flex flex-col gap-6 overflow-y-auto">
+      <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 max-w-3xl w-full">
+        <div className="flex items-center gap-3 mb-3 border-b border-slate-50 pb-3">
+          <Bot size={20} className="text-gima-navy" />
+          <span className="font-bold text-gima-navy text-sm uppercase tracking-wider">GIMA bot</span>
+        </div>
+        <p className="text-slate-600 text-sm leading-relaxed">
+          ¡Hola! Soy GIMA-AI. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre el estado de equipos o procedimientos de mantenimiento.
+        </p>
+      </div>
+    </div>
+    
+    <div className="relative mb-1">
+      <input 
+        type="text" 
+        placeholder="Escribe tu consulta..." 
+        className="w-full bg-gima-light/50 pl-6 pr-14 py-3 rounded-xl text-slate-700 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gima-blue/20 transition-all border border-transparent focus:border-gima-blue/10"
+      />
+      <button className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gima-blue text-white rounded-lg hover:bg-blue-600 transition active:scale-95 shadow-md shadow-gima-blue/20">
+        <Send size={16} />
+      </button>
+    </div>
+  </div>
+)
+```
+
+### Chat Use Cases
+
+<AccordionGroup>
+  <Accordion title="Equipment Status Queries">
+    Ask about current asset status:
+    
+    **Examples:**
+    - "¿Cuántos equipos tenemos en mantenimiento?"
+    - "¿Cuál es el estado del servidor CAT-001?"
+    - "¿Qué activos están disponibles en la categoría COMPUTO?"
+  </Accordion>
+  
+  <Accordion title="Maintenance Procedures">
+    Get guidance on maintenance tasks:
+    
+    **Examples:**
+    - "¿Cómo realizo el mantenimiento preventivo de un aire acondicionado?"
+    - "¿Cuál es el procedimiento para cambiar aceite del generador?"
+    - "¿Con qué frecuencia debo inspeccionar los vehículos?"
+  </Accordion>
+  
+  <Accordion title="Asset Information">
+    Retrieve asset details and history:
+    
+    **Examples:**
+    - "¿Cuándo fue el último mantenimiento del equipo X?"
+    - "¿Qué categoría incluye routers y switches?"
+    - "¿Cuántos activos tenemos en total?"
+  </Accordion>
+  
+  <Accordion title="Reporting Assistance">
+    Get help generating and understanding reports:
+    
+    **Examples:**
+    - "¿Cómo genero un reporte de mantenimiento mensual?"
+    - "¿Qué significa la tendencia de +12% en activos?"
+    - "¿Cuál es el presupuesto ejecutado este mes?"
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  The chat interface uses smooth animations (`animate-in fade-in slide-in-from-left-4 duration-300`) when switching modes, providing a polished user experience.
+</Tip>
+
+## Diagnostic Mode
+
+The Diagnostic interface specializes in analyzing equipment failures:
+
+```tsx
+{activeTab === 'diagnostico' ? (
+  <div className="h-full flex flex-col items-center justify-center max-w-2xl mx-auto animate-in fade-in zoom-in-95 duration-300">
+    <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+      <Wrench className="text-red-400" size={32} />
+    </div>
+    <h3 className="font-microgramma text-2xl text-black mb-3">Diagnóstico Inteligente</h3>
+    <p className="text-slate-500 text-sm mb-8">Describe el problema. Nuestra IA analizará los síntomas.</p>
+    
+    <textarea 
+      className="w-full h-40 bg-[#E8EEEF] rounded-2xl p-6 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gima-blue/30 resize-none transition-all text-sm mb-6" 
+      placeholder="Ej: el aire acondicionado hace ruido metalico..."
+    />
+    
+    <button className="w-full bg-gima-blue text-white py-4 rounded-xl font-bold text-base hover:bg-blue-600 transition shadow-xl shadow-gima-blue/20 flex items-center justify-center gap-2 active:scale-95 duration-200">
+      <Sparkles size={20} /> Analizar Falla
+    </button>
+  </div>
+)
+```
+
+### Diagnostic Workflow
+
+<Steps>
+  <Step title="Switch to Diagnostic Tab">
+    Click the "Diagnóstico" tab with the lightning bolt icon:
+    
+    ```tsx
+    <button 
+      onClick={() => setActiveTab('diagnostico')}
+      className={`pb-3 flex items-center gap-2 transition-all border-b-2 ${
+        activeTab === 'diagnostico' 
+          ? "text-gima-navy font-bold border-gima-navy scale-105" 
+          : "text-slate-400 hover:text-slate-600 border-transparent hover:border-slate-200"
+      }`}
+    >
+      <Zap size={18} /> Diagnóstico
+    </button>
+    ```
+  </Step>
+  
+  <Step title="Describe the Problem">
+    Enter a detailed description of the issue in the textarea:
+    - What symptoms are you observing?
+    - When did the problem start?
+    - Has anything changed recently?
+    - What is the asset ID or category?
+  </Step>
+  
+  <Step title="Analyze the Failure">
+    Click the "Analizar Falla" button with the sparkles icon to submit
+  </Step>
+  
+  <Step title="Review AI Recommendations">
+    The AI will analyze the symptoms and provide:
+    - Probable causes
+    - Recommended troubleshooting steps
+    - Suggested maintenance actions
+    - Priority level
+  </Step>
+</Steps>
+
+### Example Diagnostic Queries
+
+<Tabs>
+  <Tab title="HVAC Issues">
+    **Problem Description:**
+    ```
+    El aire acondicionado de la sala de servidores hace un ruido 
+    metálico intermitente y no enfría adecuadamente. El problema 
+    comenzó hace 2 días.
+    ```
+    
+    **AI Analysis Might Include:**
+    - Check fan bearings for wear
+    - Inspect compressor mounting
+    - Verify refrigerant levels
+    - Check air filter condition
+    - Priority: High (server room)
+  </Tab>
+  
+  <Tab title="Computer Problems">
+    **Problem Description:**
+    ```
+    La computadora CAT-001 se apaga aleatoriamente después de 30 
+    minutos de uso. Ocurre más frecuentemente durante tareas pesadas.
+    ```
+    
+    **AI Analysis Might Include:**
+    - Check CPU temperature sensors
+    - Test power supply output
+    - Verify RAM module stability
+    - Clean dust from cooling system
+    - Priority: Medium
+  </Tab>
+  
+  <Tab title="Network Equipment">
+    **Problem Description:**
+    ```
+    El switch principal pierde conexión intermitentemente. Los LEDs 
+    de algunos puertos parpadean en ámbar.
+    ```
+    
+    **AI Analysis Might Include:**
+    - Test cable connections
+    - Update firmware
+    - Check port configurations
+    - Inspect for overheating
+    - Priority: Critical (network infrastructure)
+  </Tab>
+  
+  <Tab title="Vehicle Issues">
+    **Problem Description:**
+    ```
+    El vehículo VEH-005 produce vibración excesiva al frenar a 
+    velocidades superiores a 60 km/h.
+    ```
+    
+    **AI Analysis Might Include:**
+    - Inspect brake rotors for warping
+    - Check brake pad wear
+    - Verify wheel alignment
+    - Test suspension components
+    - Priority: High (safety concern)
+  </Tab>
+</Tabs>
+
+## User Interface Components
+
+### Tab Navigation
+
+The interface uses a polished tab system with active state indicators:
+
+```tsx
+<div className="px-10 flex gap-8 border-b border-slate-100 mb-6">
+  <button 
+    onClick={() => setActiveTab('chat')}
+    className={`pb-3 flex items-center gap-2 transition-all border-b-2 ${
+      activeTab === 'chat' 
+        ? "text-gima-navy font-bold border-gima-navy scale-105" 
+        : "text-slate-400 hover:text-slate-600 border-transparent hover:border-slate-200"
+    }`}
+  >
+    <MessageSquare size={18} /> Chat
+  </button>
+  
+  <button 
+    onClick={() => setActiveTab('diagnostico')}
+    className={`pb-3 flex items-center gap-2 transition-all border-b-2 ${
+      activeTab === 'diagnostico' 
+        ? "text-gima-navy font-bold border-gima-navy scale-105" 
+        : "text-slate-400 hover:text-slate-600 border-transparent hover:border-slate-200"
+    }`}
+  >
+    <Zap size={18} /> Diagnóstico
+  </button>
+</div>
+```
+
+<Note>
+  The active tab scales slightly larger (`scale-105`) and uses bold font with brand colors for clear visual feedback.
+</Note>
+
+### Message Bubbles
+
+Chat messages from GIMA-AI feature branded styling:
+
+```tsx
+<div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 max-w-3xl w-full">
+  <div className="flex items-center gap-3 mb-3 border-b border-slate-50 pb-3">
+    <Bot size={20} className="text-gima-navy" />
+    <span className="font-bold text-gima-navy text-sm uppercase tracking-wider">
+      GIMA bot
+    </span>
+  </div>
+  <p className="text-slate-600 text-sm leading-relaxed">
+    {/* AI response */}
+  </p>
+</div>
+```
+
+### Input Components
+
+Both modes feature carefully designed input areas:
+
+**Chat Input:**
+- Inline send button with icon
+- Focus states with ring and border color changes
+- Shadow effects for depth
+
+**Diagnostic Textarea:**
+- Large input area (h-40) for detailed descriptions
+- Soft background color (#E8EEEF)
+- No resize handle for consistent layout
+- Prominent submit button with sparkles icon
+
+## State Management
+
+The component uses React hooks for tab state:
+
+```tsx
+const [activeTab, setActiveTab] = useState<'chat' | 'diagnostico'>('diagnostico');
+```
+
+The default is 'diagnostico', guiding users toward the specialized diagnostic feature first.
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Be Specific" icon="bullseye">
+    Provide detailed descriptions including asset IDs, symptoms, and timeframes
+  </Card>
+  
+  <Card title="Include Context" icon="list-ul">
+    Mention recent changes, environmental factors, or related events
+  </Card>
+  
+  <Card title="Follow Recommendations" icon="clipboard-check">
+    Implement AI suggestions systematically and document results
+  </Card>
+  
+  <Card title="Provide Feedback" icon="comment">
+    Help improve the AI by reporting whether recommendations resolved issues
+  </Card>
+</CardGroup>
+
+<Warning>
+  AI diagnostics provide suggestions based on patterns and should not replace professional judgment, especially for safety-critical systems or complex failures.
+</Warning>
+
+## Integration with Reports
+
+The AI Assistance feature is prominently accessible from the Reports page:
+
+```tsx
+<div className="mx-6 mt-6 mb-8 bg-gima-light rounded-full px-8 py-3 flex items-center justify-between">
+  <div className="flex gap-24 text-sm font-medium text-slate-500">
+    <button className="hover:text-gima-navy hover:bg-white/50 px-4 py-2 rounded-full transition-all">Historial de Reportes</button>
+    <button className="hover:text-gima-navy hover:bg-white/50 px-4 py-2 rounded-full transition-all">Generar Reportes</button>
+    <button className="hover:text-gima-navy hover:bg-white/50 px-4 py-2 rounded-full transition-all">Programados</button>
+  </div>
+  
+  <Link href="/asistencia">
+    <button className="bg-gima-navy text-white px-8 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition shadow-lg shadow-gima-navy/20 flex items-center gap-2 transform hover:scale-105 active:scale-95">
+      Asistencia IA
+    </button>
+  </Link>
+</div>
+```
+
+<Tip>
+  The strategic placement in the Reports section allows users to get AI help while reviewing asset and maintenance data.
+</Tip>
+
+## Future Enhancements
+
+Potential improvements to the AI Diagnostics feature:
+
+- **Historical Context**: AI access to complete asset maintenance history
+- **Image Analysis**: Upload photos of equipment issues for visual diagnosis
+- **Predictive Alerts**: Proactive notifications about potential failures
+- **Multi-language Support**: Diagnostics in multiple languages
+- **Voice Input**: Describe problems using voice commands
+- **Integration with IoT**: Real-time sensor data analysis
+
+## Related Features
+
+- [Dashboard](/features/dashboard) - View equipment metrics that inform diagnostics
+- [Maintenance](/features/maintenance) - Create maintenance tickets from diagnostic results
+- [Reports](/features/reports) - Access AI assistance while reviewing reports
+- [Asset Management](/features/asset-management) - Look up asset details for diagnostic context

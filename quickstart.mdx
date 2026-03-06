@@ -1,80 +1,293 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart Guide
+description: Get GIMA up and running in minutes with this step-by-step quickstart guide
 ---
 
-## Get started in three steps
+## Get Started in 5 Minutes
 
-Get your documentation site running locally and make your first customization.
-
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+This quickstart guide will help you get GIMA running on your local machine quickly. By the end, you'll have the application running and be ready to explore its features.
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  Before starting, ensure you have Node.js 20 or higher installed on your system. Check with `node --version`.
 </Note>
+
+## Installation and Setup
+
+Follow these steps to get GIMA running:
+
+<Steps>
+  <Step title="Clone the Repository">
+    First, clone the GIMA project repository to your local machine:
+
+    ```bash
+    git clone https://github.com/GonzalezCesar/gima-project.git
+    cd gima-project
+    ```
+  </Step>
+
+  <Step title="Install Dependencies">
+    Install all required dependencies using your preferred package manager:
+
+    <CodeGroup>
+      ```bash npm
+      npm install
+      ```
+
+      ```bash pnpm
+      pnpm install
+      ```
+
+      ```bash yarn
+      yarn install
+      ```
+    </CodeGroup>
+
+    This will install:
+    - Next.js 16.1.1 and React 19.2.3
+    - TypeScript and development tools
+    - UI libraries (Tailwind CSS, Lucide icons)
+    - All other dependencies defined in package.json
+  </Step>
+
+  <Step title="Start the Development Server">
+    Launch the development server:
+
+    <CodeGroup>
+      ```bash npm
+      npm run dev
+      ```
+
+      ```bash pnpm
+      pnpm dev
+      ```
+
+      ```bash yarn
+      yarn dev
+      ```
+    </CodeGroup>
+
+    The server will start on `http://localhost:3000` by default.
+
+    <Note>
+      The development server includes hot module replacement - your changes will be reflected instantly without refreshing the browser.
+    </Note>
+  </Step>
+
+  <Step title="Access GIMA">
+    Open your browser and navigate to:
+
+    ```
+    http://localhost:3000
+    ```
+
+    You'll be automatically redirected to the login page at `/auth/login`.
+  </Step>
+</Steps>
+
+## First Login
+
+When you first access GIMA, you'll see the login screen:
+
+<Steps>
+  <Step title="Enter Credentials">
+    The login page (`src/app/auth/login/page.tsx`) accepts any email and password for development purposes.
+
+    **Test Credentials:**
+    - Username: Any email format (e.g., `pedro_perez@example.com`)
+    - Password: Any password (e.g., `Pedro123`)
+
+    <Warning>
+      This is a development setup with simulated authentication. In production, you'll need to implement proper authentication with a backend service.
+    </Warning>
+  </Step>
+
+  <Step title="Access the Dashboard">
+    After logging in, you'll be redirected to the main dashboard at `/dashboard`.
+
+    The dashboard displays:
+    - **Key Metrics**: Total assets, maintenance status, budget execution
+    - **Asset Availability**: Visual charts showing asset performance over time
+    - **Quick Actions**: Easy access to common tasks
+  </Step>
+</Steps>
+
+## Exploring the Interface
+
+Once logged in, you'll have access to GIMA's main features:
+
+### Main Navigation
+
+The application uses the `MainLayout` component (`src/components/layout/MainLayout.tsx`) with navigation to:
+
+- **Dashboard** (`/dashboard`): Main overview with statistics and charts
+- **Maintenance** (`/dashboard/mantenimiento`): Work orders and maintenance scheduling
+- **Asset Categories** (`/categorias-activos`): Manage asset classification
+- **Reports** (`/reportes`): Generate and view reports
+- **Configuration** (`/configuracion`): System settings including:
+  - User management
+  - AI settings
+  - Language preferences
+  - Notifications
+  - Security settings
+  - Locations
+  - Parts and spares
+- **Assistance** (`/asistencia`): Help and support resources
+
+### Dashboard Overview
+
+The dashboard (`src/app/dashboard/page.tsx`) features:
+
+```typescript
+<StatCard title="Total activos" value="12345" trend={12} trendLabel="este mes" />
+<StatCard title="En mantenimiento" value="8" />
+<StatCard title="Presupuesto ejecutado" value="100$" highlighted={true} />
+```
+
+<Note>
+  These are sample values for demonstration. In production, these will be connected to your actual asset data.
+</Note>
+
+## Understanding the Project Structure
+
+Here's what you'll find in the codebase:
+
+```
+gima-project/
+├── src/
+│   ├── app/                  # Next.js pages and routes
+│   │   ├── auth/login/       # Authentication pages
+│   │   ├── dashboard/        # Dashboard and analytics
+│   │   ├── configuracion/    # Configuration pages
+│   │   └── layout.tsx        # Root layout with MainLayout
+│   ├── components/
+│   │   ├── layout/           # MainLayout, DashboardHeader
+│   │   ├── dashboard/        # StatCard, ChartPlaceholder
+│   │   ├── configuracion/    # Configuration components
+│   │   └── ui/               # Reusable UI components
+│   ├── types/                # TypeScript definitions
+│   ├── data/                 # Static data (categories.ts)
+│   ├── services/             # API services
+│   └── lib/                  # Utilities
+├── public/
+│   ├── logo-gima.png        # Application logo
+│   └── fonts/               # Custom fonts (Microgramma, Archivo)
+└── Configuration files
+```
+
+## Next Steps
+
+Now that you have GIMA running, here's what to do next:
+
+<CardGroup cols={2}>
+  <Card title="Asset Management" icon="box" href="/features/asset-management">
+    Learn how to add, track, and manage assets
+  </Card>
+  
+  <Card title="Maintenance Scheduling" icon="calendar" href="/features/maintenance">
+    Set up preventive maintenance and work orders
+  </Card>
+  
+  <Card title="Configuration" icon="gear" href="/configuration/settings">
+    Customize GIMA for your organization
+  </Card>
+  
+  <Card title="AI Features" icon="brain" href="/features/ai-diagnostics">
+    Explore AI-powered diagnostics and insights
+  </Card>
+</CardGroup>
+
+## Development Commands
+
+Here are the available npm scripts:
+
+<CodeGroup>
+  ```bash Development
+  npm run dev
+  # Start development server with hot reload
+  ```
+
+  ```bash Build
+  npm run build
+  # Create optimized production build
+  ```
+
+  ```bash Start Production
+  npm run start
+  # Run production build
+  ```
+
+  ```bash Lint
+  npm run lint
+  # Run ESLint to check code quality
+  ```
+</CodeGroup>
+
+## Common Issues
+
+If you encounter problems:
+
+<Accordion title="Port 3000 Already in Use">
+  If port 3000 is occupied, you can specify a different port:
+
+  ```bash
+  PORT=3001 npm run dev
+  ```
+
+  Or kill the process using port 3000:
+
+  ```bash
+  # On Linux/Mac
+  lsof -ti:3000 | xargs kill -9
+
+  # On Windows
+  netstat -ano | findstr :3000
+  taskkill /PID <PID> /F
+  ```
+</Accordion>
+
+<Accordion title="Module Not Found Errors">
+  If you see module resolution errors:
+
+  1. Delete `node_modules` and lock files:
+     ```bash
+     rm -rf node_modules package-lock.json pnpm-lock.yaml
+     ```
+
+  2. Clear npm cache:
+     ```bash
+     npm cache clean --force
+     ```
+
+  3. Reinstall dependencies:
+     ```bash
+     npm install
+     ```
+</Accordion>
+
+<Accordion title="TypeScript Errors">
+  If TypeScript compilation fails:
+
+  1. Ensure you're using TypeScript 5 or higher:
+     ```bash
+     npx tsc --version
+     ```
+
+  2. Delete the `.next` directory:
+     ```bash
+     rm -rf .next
+     ```
+
+  3. Restart the development server:
+     ```bash
+     npm run dev
+     ```
+</Accordion>
+
+## Getting Help
+
+Need assistance?
+
+- Check the [Installation Guide](/installation) for detailed setup instructions
+- Review the [Configuration documentation](/configuration/settings)
+- Report issues on [GitHub](https://github.com/GonzalezCesar/gima-project/issues)
+- Access in-app support through the Asistencia module

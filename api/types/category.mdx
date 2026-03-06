@@ -1,0 +1,322 @@
+---
+title: 'Category Types'
+description: 'TypeScript types and interfaces for category management in GIMA'
+icon: 'folder-tree'
+---
+
+## Overview
+
+Categories in GIMA are used to organize and classify assets. Each category groups related assets together and tracks the total count of assets within it.
+
+## Category Interface
+
+The category structure is defined by the data in `src/data/categories.ts`:
+
+```typescript
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+  total: number;
+}
+```
+
+### Properties
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the category, following the format `CAT-XXX`.
+  
+  Example: `"CAT-001"`, `"CAT-002"`, `"CAT-003"`
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Name of the category, typically in uppercase.
+  
+  Example: `"COMPUTO"`, `"INFRAESTRUCTURA"`, `"ELECTRICIDAD"`
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Detailed description of what types of assets belong to this category.
+  
+  Examples:
+  - `"Ordenadores, servidores y periféricos"`
+  - `"Aires acondicionados, plantas eléctricas, mobiliario"`
+  - `"Cables, interruptores, enchufes, etc."`
+</ResponseField>
+
+<ResponseField name="total" type="number" required>
+  Total count of assets assigned to this category.
+  
+  Example: `120`, `58`, `85`
+</ResponseField>
+
+## Default Categories
+
+GIMA includes three default categories defined in `src/data/categories.ts`:
+
+```typescript
+export const categories = [
+  { 
+    id: "CAT-001", 
+    name: "COMPUTO", 
+    description: "Ordenadores, servidores y periféricos", 
+    total: 120 
+  },
+  { 
+    id: "CAT-002", 
+    name: "INFRAESTRUCTURA", 
+    description: "Aires acondicionados, plantas eléctricas, mobiliario", 
+    total: 58 
+  },
+  { 
+    id: "CAT-003", 
+    name: "ELECTRICIDAD", 
+    description: "Cables, interruptores, enchufes, etc.", 
+    total: 85 
+  },
+];
+```
+
+### COMPUTO
+
+<Expandable title="Category Details">
+  <ResponseField name="id" type="string">
+    `"CAT-001"`
+  </ResponseField>
+  <ResponseField name="name" type="string">
+    `"COMPUTO"`
+  </ResponseField>
+  <ResponseField name="description" type="string">
+    Ordenadores, servidores y periféricos (Computers, servers, and peripherals)
+  </ResponseField>
+  <ResponseField name="total" type="number">
+    120 assets
+  </ResponseField>
+</Expandable>
+
+### INFRAESTRUCTURA
+
+<Expandable title="Category Details">
+  <ResponseField name="id" type="string">
+    `"CAT-002"`
+  </ResponseField>
+  <ResponseField name="name" type="string">
+    `"INFRAESTRUCTURA"`
+  </ResponseField>
+  <ResponseField name="description" type="string">
+    Aires acondicionados, plantas eléctricas, mobiliario (Air conditioning, power plants, furniture)
+  </ResponseField>
+  <ResponseField name="total" type="number">
+    58 assets
+  </ResponseField>
+</Expandable>
+
+### ELECTRICIDAD
+
+<Expandable title="Category Details">
+  <ResponseField name="id" type="string">
+    `"CAT-003"`
+  </ResponseField>
+  <ResponseField name="name" type="string">
+    `"ELECTRICIDAD"`
+  </ResponseField>
+  <ResponseField name="description" type="string">
+    Cables, interruptores, enchufes, etc. (Cables, switches, outlets, etc.)
+  </ResponseField>
+  <ResponseField name="total" type="number">
+    85 assets
+  </ResponseField>
+</Expandable>
+
+## Usage in Components
+
+### Category Table Component
+
+The `TablaDeCategorias` component (`src/components/configuracion/TablaDeCategorias.tsx`) demonstrates how to use categories in a React component:
+
+```tsx
+import { categories } from "@/data/categories";
+import FilaDeCategorias from "./filaDeCategorias";
+
+export default function TablaDeCategorias() {
+  return (
+    <div className="overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-sm">
+      <table className="w-full text-left border-collapse">
+        <thead className="bg-background">
+          <tr>
+            <th>ID Categoría</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Total Activos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {categories.map((category, index) => (
+            <FilaDeCategorias
+              key={index}
+              id={category.id}
+              name={category.name}
+              description={category.description}
+              total={category.total}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+```
+
+## Usage Examples
+
+### Accessing All Categories
+
+```typescript
+import { categories } from '@/data/categories';
+
+// Get all categories
+const allCategories = categories;
+
+// Get total number of categories
+const categoryCount = categories.length; // 3
+```
+
+### Finding a Specific Category
+
+```typescript
+import { categories } from '@/data/categories';
+
+// Find category by ID
+function getCategoryById(id: string) {
+  return categories.find(cat => cat.id === id);
+}
+
+const computeCategory = getCategoryById('CAT-001');
+// { id: "CAT-001", name: "COMPUTO", ... }
+
+// Find category by name
+function getCategoryByName(name: string) {
+  return categories.find(cat => cat.name === name);
+}
+
+const infraCategory = getCategoryByName('INFRAESTRUCTURA');
+```
+
+### Calculating Total Assets
+
+```typescript
+import { categories } from '@/data/categories';
+
+// Calculate total assets across all categories
+function getTotalAssets(): number {
+  return categories.reduce((sum, category) => sum + category.total, 0);
+}
+
+const totalAssets = getTotalAssets(); // 263 (120 + 58 + 85)
+```
+
+### Filtering and Sorting
+
+```typescript
+import { categories } from '@/data/categories';
+
+// Get categories with more than 50 assets
+const largeCategories = categories.filter(cat => cat.total > 50);
+// [COMPUTO, INFRAESTRUCTURA, ELECTRICIDAD]
+
+// Sort categories by total assets (descending)
+const sortedByTotal = [...categories].sort((a, b) => b.total - a.total);
+// [COMPUTO (120), ELECTRICIDAD (85), INFRAESTRUCTURA (58)]
+
+// Sort categories alphabetically
+const sortedByName = [...categories].sort((a, b) => 
+  a.name.localeCompare(b.name)
+);
+```
+
+### Type-Safe Category Operations
+
+```typescript
+type CategoryId = 'CAT-001' | 'CAT-002' | 'CAT-003';
+
+interface AssetAssignment {
+  assetId: string;
+  categoryId: CategoryId;
+}
+
+function assignAssetToCategory(
+  assetId: string, 
+  categoryId: CategoryId
+): AssetAssignment {
+  return { assetId, categoryId };
+}
+
+// Type-safe usage
+const assignment = assignAssetToCategory('ASSET-001', 'CAT-001'); // ✓
+// const invalid = assignAssetToCategory('ASSET-001', 'CAT-999'); // ✗ Type error
+```
+
+## Category Statistics
+
+You can derive useful statistics from category data:
+
+```typescript
+interface CategoryStats {
+  totalCategories: number;
+  totalAssets: number;
+  averageAssetsPerCategory: number;
+  largestCategory: Category;
+  smallestCategory: Category;
+}
+
+function getCategoryStats(): CategoryStats {
+  const totalCategories = categories.length;
+  const totalAssets = categories.reduce((sum, cat) => sum + cat.total, 0);
+  const averageAssetsPerCategory = totalAssets / totalCategories;
+  
+  const sorted = [...categories].sort((a, b) => b.total - a.total);
+  const largestCategory = sorted[0];
+  const smallestCategory = sorted[sorted.length - 1];
+  
+  return {
+    totalCategories,
+    totalAssets,
+    averageAssetsPerCategory,
+    largestCategory,
+    smallestCategory,
+  };
+}
+```
+
+## Related Types
+
+- [Asset Types](/api/types/asset) - Assets that belong to categories
+- [User Types](/api/types/user) - Users who manage categories and assets
+
+## Extending Categories
+
+<Note>
+  To add new categories, update the `categories` array in `src/data/categories.ts`. 
+  Ensure each category has a unique ID following the `CAT-XXX` format.
+</Note>
+
+### Example: Adding a New Category
+
+```typescript
+export const categories = [
+  // ... existing categories
+  { 
+    id: "CAT-004", 
+    name: "MOBILIARIO", 
+    description: "Escritorios, sillas, archivadores, etc.", 
+    total: 45 
+  },
+];
+```
+
+## Source Files
+
+- Category data: `src/data/categories.ts`
+- Table component: `src/components/configuracion/TablaDeCategorias.tsx`
+- Row component: `src/components/configuracion/filaDeCategorias.tsx`

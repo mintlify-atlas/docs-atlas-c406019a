@@ -1,0 +1,364 @@
+---
+title: 'Asset Categories'
+description: 'Configure the asset categorization system'
+icon: 'folder-tree'
+---
+
+GIMA's category system allows you to classify and organize assets into logical groups. This categorization helps with reporting, filtering, and managing assets based on their type, function, or characteristics.
+
+## Overview
+
+Access category management at `/categorias-activos` to configure your organization's asset classification structure.
+
+<Info>
+  Categories help you organize assets by type (e.g., COMPUTO, MOBILIARIO, REDES) and track how many assets are in each category.
+</Info>
+
+## Category Structure
+
+Each category in GIMA includes:
+
+- **Category ID**: Unique identifier (e.g., CAT-001)
+- **Name**: Category name in uppercase
+- **Description**: Detailed description of what assets belong in this category
+- **Total Assets**: Count of assets assigned to this category
+
+### Default Categories
+
+GIMA includes these predefined categories:
+
+<CodeGroup>
+```json Default Category Data
+[
+  {
+    "id": "CAT-001",
+    "name": "COMPUTO",
+    "description": "Ordenadores, servidores y periféricos",
+    "total": 120
+  },
+  {
+    "id": "CAT-002",
+    "name": "INFRAESTRUCTURA",
+    "description": "Aires acondicionados, plantas eléctricas, mobiliario",
+    "total": 58
+  },
+  {
+    "id": "CAT-003",
+    "name": "ELECTRICIDAD",
+    "description": "Cables, interruptores, enchufes, etc.",
+    "total": 85
+  }
+]
+```
+</CodeGroup>
+
+<Accordion title="COMPUTO Category">
+  **Description**: Ordenadores, servidores y periféricos
+  
+  Includes:
+  - Laptops and desktop computers
+  - Servers and server equipment
+  - Peripherals (monitors, keyboards, mice)
+  - External storage devices
+  
+  Example assets: Dell Latitude laptop, HP ProLiant server, Logitech mouse
+</Accordion>
+
+<Accordion title="INFRAESTRUCTURA Category">
+  **Description**: Aires acondicionados, plantas eléctricas, mobiliario
+  
+  Includes:
+  - Air conditioning units
+  - Electrical generators and power equipment
+  - Office furniture (desks, chairs, cabinets)
+  - Building systems
+  
+  Example assets: Industrial AC unit, backup generator, ergonomic office chair
+</Accordion>
+
+<Accordion title="ELECTRICIDAD Category">
+  **Description**: Cables, interruptores, enchufes, etc.
+  
+  Includes:
+  - Electrical cables and wiring
+  - Switches and circuit breakers
+  - Power outlets and connectors
+  - Electrical tools and testing equipment
+  
+  Example assets: Cat6 ethernet cable, 20A circuit breaker, power strip
+</Accordion>
+
+## Additional Category Examples
+
+Based on the source code, GIMA also supports these categories:
+
+<CardGroup cols={2}>
+  <Card title="MOBILIARIO" icon="chair">
+    Furniture and office equipment
+    - Ergonomic chairs
+    - Desks and workstations
+    - File cabinets and storage
+  </Card>
+  
+  <Card title="VEHÍCULOS" icon="truck">
+    Transportation fleet
+    - Company vehicles
+    - Transport trucks
+    - Cargo vehicles
+  </Card>
+  
+  <Card title="REDES" icon="network-wired">
+    Network infrastructure
+    - Routers and switches
+    - Network cables (structured cabling)
+    - Wireless access points
+  </Card>
+</CardGroup>
+
+## Creating a New Category
+
+<Steps>
+  <Step title="Navigate to Categories">
+    Go to `/categorias-activos` or access "Categorías" from the configuration dashboard.
+  </Step>
+  
+  <Step title="Click Nueva Categoría">
+    Click the blue "NUEVA CATEGORÍA" button in the top right corner.
+  </Step>
+  
+  <Step title="Enter Category Details">
+    Fill in the category information:
+    - **Name**: Enter a descriptive name in uppercase (e.g., "COMPUTO", "MOBILIARIO")
+    - **Description**: Provide details about what assets belong in this category
+  </Step>
+  
+  <Step title="Save Category">
+    Click save to create the new category. It will be assigned a unique category ID (CAT-XXX).
+  </Step>
+</Steps>
+
+<Note>
+  Category names are displayed in uppercase throughout the system for visual consistency. The total assets count is automatically updated as assets are added or removed.
+</Note>
+
+## Category Table Interface
+
+The categories page displays a modern, rounded table with the following columns:
+
+| Column | Description | Format |
+|--------|-------------|--------|
+| **ID** | Unique identifier | CAT-XXX format |
+| **Nombre** | Category name | Bold, uppercase text |
+| **Descripción** | Category description | Truncated if too long |
+| **Activos** | Asset count | Blue badge with number |
+| **Acciones** | Action buttons | Edit and delete icons |
+
+### Table Features
+
+<Accordion title="Search Functionality">
+  Use the search bar to filter categories by:
+  - Category name
+  - Category ID
+  
+  The search updates in real-time as you type.
+</Accordion>
+
+<Accordion title="Visual Design">
+  - **Rounded Corners**: Table has 2rem border radius for modern look
+  - **Hover Effects**: Rows highlight with blue tint on hover
+  - **Status Badges**: Asset count displayed in blue bordered badge
+  - **Action Buttons**: Color-coded (blue for edit, red for delete)
+</Accordion>
+
+<Accordion title="Responsive Layout">
+  The table adjusts to different screen sizes:
+  - Desktop: Full 5-column layout
+  - Mobile: Stacked or scrollable layout
+</Accordion>
+
+## Managing Categories
+
+### Editing a Category
+
+<Steps>
+  <Step title="Locate Category">
+    Find the category in the table using the search bar if needed.
+  </Step>
+  
+  <Step title="Click Edit Button">
+    Click the pencil icon in the "Acciones" column.
+  </Step>
+  
+  <Step title="Update Details">
+    Modify the category name, description, or other properties.
+  </Step>
+  
+  <Step title="Save Changes">
+    Confirm your changes to update the category.
+  </Step>
+</Steps>
+
+### Deleting a Category
+
+<Warning>
+  Before deleting a category, ensure that:
+  - No assets are currently assigned to this category (check the "Activos" count)
+  - The category is not referenced in reports or workflows
+  - You have reassigned any existing assets to other categories
+  
+  Deleting a category with assigned assets may cause data integrity issues.
+</Warning>
+
+<Steps>
+  <Step title="Verify Asset Count">
+    Check that the "Activos" column shows 0 assets for this category.
+  </Step>
+  
+  <Step title="Click Delete">
+    Click the red trash icon in the "Acciones" column.
+  </Step>
+  
+  <Step title="Confirm Deletion">
+    A confirmation dialog will appear: "¿Eliminar Categoría? Esta acción no se puede deshacer."
+  </Step>
+  
+  <Step title="Confirm Action">
+    Click confirm to permanently delete the category.
+  </Step>
+</Steps>
+
+## Category Naming Conventions
+
+### Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Use Clear Names" icon="tag">
+    Choose names that clearly identify the asset type (e.g., COMPUTO for computers)
+  </Card>
+  
+  <Card title="Keep It Concise" icon="text-size">
+    Category names should be short and memorable
+  </Card>
+  
+  <Card title="Use Uppercase" icon="font">
+    Follow the system convention of uppercase category names
+  </Card>
+  
+  <Card title="Be Specific" icon="bullseye">
+    Avoid overly broad categories that could apply to many asset types
+  </Card>
+</CardGroup>
+
+### Recommended Categories
+
+Consider creating categories for:
+
+- **Technology Assets**: COMPUTO, REDES, SERVIDORES
+- **Facilities**: MOBILIARIO, INFRAESTRUCTURA, CLIMATIZACIÓN
+- **Utilities**: ELECTRICIDAD, PLOMERÍA, HVAC
+- **Transportation**: VEHÍCULOS, TRANSPORTE
+- **Equipment**: HERRAMIENTAS, MAQUINARIA
+- **Safety**: SEGURIDAD, EMERGENCIA
+
+## Category Descriptions
+
+<Tip>
+  Write detailed descriptions that include:
+  - Types of assets that belong in this category
+  - Specific examples (e.g., "Laptops, Desktops, Servidores y Periféricos")
+  - Any special characteristics or requirements
+  
+  Good descriptions help users categorize assets correctly.
+</Tip>
+
+### Description Examples
+
+```text Examples
+COMPUTO: "Ordenadores, servidores y periféricos"
+MOBILIARIO: "Sillas ergonómicas, Escritorios y Archivos"
+VEHÍCULOS: "Flota de transporte y vehículos de carga"
+REDES: "Routers, Switches y Cableado estructurado"
+```
+
+## Category Analytics
+
+The asset count badge shows how many assets are assigned to each category:
+
+- **High Count** (100+): Major category with many assets
+- **Medium Count** (50-99): Significant category
+- **Low Count** (1-49): Specialized or new category
+- **Zero Count**: Unused category (candidate for deletion)
+
+<Info>
+  The asset count updates automatically when assets are created, deleted, or reassigned to different categories.
+</Info>
+
+## Navigation and Actions
+
+### Filter Button
+
+Use the filter icon to apply advanced filters to the category list:
+- Filter by asset count range
+- Sort by name, ID, or total assets
+- Show/hide inactive categories
+
+### Return to Configuration
+
+Click "Volver a configuración" to return to the main configuration dashboard.
+
+## Technical Details
+
+### Category ID Format
+
+Category IDs follow the pattern: `CAT-XXX` where XXX is a sequential three-digit number.
+
+Examples:
+- CAT-001
+- CAT-002
+- CAT-123
+
+### Data Structure
+
+Categories are defined in `src/data/categories.ts`:
+
+```typescript Category Type
+interface Category {
+  id: string;        // Format: CAT-XXX
+  name: string;      // Uppercase name
+  description: string; // Detailed description
+  total: number;     // Asset count
+}
+```
+
+### UI Components
+
+The category interface uses:
+- **TablaDeCategorias**: Main table component (`src/components/configuracion/TablaDeCategorias.tsx`)
+- **FilaDeCategorias**: Row component for each category
+- **DeleteAlert**: Confirmation dialog for deletions
+- **Lucide Icons**: Pencil (edit) and Trash2 (delete) icons
+
+## Related Features
+
+<CardGroup cols={2}>
+  <Card title="Asset Management" icon="box" href="/features/asset-management">
+    Assign categories when creating new assets
+  </Card>
+  
+  <Card title="Reports" icon="chart-bar" href="/features/reports">
+    Generate reports filtered by category
+  </Card>
+  
+  <Card title="Managing Assets" icon="layer-group" href="/guides/managing-assets">
+    Perform actions on all assets in a category
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+After setting up your categories:
+
+1. Create assets and assign them to appropriate categories
+2. Set up maintenance templates specific to each category
+3. Configure category-specific workflows
+4. Generate reports to analyze assets by category

@@ -1,0 +1,346 @@
+---
+title: 'Maintenance Management'
+description: 'Schedule, track, and manage preventive and corrective maintenance for all assets'
+icon: 'screwdriver-wrench'
+---
+
+## Overview
+
+The Maintenance Management module in GIMA enables organizations to track asset maintenance needs, schedule preventive maintenance, and monitor assets currently undergoing repairs. While the dedicated maintenance page at `/dashboard/mantenimiento` is under development, maintenance tracking is integrated throughout the platform.
+
+<CardGroup cols={2}>
+  <Card title="Preventive Maintenance" icon="calendar-check">
+    Schedule regular maintenance to prevent asset failures and extend lifespan
+  </Card>
+  <Card title="Corrective Maintenance" icon="wrench">
+    Track and manage repairs for assets that have failed or are malfunctioning
+  </Card>
+  <Card title="Maintenance Queue" icon="list-ol">
+    View all assets currently in maintenance from the dashboard
+  </Card>
+  <Card title="Status Tracking" icon="circle-check">
+    Monitor maintenance progress and completion status
+  </Card>
+</CardGroup>
+
+## Maintenance Metrics
+
+### Dashboard Integration
+
+The main dashboard at `src/app/dashboard/page.tsx` prominently displays maintenance statistics:
+
+```tsx
+<StatCard 
+  title="En mantenimiento" 
+  value="8" 
+/>
+```
+
+This metric shows the current number of assets undergoing maintenance procedures, helping managers:
+- Identify bottlenecks in maintenance operations
+- Allocate resources effectively
+- Track maintenance workload trends
+
+<Note>
+  The maintenance count is displayed without a trend indicator, focusing on the current state rather than historical changes.
+</Note>
+
+## Maintenance Workflow
+
+<Steps>
+  <Step title="Identify Maintenance Need">
+    Assets requiring maintenance can be identified through:
+    - Regular inspection schedules
+    - Asset performance monitoring
+    - User-reported issues via AI Diagnostics
+    - Preventive maintenance schedules
+  </Step>
+  
+  <Step title="Create Maintenance Record">
+    When an asset needs maintenance:
+    - Mark the asset status as "En mantenimiento"
+    - Assign to maintenance personnel
+    - Document the issue or preventive task
+    - Set expected completion date
+  </Step>
+  
+  <Step title="Perform Maintenance">
+    Technicians complete the work and document:
+    - Actions taken
+    - Parts replaced
+    - Time spent
+    - Costs incurred
+  </Step>
+  
+  <Step title="Complete & Review">
+    Upon completion:
+    - Update asset status to "Disponible"
+    - Review maintenance quality
+    - Update asset maintenance history
+    - The dashboard count automatically decrements
+  </Step>
+</Steps>
+
+## Maintenance Categories
+
+Maintenance in GIMA is organized by asset categories:
+
+<Tabs>
+  <Tab title="COMPUTO">
+    **Computer Equipment Maintenance**
+    
+    - Hardware diagnostics and repair
+    - Software updates and patches
+    - Peripheral device servicing
+    - Network connectivity issues
+    
+    Common tasks:
+    - Hard drive replacements
+    - RAM upgrades
+    - Operating system reinstallation
+    - Keyboard and screen repairs
+  </Tab>
+  
+  <Tab title="INFRAESTRUCTURA">
+    **Infrastructure Maintenance**
+    
+    - HVAC system servicing
+    - Generator maintenance
+    - Furniture repairs
+    - Facility equipment
+    
+    Common tasks:
+    - Air conditioning filter changes
+    - Generator oil changes
+    - Furniture structural repairs
+    - Equipment calibration
+  </Tab>
+  
+  <Tab title="VEHÍCULOS">
+    **Vehicle Fleet Maintenance**
+    
+    - Regular service intervals
+    - Oil changes and fluid checks
+    - Tire rotation and replacement
+    - Safety inspections
+    
+    Common tasks:
+    - Engine diagnostics
+    - Brake system servicing
+    - Transmission maintenance
+    - Body and paint work
+  </Tab>
+  
+  <Tab title="REDES">
+    **Network Equipment Maintenance**
+    
+    - Router and switch updates
+    - Cable testing and replacement
+    - Network security patches
+    - Performance optimization
+    
+    Common tasks:
+    - Firmware updates
+    - Port configuration
+    - Cable management
+    - Network device replacement
+  </Tab>
+</Tabs>
+
+## Integration with AI Diagnostics
+
+The AI Diagnostics feature at `/asistencia` complements maintenance management:
+
+```tsx
+<textarea 
+  className="w-full h-40 bg-[#E8EEEF] rounded-2xl p-6 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gima-blue/30 resize-none transition-all text-sm mb-6" 
+  placeholder="Ej: el aire acondicionado hace ruido metalico..."
+/>
+<button className="w-full bg-gima-blue text-white py-4 rounded-xl font-bold text-base hover:bg-blue-600 transition shadow-xl shadow-gima-blue/20 flex items-center justify-center gap-2 active:scale-95 duration-200">
+  <Sparkles size={20} /> Analizar Falla
+</button>
+```
+
+<Tip>
+  Users can describe equipment issues in natural language, and the AI helps diagnose problems before creating maintenance tickets.
+</Tip>
+
+## Maintenance Scheduling
+
+While the dedicated maintenance page is under development, best practices for maintenance scheduling include:
+
+<CardGroup cols={2}>
+  <Card title="Preventive Schedule" icon="calendar-days">
+    Create recurring maintenance tasks based on:
+    - Manufacturer recommendations
+    - Usage patterns
+    - Historical failure data
+    - Regulatory requirements
+  </Card>
+  
+  <Card title="Priority Levels" icon="signal">
+    Classify maintenance by urgency:
+    - Critical (immediate)
+    - High (within 24 hours)
+    - Medium (within week)
+    - Low (scheduled)
+  </Card>
+  
+  <Card title="Resource Planning" icon="users">
+    Assign maintenance based on:
+    - Technician expertise
+    - Workload balance
+    - Required certifications
+    - Part availability
+  </Card>
+  
+  <Card title="Downtime Windows" icon="clock">
+    Schedule maintenance during:
+    - Off-peak hours
+    - Planned downtime
+    - Backup system availability
+    - Minimal operational impact
+  </Card>
+</CardGroup>
+
+## Maintenance Documentation
+
+Proper documentation is essential for effective maintenance management:
+
+### Work Order Components
+
+```typescript
+interface MaintenanceRecord {
+  id: string;
+  assetId: string;
+  category: string;
+  type: 'preventive' | 'corrective';
+  status: 'pending' | 'in-progress' | 'completed';
+  assignedTo: string;
+  scheduledDate: Date;
+  completedDate?: Date;
+  description: string;
+  actions: string[];
+  partsUsed: Part[];
+  laborHours: number;
+  cost: number;
+}
+```
+
+### Maintenance History
+
+Each asset should maintain a complete maintenance history:
+- Date of service
+- Type of maintenance performed
+- Technician responsible
+- Parts replaced
+- Costs incurred
+- Next scheduled maintenance
+
+<Warning>
+  Incomplete maintenance records can lead to premature asset failures and compliance issues. Ensure all technicians complete documentation promptly.
+</Warning>
+
+## Performance Metrics
+
+Track maintenance effectiveness with key metrics:
+
+<AccordionGroup>
+  <Accordion title="Mean Time Between Failures (MTBF)">
+    Measure the average time between asset failures to evaluate reliability and preventive maintenance effectiveness.
+    
+    ```
+    MTBF = Total Operating Time / Number of Failures
+    ```
+  </Accordion>
+  
+  <Accordion title="Mean Time to Repair (MTTR)">
+    Track how quickly maintenance teams resolve issues.
+    
+    ```
+    MTTR = Total Repair Time / Number of Repairs
+    ```
+  </Accordion>
+  
+  <Accordion title="Maintenance Cost per Asset">
+    Calculate the average maintenance cost for each asset type to identify cost-intensive categories.
+    
+    ```
+    Cost per Asset = Total Maintenance Cost / Number of Assets
+    ```
+  </Accordion>
+  
+  <Accordion title="Preventive vs. Corrective Ratio">
+    A higher ratio of preventive maintenance indicates better asset management practices.
+    
+    ```
+    PM Ratio = Preventive Maintenance Tasks / Total Maintenance Tasks
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Regular Inspections" icon="magnifying-glass">
+    Conduct routine inspections to identify issues before they cause failures
+  </Card>
+  
+  <Card title="Spare Parts Inventory" icon="boxes-stacked">
+    Maintain stock of commonly replaced parts to minimize downtime
+  </Card>
+  
+  <Card title="Technician Training" icon="graduation-cap">
+    Ensure maintenance staff are trained on all equipment types in your inventory
+  </Card>
+  
+  <Card title="Digital Records" icon="database">
+    Use GIMA to maintain digital maintenance records for easy access and analysis
+  </Card>
+  
+  <Card title="Vendor Relationships" icon="handshake">
+    Maintain relationships with equipment vendors for specialized repairs and parts
+  </Card>
+  
+  <Card title="Performance Tracking" icon="chart-line">
+    Monitor maintenance metrics to continuously improve processes
+  </Card>
+</CardGroup>
+
+## Budget Integration
+
+Maintenance costs directly impact the budget execution metric shown on the dashboard:
+
+```tsx
+<StatCard 
+  title="Presupuesto ejecutado" 
+  value="100$" 
+  highlighted={true} 
+/>
+```
+
+Each maintenance activity should:
+- Be tracked against budget allocations
+- Include both labor and parts costs
+- Be categorized for budget reporting
+- Contribute to budget execution percentage
+
+<Note>
+  The highlighted budget card on the dashboard helps managers quickly assess if maintenance costs are within budget.
+</Note>
+
+## Compliance & Safety
+
+Maintenance management supports regulatory compliance:
+
+- **Safety Standards**: Ensure equipment meets safety requirements
+- **Regulatory Compliance**: Maintain records for audits
+- **Warranty Tracking**: Perform maintenance within warranty terms
+- **Certification Requirements**: Track required certifications for equipment operation
+
+## Related Features
+
+- [Dashboard](/features/dashboard) - View maintenance queue and metrics
+- [Asset Management](/features/asset-management) - Track assets requiring maintenance
+- [AI Diagnostics](/features/ai-diagnostics) - Diagnose issues before creating maintenance tickets
+- [Reports](/features/reports) - Generate maintenance history and cost reports

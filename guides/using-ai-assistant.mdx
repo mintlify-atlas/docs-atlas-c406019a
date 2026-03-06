@@ -1,0 +1,554 @@
+---
+title: Using the AI Assistant
+description: Complete guide to leveraging GIMA's AI-powered chat and diagnostic features
+---
+
+## Overview
+
+GIMA's AI Assistant provides intelligent support through two powerful features: conversational chat for questions and guidance, and diagnostic analysis for equipment troubleshooting. This guide covers both capabilities in detail.
+
+## Accessing the AI Assistant
+
+There are multiple ways to access the AI Assistant:
+
+<Tabs>
+  <Tab title="From Reports Page">
+    Navigate to `/reportes` and click the **"Asistencia IA"** button:
+    
+    **Location:** Top navigation bar inside the reports container (line 48-50 of reportes/page.tsx)
+    
+    **Styling:**
+    - Background: `bg-gima-navy` (dark blue)
+    - Prominent ring effect: `ring-2 ring-offset-2 ring-gima-navy`
+    - Scale animation on hover: `hover:scale-105`
+    - Active scale: `active:scale-95`
+    - Shadow: `shadow-lg shadow-gima-navy/20`
+    
+    **Visual:** Styled to stand out as a premium feature
+  </Tab>
+  
+  <Tab title="From Dashboard">
+    On the main dashboard at `/reportes` (which serves as dashboard in the codebase):
+    
+    Look for the **"Asistencia IA"** button in the internal navigation bar (line 56-60)
+    
+    Links to: `/asistencia`
+  </Tab>
+  
+  <Tab title="Direct Navigation">
+    Navigate directly to `/asistencia` from your browser or bookmark the page for quick access.
+  </Tab>
+</Tabs>
+
+## Understanding the AI Assistant Interface
+
+The AI Assistant page features two distinct tabs:
+
+### Tab Navigation
+
+Located below the page header (line 54-76 of asistencia/page.tsx):
+
+<Tabs>
+  <Tab title="Chat Tab">
+    **Icon:** MessageSquare (chat bubble)
+    
+    **Purpose:** Interactive conversation with GIMA AI bot
+    
+    **Active State:**
+    - Text color: `text-gima-navy`
+    - Font weight: bold
+    - Border bottom: `border-gima-navy` (2px)
+    - Scale: `scale-105`
+    
+    **Hover State:**
+    - Text color: `text-slate-600`
+    - Border: `border-slate-200`
+  </Tab>
+  
+  <Tab title="Diagnóstico Tab">
+    **Icon:** Zap (lightning bolt)
+    
+    **Purpose:** Equipment diagnostic analysis
+    
+    **Active State:**
+    - Same styling as Chat when selected
+    - Default active tab on page load (line 11)
+    
+    **Visual Emphasis:** Lightning icon suggests quick, powerful analysis
+  </Tab>
+</Tabs>
+
+## Using the Chat Feature
+
+The Chat tab provides a conversational interface with the GIMA AI bot:
+
+### Chat Interface Components
+
+<Steps>
+  <Step title="Switch to Chat tab">
+    Click the **"Chat"** tab with the MessageSquare icon (line 55-64).
+    
+    The interface transitions with:
+    - Fade-in animation: `fade-in`
+    - Slide from left: `slide-in-from-left-4`
+    - Duration: 300ms
+  </Step>
+  
+  <Step title="View the message area">
+    The chat messages display in a scrollable container (line 86):
+    
+    **Styling:**
+    - Background: `bg-slate-50/50` (subtle gray)
+    - Border: `border-slate-100`
+    - Rounded corners: `rounded-2xl`
+    - Padding: `p-8`
+    - Flex column layout with gap between messages
+  </Step>
+  
+  <Step title="Read the welcome message">
+    GIMA bot greets you with a default message (line 88-98):
+    
+    **Message Card:**
+    - White background with shadow
+    - Border: `border-slate-100`
+    - Rounded: `rounded-2xl`
+    - Max width: `max-w-3xl`
+    
+    **Header:**
+    - Bot icon (navy color)
+    - Label: "GIMA bot" (bold, uppercase, tracking-wider)
+    - Separator border at bottom
+    
+    **Content:**
+    > "¡Hola! Soy GIMA-AI. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre el estado de equipos o procedimientos de mantenimiento."
+  </Step>
+  
+  <Step title="Type your question">
+    Use the input bar at the bottom (line 103-112):
+    
+    **Input Field:**
+    - Background: `bg-gima-light/50`
+    - Placeholder: "Escribe tu consulta..."
+    - Full width with padding: `pl-6 pr-14 py-3`
+    - Rounded: `rounded-xl`
+    - Focus ring: `focus:ring-2 focus:ring-gima-blue/20`
+    - Border highlight on focus: `focus:border-gima-blue/10`
+    
+    **Send Button:**
+    - Position: absolute right (line 109)
+    - Icon: Send arrow
+    - Background: `bg-gima-blue`
+    - Shadow: `shadow-md shadow-gima-blue/20`
+    - Hover: changes to `bg-blue-600`
+    - Active scale animation: `active:scale-95`
+  </Step>
+</Steps>
+
+### What to Ask the Chat Bot
+
+<CardGroup cols={2}>
+  <Card title="Equipment Status" icon="desktop">
+    **Example Questions:**
+    - "What is the status of computer CAT-001-015?"
+    - "Show me all assets currently in maintenance"
+    - "Which vehicles are available today?"
+    - "List network equipment due for inspection"
+  </Card>
+  
+  <Card title="Maintenance Procedures" icon="book-open">
+    **Example Questions:**
+    - "How do I perform monthly AC maintenance?"
+    - "What are the steps for server backup?"
+    - "Show me the procedure for router configuration"
+    - "What safety equipment is required for electrical work?"
+  </Card>
+  
+  <Card title="Scheduling Help" icon="calendar">
+    **Example Questions:**
+    - "When is the next maintenance for asset COMP-045?"
+    - "Schedule preventive maintenance for all printers"
+    - "Show me this week's maintenance tasks"
+    - "Which technician is assigned to task MNT-123?"
+  </Card>
+  
+  <Card title="Troubleshooting Guidance" icon="life-buoy">
+    **Example Questions:**
+    - "The projector won't turn on, what should I check?"
+    - "Network is slow in Building A, what could cause this?"
+    - "Vehicle makes unusual noise when starting"
+    - "Computer keeps restarting, possible causes?"
+  </Card>
+</CardGroup>
+
+### Chat Best Practices
+
+<Tip>
+  **For best results:**
+  - Be specific with asset IDs when asking about particular equipment
+  - Provide context about the situation or problem
+  - Use clear, concise questions
+  - Follow up with clarifying questions if needed
+  - Reference documentation or past incidents when relevant
+</Tip>
+
+## Using the Diagnostic Feature
+
+The Diagnóstico tab provides AI-powered analysis of equipment problems:
+
+### Diagnostic Interface
+
+<Steps>
+  <Step title="Access the Diagnóstico tab">
+    Click the **"Diagnóstico"** tab with the Zap icon (line 67-75).
+    
+    This is the default active tab when you first visit `/asistencia`.
+  </Step>
+  
+  <Step title="View the diagnostic interface">
+    The diagnostic view displays (line 117-126):
+    
+    **Layout:**
+    - Centered content: `max-w-2xl mx-auto`
+    - Vertical flex layout
+    - Animation: `fade-in zoom-in-95 duration-300`
+    
+    **Visual Elements:**
+    
+    **Icon Badge:** (line 118)
+    - Size: 16x16 (4rem)
+    - Background: `bg-red-50`
+    - Icon: Wrench in red-400 (size 32)
+    - Rounded: `rounded-2xl`
+    - Shadow: `shadow-sm`
+    
+    **Heading:** "Diagnóstico Inteligente" (line 119)
+    - Font: `font-microgramma` (custom display font)
+    - Size: `text-2xl`
+    - Color: black
+    
+    **Description:** (line 120)
+    - "Describe el problema. Nuestra IA analizará los síntomas."
+    - Color: `text-slate-500`
+    - Size: `text-sm`
+  </Step>
+  
+  <Step title="Describe the problem">
+    Use the large textarea (line 121) to describe equipment issues:
+    
+    **Textarea Specifications:**
+    - Height: `h-40` (10rem)
+    - Background: `bg-[#E8EEEF]` (light gray-blue)
+    - Border radius: `rounded-2xl`
+    - Padding: `p-6`
+    - Placeholder: "Ej: el aire acondicionado hace ruido metalico..."
+    - Non-resizable: `resize-none`
+    - Focus ring: `focus:ring-2 focus:ring-gima-blue/30`
+    
+    **What to Include:**
+    - Equipment type and ID
+    - Specific symptoms observed
+    - When the problem started
+    - Environmental conditions
+    - Error messages if any
+    - Previous maintenance history
+    - Impact on operations
+  </Step>
+  
+  <Step title="Submit for analysis">
+    Click the **"Analizar Falla"** button (line 122-124):
+    
+    **Button Features:**
+    - Full width: `w-full`
+    - Background: `bg-gima-blue` → `hover:bg-blue-600`
+    - Text: white, bold, base size
+    - Padding: `py-4` for prominent clickability
+    - Icon: Sparkles (size 20) indicating AI magic
+    - Shadow: `shadow-xl shadow-gima-blue/20`
+    - Active animation: `active:scale-95 duration-200`
+    
+    **AI Analysis Process:**
+    1. Parses symptom description
+    2. Identifies equipment type from description or ID
+    3. Compares symptoms to known failure patterns
+    4. Analyzes maintenance history if available
+    5. Generates diagnostic report with probable causes
+    6. Suggests troubleshooting steps
+    7. Recommends maintenance actions
+  </Step>
+  
+  <Step title="Review diagnostic results">
+    The AI provides:
+    
+    **Probable Causes:**
+    - Ranked by likelihood
+    - Technical explanations
+    - Related component references
+    
+    **Diagnostic Steps:**
+    - Ordered verification procedures
+    - Safety precautions
+    - Required tools or equipment
+    
+    **Recommended Actions:**
+    - Immediate steps to take
+    - Whether maintenance task should be created
+    - Priority level suggestion
+    - Estimated time and cost
+  </Step>
+</Steps>
+
+### Example Diagnostic Descriptions
+
+<CodeGroup>
+```text Air Conditioning Issue
+Equipo: Aire acondicionado CAT-002-AC-08, Sala de conferencias
+
+Síntomas:
+- Hace ruido metálico intermitente cuando arranca
+- El ruido dura aproximadamente 2-3 minutos
+- Aire sale más caliente de lo normal
+- Se detecta olor a quemado ocasionalmente
+
+Inicio: Hace 3 días
+Mantenimiento previo: Limpieza de filtros hace 2 meses
+```
+
+```text Network Equipment Problem
+Equipo: Switch Cisco CAT-004-SW-12, Piso 3 Rack B
+
+Síntomas:
+- Luces de puertos parpadeando de manera errática
+- Conectividad intermitente en red de piso 3
+- Log muestra errores CRC
+- Temperatura del switch normal (45°C)
+
+Inicio: Esta mañana 8:30 AM
+Impacto: 15 usuarios afectados
+Mantenimiento previo: Actualización firmware hace 6 meses
+```
+
+```text Vehicle Issue
+Equipo: Vehículo Toyota Hilux CAT-003-VH-05
+
+Síntomas:
+- Motor arranca con dificultad en las mañanas
+- Batería parece cargada (voltaje normal)
+- Después de arrancar, funciona sin problemas
+- Olor a gasolina al arrancar
+
+Inicio: Última semana
+Kilometraje: 87,500 km
+Mantenimiento previo: Cambio de aceite hace 2,000 km
+```
+</CodeGroup>
+
+### When to Use Each Feature
+
+<Tabs>
+  <Tab title="Use Chat When">
+    ✅ **Best for:**
+    - General questions about procedures
+    - Looking up asset information
+    - Asking about maintenance schedules
+    - Getting quick guidance
+    - Learning how to use GIMA features
+    - Finding documentation
+    - Understanding terminology
+    
+    💬 **Interactive & Conversational**
+    
+    You can have back-and-forth dialogue to refine answers.
+  </Tab>
+  
+  <Tab title="Use Diagnóstico When">
+    ✅ **Best for:**
+    - Equipment is malfunctioning
+    - Need to identify problem cause
+    - Planning corrective maintenance
+    - Troubleshooting unusual behavior
+    - Determining repair priority
+    - Estimating repair scope
+    - Safety risk assessment
+    
+    🔧 **Focused & Analytical**
+    
+    Provides structured diagnostic report with actionable recommendations.
+  </Tab>
+</Tabs>
+
+## AI Assistant Features
+
+### Natural Language Processing
+
+The AI understands:
+
+<ParamField path="Asset References" type="detection">
+  Recognizes asset IDs, categories, and names even with typos or variations:
+  - "CAT-001-15" or "cat001015" or "computer 15 from category 1"
+</ParamField>
+
+<ParamField path="Technical Terms" type="vocabulary">
+  Understands maintenance and IT terminology:
+  - "mantenimiento preventivo", "RMA", "uptime", "SLA"
+</ParamField>
+
+<ParamField path="Context Awareness" type="memory">
+  Remembers conversation context:
+  - "What about that asset I mentioned earlier?"
+  - "Do the same for the printer"
+</ParamField>
+
+<ParamField path="Multi-Language" type="language">
+  Handles Spanish and technical English:
+  - Mostly Spanish interface with English technical terms
+</ParamField>
+
+### Integration with GIMA Data
+
+The AI Assistant has access to:
+
+<Check>**Asset Database** - All equipment, categories, and specifications</Check>
+<Check>**Maintenance History** - Past tasks, issues, and resolutions</Check>
+<Check>**User Information** - Technician assignments and availability</Check>
+<Check>**Documentation** - Procedures, manuals, and best practices</Check>
+<Check>**Failure Patterns** - Historical data on common issues</Check>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Effective Communication with AI">
+    **Be Specific:**
+    - Include asset IDs when discussing specific equipment
+    - Provide model numbers and locations
+    - Mention timeframes ("started yesterday", "happens every morning")
+    
+    **Provide Context:**
+    - Describe the environment (temperature, humidity, usage)
+    - Note recent changes (updates, moves, new users)
+    - Mention related equipment or systems
+    
+    **Use Clear Language:**
+    - Avoid ambiguous pronouns ("it", "that thing")
+    - Describe symptoms objectively
+    - Use standard terminology when possible
+  </Accordion>
+  
+  <Accordion title="Diagnostic Quality">
+    **Before Submitting Diagnosis:**
+    - Gather relevant information (error codes, logs)
+    - Note exact symptoms, not assumptions
+    - Check obvious issues first (power, cables, etc.)
+    - Review recent maintenance history
+    
+    **Include Critical Details:**
+    - Asset identification
+    - Complete symptom description
+    - Frequency and pattern
+    - Any error messages
+    - Environmental factors
+    - Impact on operations
+    
+    **After Receiving Results:**
+    - Follow diagnostic steps in order
+    - Document findings
+    - Create maintenance task if recommended
+    - Update asset notes with resolution
+  </Accordion>
+  
+  <Accordion title="Creating Maintenance from Diagnostics">
+    When AI recommends maintenance:
+    
+    1. **Review the diagnostic report** thoroughly
+    2. **Copy relevant information** to maintenance task description
+    3. **Set priority** based on AI urgency assessment
+    4. **Attach diagnostic report** to the maintenance task
+    5. **Include AI recommendations** in technician instructions
+    6. **Schedule appropriately** based on severity
+    7. **Order parts** if specific components identified
+    
+    See [Scheduling Maintenance guide](/guides/scheduling-maintenance) for details.
+  </Accordion>
+  
+  <Accordion title="Continuous Learning">
+    Help improve the AI:
+    - Provide feedback on diagnostic accuracy
+    - Report if suggested solutions worked
+    - Document actual root causes found
+    - Share effective troubleshooting approaches
+    - Note any safety issues discovered
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting the AI Assistant
+
+<AccordionGroup>
+  <Accordion title="AI Assistant not responding">
+    - Check your internet connection
+    - Refresh the page
+    - Try switching between Chat and Diagnóstico tabs
+    - Clear browser cache if problem persists
+    - Check browser console for errors (F12)
+  </Accordion>
+  
+  <Accordion title="Cannot access from Reports page">
+    - Verify you're on `/reportes` page
+    - Look for the "Asistencia IA" button in the navigation bar
+    - Check if your user role has AI Assistant permissions
+    - Try direct navigation to `/asistencia`
+  </Accordion>
+  
+  <Accordion title="Diagnostic analysis incomplete">
+    - Ensure you provided enough detail in description
+    - Include asset ID if possible
+    - Try rephrasing the problem description
+    - Break complex issues into separate diagnoses
+  </Accordion>
+  
+  <Accordion title="Chat doesn't understand questions">
+    - Use simpler, more direct phrasing
+    - Include asset IDs or specific references
+    - Avoid overly technical jargon
+    - Try asking in a different way
+    - Use the Diagnóstico tab for equipment problems
+  </Accordion>
+</AccordionGroup>
+
+## Integration with Other Features
+
+<CardGroup cols={2}>
+  <Card title="From Reports" icon="chart-bar" href="/guides/generating-reports">
+    Access AI Assistant directly from the reports page for report-related questions
+  </Card>
+  
+  <Card title="Schedule Maintenance" icon="calendar" href="/guides/scheduling-maintenance">
+    Create maintenance tasks based on AI diagnostic recommendations
+  </Card>
+  
+  <Card title="Asset Information" icon="box" href="/guides/managing-assets">
+    Reference asset details when chatting or diagnosing
+  </Card>
+  
+  <Card title="Introduction" icon="book" href="/introduction">
+    AI can help you find relevant documentation sections
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<Steps>
+  <Step title="Try the Chat feature">
+    Ask about your organization's assets or procedures
+  </Step>
+  
+  <Step title="Test Diagnostics">
+    Submit a known issue to see how AI analyzes it
+  </Step>
+  
+  <Step title="Create Maintenance Tasks">
+    Use AI recommendations to schedule needed maintenance
+  </Step>
+  
+  <Step title="Generate Reports">
+    Learn to create reports for AI diagnostic insights
+  </Step>
+</Steps>

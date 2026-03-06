@@ -1,0 +1,298 @@
+---
+title: 'Asset Management'
+description: 'Comprehensive system for categorizing, tracking, and managing organizational assets'
+icon: 'box-archive'
+---
+
+## Overview
+
+GIMA's Asset Management module provides a powerful interface for organizing and tracking all organizational assets through a category-based system. From computers and infrastructure to vehicles and network equipment, manage your entire inventory with ease.
+
+<CardGroup cols={2}>
+  <Card title="Category-Based Organization" icon="folder-tree">
+    Organize assets into logical categories like COMPUTO, MOBILIARIO, VEHÍCULOS, and REDES
+  </Card>
+  <Card title="Real-time Search" icon="magnifying-glass">
+    Instantly filter categories by name or ID as you type
+  </Card>
+  <Card title="Asset Count Tracking" icon="calculator">
+    Each category displays the total number of associated assets
+  </Card>
+  <Card title="CRUD Operations" icon="pen-to-square">
+    Create, read, update, and delete categories with intuitive controls
+  </Card>
+</CardGroup>
+
+## Asset Categories
+
+The system comes pre-configured with essential asset categories defined in `src/data/categories.ts`:
+
+```typescript
+export const categories = [
+  { 
+    id: "CAT-001", 
+    name: "COMPUTO", 
+    description: "Ordenadores, servidores y periféricos", 
+    total: 120 
+  },
+  { 
+    id: "CAT-002", 
+    name: "INFRAESTRUCTURA", 
+    description: "Aires acondicionados, plantas eléctricas, mobiliario", 
+    total: 58 
+  },
+  { 
+    id: "CAT-003", 
+    name: "ELECTRICIDAD", 
+    description: "Cables, interruptores, enchufes, etc.", 
+    total: 85 
+  },
+];
+```
+
+<Note>
+  The page implementation at `src/app/categorias-activos/page.tsx` uses a slightly different set of example categories including COMPUTO, MOBILIARIO, VEHÍCULOS, and REDES. You can customize these to match your organization's needs.
+</Note>
+
+## Using Asset Management
+
+<Steps>
+  <Step title="Navigate to Categories">
+    Access the asset management interface at `/categorias-activos`
+    
+    The page displays the header "CATEGORÍAS" with the subtitle "Clasificación de equipos"
+  </Step>
+  
+  <Step title="Search for Categories">
+    Use the search bar to filter categories in real-time:
+    
+    ```tsx
+    const filteredCategories = categories.filter(
+      (cat) =>
+        cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cat.id.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    ```
+    
+    The search matches both category names and IDs.
+  </Step>
+  
+  <Step title="View Category Details">
+    Each category row displays:
+    - **ID**: Unique identifier (e.g., CAT-001)
+    - **Name**: Category name in uppercase
+    - **Description**: Detailed description of included asset types
+    - **Total Assets**: Count badge showing number of assets
+  </Step>
+  
+  <Step title="Manage Categories">
+    Use the action buttons to:
+    - **Edit**: Click the pencil icon to modify category details
+    - **Delete**: Click the trash icon to remove a category (with confirmation)
+    - **Create**: Click "NUEVA CATEGORÍA" button to add new categories
+  </Step>
+</Steps>
+
+## Key Features
+
+### Smart Search Functionality
+
+The search bar provides instant filtering with visual feedback:
+
+```tsx
+<div className="relative w-72">
+  <Search className="absolute left-4 top-3 text-slate-400" size={18} />
+  <input
+    type="text"
+    placeholder="Buscar categoría..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="w-full bg-slate-50 pl-11 pr-4 py-2.5 rounded-xl"
+  />
+</div>
+```
+
+### Safe Delete with Confirmation
+
+The `DeleteAlert` component prevents accidental deletions:
+
+```tsx
+<DeleteAlert
+  isOpen={isAlertOpen}
+  onClose={() => setIsAlertOpen(false)}
+  onConfirm={confirmDelete}
+  title="¿Eliminar Categoría?"
+  description="Esta acción no se puede deshacer."
+/>
+```
+
+<Warning>
+  Deleting a category is permanent. Ensure all assets are reassigned before removing categories.
+</Warning>
+
+### Responsive Table Design
+
+The interface uses a card-based table with hover effects:
+
+```tsx
+<tr className="hover:bg-blue-50/30 transition-colors group">
+  {/* Table cells */}
+</tr>
+```
+
+## User Interface Components
+
+<Tabs>
+  <Tab title="Search & Filter">
+    **Search Bar**: Located in the toolbar with lucide-react `Search` icon
+    
+    **Filter Button**: Quick access to advanced filtering options
+    
+    **Results Counter**: Shows total filtered results dynamically
+    
+    ```tsx
+    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+      Total: {filteredCategories.length} Resultados
+    </span>
+    ```
+  </Tab>
+  
+  <Tab title="Action Buttons">
+    **Create Button**: Prominent blue button with plus icon
+    
+    ```tsx
+    <button className="bg-gima-blue hover:brightness-90 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-500/30 transition-all flex items-center gap-2 transform active:scale-95">
+      <Plus size={20} strokeWidth={3} />
+      <span>NUEVA CATEGORÍA</span>
+    </button>
+    ```
+    
+    **Edit Button**: Pencil icon with hover effect
+    
+    **Delete Button**: Trash icon with red hover state
+  </Tab>
+  
+  <Tab title="Table Structure">
+    The table uses semantic HTML with styled headers:
+    
+    ```tsx
+    <thead>
+      <tr className="bg-slate-50/80 text-gima-navy border-b border-slate-100">
+        <th className="py-5 px-8 text-xs font-extrabold uppercase tracking-widest font-title">
+          ID
+        </th>
+        {/* Additional columns */}
+      </tr>
+    </thead>
+    ```
+  </Tab>
+  
+  <Tab title="Asset Count Badge">
+    Categories display asset counts in styled badges:
+    
+    ```tsx
+    <span className="bg-blue-50 text-blue-700 py-1.5 px-4 rounded-lg text-xs font-bold border border-blue-100">
+      {item.total}
+    </span>
+    ```
+  </Tab>
+</Tabs>
+
+## State Management
+
+The page uses React hooks for local state management:
+
+```tsx
+const [categories, setCategories] = useState(initialCategories);
+const [searchTerm, setSearchTerm] = useState("");
+const [isAlertOpen, setIsAlertOpen] = useState(false);
+const [idToDelete, setIdToDelete] = useState<string | null>(null);
+```
+
+### Delete Handler Implementation
+
+```tsx
+const handleDeleteClick = (id: string) => {
+  setIdToDelete(id);
+  setIsAlertOpen(true);
+};
+
+const confirmDelete = () => {
+  setCategories(categories.filter((cat) => cat.id !== idToDelete));
+  setIsAlertOpen(false);
+  setIdToDelete(null);
+};
+```
+
+## Styling & Design System
+
+GIMA uses a custom Tailwind configuration with branded colors:
+
+<CardGroup cols={3}>
+  <Card title="gima-navy" icon="palette">
+    Primary dark blue for headers and emphasis
+  </Card>
+  <Card title="gima-blue" icon="droplet">
+    Brand blue for buttons and interactive elements
+  </Card>
+  <Card title="gima-gray" icon="circle-half-stroke">
+    Muted gray for secondary text
+  </Card>
+</CardGroup>
+
+### Rounded Corners
+
+The design emphasizes soft, rounded corners throughout:
+- Cards: `rounded-[2rem]`
+- Buttons: `rounded-xl`
+- Input fields: `rounded-xl`
+- Badges: `rounded-lg`
+
+## Navigation
+
+The page includes a back button to return to configuration:
+
+```tsx
+<Link href="/configuration/settings">
+  <button className="flex items-center gap-2 text-gray-500 mt-5 hover:text-[#0d2344] transition-colors">
+    <div className="bg-white p-1 rounded-md shadow-sm">
+      <ChevronLeft size={16} />
+    </div>
+    <span className="text-sm font-medium">Volver a configuración</span>
+  </button>
+</Link>
+```
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Consistent Naming" icon="tag">
+    Use uppercase names for categories (e.g., COMPUTO, REDES) to maintain consistency
+  </Card>
+  <Card title="Descriptive IDs" icon="hashtag">
+    Follow the CAT-XXX pattern for category IDs for easy identification
+  </Card>
+  <Card title="Detailed Descriptions" icon="file-lines">
+    Include comprehensive descriptions to help users understand what belongs in each category
+  </Card>
+  <Card title="Regular Audits" icon="list-check">
+    Periodically review asset counts to ensure accuracy
+  </Card>
+</CardGroup>
+
+<Tip>
+  The hover effects on table rows (`hover:bg-blue-50/30`) provide visual feedback and improve user experience. The group utility allows child elements to respond to parent hover states.
+</Tip>
+
+## Integration Points
+
+- **Dashboard**: Asset totals feed into dashboard statistics
+- **Maintenance**: Categories help organize maintenance schedules
+- **Reports**: Generate category-based asset reports
+- **Configuration**: Access via configuration menu
+
+## Related Documentation
+
+- [Dashboard](/features/dashboard) - View aggregated asset metrics
+- [Maintenance](/features/maintenance) - Schedule maintenance by category
+- [Reports](/features/reports) - Generate asset inventory reports
