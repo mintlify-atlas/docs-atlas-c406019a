@@ -77,7 +77,8 @@
             "pages": [
               "api/components/layout",
               "api/components/ui",
-              "api/components/dashboard"
+              "api/components/dashboard",
+              "api/components/user"
             ]
           },
           {

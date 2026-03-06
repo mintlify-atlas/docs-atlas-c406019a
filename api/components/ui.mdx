@@ -427,3 +427,123 @@ if (!ctx) throw new Error("useSidebar debe usarse dentro de SidebarProvider")
 ### Default State
 
 Sidebar is closed by default (`isOpen: false`).
+
+---
+
+## TablaDeCategorias
+
+A specialized table component for displaying and managing asset categories.
+
+```typescript
+import TablaDeCategorias from "@/components/configuracion/TablaDeCategorias"
+```
+
+### Description
+
+The `TablaDeCategorias` component renders a styled table displaying all asset categories with their details. It automatically fetches category data and renders rows for each category.
+
+### Props
+
+This component has no props - it fetches data internally from `@/data/categories`.
+
+### Usage
+
+```typescript
+import TablaDeCategorias from "@/components/configuracion/TablaDeCategorias"
+
+export default function CategoriasPage() {
+  return (
+    <div className="p-8">
+      <TablaDeCategorias />
+    </div>
+  )
+}
+```
+
+### Data Source
+
+The component imports categories from the data file:
+
+```typescript
+import { categories } from "@/data/categories";
+```
+
+### Table Structure
+
+The table displays the following columns:
+
+1. **ID Categoría** - Category identifier (e.g., CAT-001)
+2. **Nombre** - Category name (e.g., COMPUTO, INFRAESTRUCTURA)
+3. **Descripción** - Category description
+4. **Total Activos** - Number of assets in the category
+5. **Acciones** - Action buttons (edit/delete)
+
+### Styling
+
+- **Container**: White background with rounded corners (`rounded-3xl`), border, and shadow
+- **Table**: Full width with left-aligned text
+- **Header**: 
+  - Background: `bg-background`
+  - Text: Uppercase, bold, small (`text-xs`), gray color
+  - Tracking: Wide letter spacing (`tracking-wider`)
+  - Rounded corners on first and last header cells
+- **Body**: Divided rows with light gray dividers (`divide-gray-50`)
+
+### Implementation Details
+
+```typescript
+export default function TablaDeCategorias() {
+  return (
+    <div className="overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-sm">
+      <table className="w-full text-left border-collapse">
+        <thead className="bg-background">
+          <tr>
+            <th className="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider rounded-tl-3xl">
+              ID Categoría
+            </th>
+            <th className="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">
+              Nombre
+            </th>
+            <th className="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">
+              Descripción
+            </th>
+            <th className="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">
+              Total Activos
+            </th>
+            <th className="py-4 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider text-center rounded-tr-3xl">
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {categories.map((category, index) => (
+            <FilaDeCategorias
+              key={index}
+              id={category.id}
+              name={category.name}
+              description={category.description}
+              total={category.total}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+```
+
+### FilaDeCategorias Component
+
+<Note>
+The component imports `FilaDeCategorias` from `./filaDeCategorias`, but this file doesn't exist as a separate component in the source code. This appears to be a missing implementation. The row rendering logic should be implemented directly in `TablaDeCategorias` or the missing component should be created.
+</Note>
+
+### Related Components
+
+- **Category Data**: See [Category Type](/api/types/category) for the data structure
+- **DeleteAlerta**: Used for confirming category deletion
+- **Configuration**: Used in [Categories Configuration](/configuration/categories) page
+
+### Source File
+
+`src/components/configuracion/TablaDeCategorias.tsx`
